@@ -1,8 +1,8 @@
 (() => {
   const $ = (s) => document.querySelector(s);
   const KEY = "sudoku.v1";
-  // Sol vowels (github.com/menehune23/sol), in Sol order.
-  const SYM = [null, "a", "e", "i", "ah", "u", "uu", "o", "oo", "ee"];
+  // Sol vowels (github.com/menehune23/sol): each base (h, w, y) and its first two derived vowels, in Sol order.
+  const SYM = [null, "h", "a", "e", "w", "o", "oo", "y", "ee", "ey"];
   const symSVG = (d) => {
     return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
   };

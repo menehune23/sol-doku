@@ -5,8 +5,8 @@ from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.svgPathPen import SVGPathPen
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# Solat name -> glyph name. Nine vowels in Sol order, skipping the h/w/y roots and the y ligatures.
-LETTERS = {"a": "a", "e": "e", "i": "i", "ah": "a_h", "u": "u", "uu": "u_u", "o": "o", "oo": "o_o", "ee": "e_e"}
+# Solat name -> glyph name. Each vowel base (h, w, y) and its first two derived vowels, in Sol order.
+LETTERS = {"h": "h", "a": "a", "e": "e", "w": "w", "o": "o", "oo": "o_o", "y": "y", "ee": "e_e", "ey": "e_y"}
 
 font = TTFont(os.path.join(ROOT, "static", "fonts", "Sol-Regular.otf"))
 gs, cmap = font.getGlyphSet(), font.getBestCmap()
