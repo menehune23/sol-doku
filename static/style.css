@@ -67,6 +67,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   font-size: 11px;
 }
 .brand .kicker { color: var(--accent); }
+.brand .kicker b { font-weight: 400; color: var(--text); }
 .brand h1 { margin: 2px 0 0; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
 
@@ -93,16 +94,11 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
     var(--surface);
 }
 
-.status { display: flex; padding: 6px 8px; }
-.status > div { flex: 1 1 auto; display: flex; align-items: baseline; justify-content: center; gap: 6px; min-width: 0; white-space: nowrap; }
+.status { display: flex; padding: 6px 14px; }
+.status > div { flex: 1 1 0; display: flex; align-items: baseline; justify-content: center; gap: 8px; min-width: 0; }
+.status > div:first-child { flex-grow: 1.3; }
 .status > div[hidden] { display: none; }
-.status > div + div { border-left: 1px dashed var(--border); padding-left: 5px; margin-left: 4px; }
-.status .label { letter-spacing: 0.1em; }
-.status .label[hidden] { display: none; }
-.status .readout { font-size: 14px; }
-@media (max-width: 359px) { .status .label { display: none; } }
-.sol-ex { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
-.sol-ex b { font-weight: 400; color: var(--accent); }
+.status > div + div { border-left: 1px dashed var(--border); padding-left: 10px; }
 .label { color: var(--text-muted); font-size: 10px; }
 
 .readout { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
@@ -263,7 +259,16 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 
 
 .footer { display: flex; justify-content: space-between; gap: 12px; color: var(--text-muted); font-size: 10px; padding-top: 4px; }
+.footer { align-items: center; }
 .footer a { color: inherit; }
+.footer-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sol-guide { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.sol-guide[hidden] { display: none; }
+.sol-guide .readout { font-size: 14px; color: var(--text); text-transform: none; letter-spacing: 0.04em; }
+.sol-ex { font-size: 12px; text-transform: none; letter-spacing: 0.04em; }
+.sol-ex b { font-weight: 400; color: var(--accent); }
+.footer .info { display: flex; width: 18px; height: 18px; color: var(--text-muted); }
+.footer .info svg { width: 100%; height: 100%; }
 
 /* Sheets */
 dialog.sheet {
