@@ -1,8 +1,17 @@
 (() => {
   const $ = (s) => document.querySelector(s);
   const KEY = "sudoku.v1";
-  // Sol vowels (github.com/menehune23/sol): each base (h, w, y) and its first two derived vowels, in Sol order.
-  const SYM = [null, "h", "a", "e", "w", "o", "oo", "y", "ee", "ey"];
+  // Each puzzle uses 9 random Sol letters (github.com/menehune23/sol), shown in Sol order.
+  const SOL_ORDER = Object.keys(window.SOL.glyphs);
+  const pickSym = () => {
+    const pool = SOL_ORDER.slice();
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return [null, ...pool.slice(0, 9).sort((a, b) => SOL_ORDER.indexOf(a) - SOL_ORDER.indexOf(b))];
+  };
+  let SYM = [null, "h", "a", "e", "w", "o", "oo", "y", "ee", "ey"];
   const symSVG = (d) => {
     return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
   };
@@ -73,8 +82,21 @@
     keys.push(k);
   }
 
+  let paintedSym = null;
+  function paintSymbols() {
+    SYM = S.sym;
+    paintedSym = S.sym;
+    for (const el of cells) {
+      el.firstChild.dataset.v = "";
+      [...el.lastChild.children].forEach((n, idx) => { n.innerHTML = symSVG(idx + 1); });
+    }
+    keys.forEach((k, idx) => { k.firstChild.innerHTML = symSVG(idx + 1); });
+  }
+
   function render() {
     if (!S) return;
+    if (!Array.isArray(S.sym) || S.sym.length !== 10 || S.sym.slice(1).some((s) => !window.SOL.glyphs[s])) S.sym = SYM;
+    if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes, hinted } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
@@ -252,6 +274,7 @@
         puzzle: g.puzzle,
         solution: g.solution,
         clues: g.clues,
+        sym: pickSym(),
         values: g.puzzle.slice(),
         notes: Array(81).fill(0),
         hinted: [],
