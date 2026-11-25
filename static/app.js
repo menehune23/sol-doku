@@ -23,7 +23,7 @@
   let selected = -1;
   let notesMode = false;
   let pendingLevel = "medium";
-  const settings = { timer: true, errors: true };
+  const settings = { timer: true, errors: true, hints: true };
 
   const store = {
     get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
@@ -107,7 +107,7 @@
     $("#hint-count").textContent = S.hints ? S.hints : "";
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
-    $("#footer-info").textContent = `${S.clues} clues · unique solution`;
+    $("#hint").hidden = !settings.hints;
     padEl.classList.toggle("notes-on", notesMode);
     const sel = selected >= 0 ? selected : null;
     const givenSel = sel !== null && puzzle[sel] !== 0;
@@ -223,7 +223,7 @@
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed)],
       settings.errors && ["Errors", S.mistakes],
-      ["Hints", S.hints],
+      (settings.hints || S.hints > 0) && ["Hints", S.hints],
       settings.timer && ["Best time", bestNow ? fmt(bestNow) : "—", record],
       ["Clues", S.clues],
     ]
@@ -358,9 +358,10 @@
     renderHues();
     $("#set-timer").checked = settings.timer;
     $("#set-errors").checked = settings.errors;
+    $("#set-hints").checked = settings.hints;
     $("#hue-sheet").showModal();
   });
-  [["#set-timer", "timer"], ["#set-errors", "errors"]].forEach(([sel, key]) =>
+  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"]].forEach(([sel, key]) =>
     $(sel).addEventListener("change", (e) => {
       settings[key] = e.target.checked;
       store.set("sudoku.settings", settings);
@@ -386,7 +387,7 @@
     if (/^[1-9]$/.test(e.key)) { input(Number(e.key)); return; }
     if (["Backspace", "Delete", "0"].includes(e.key)) { erase(); return; }
     if (e.key.toLowerCase() === "n") { toggleNotes(); return; }
-    if (e.key.toLowerCase() === "h") { hint(); return; }
+    if (e.key.toLowerCase() === "h") { if (settings.hints) hint(); return; }
     const moves = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 };
     if (moves[e.key] !== undefined) {
       e.preventDefault();
