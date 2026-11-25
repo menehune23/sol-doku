@@ -143,6 +143,8 @@
     const givenSel = sel !== null && puzzle[sel] !== 0;
     const filledSel = sel !== null && values[sel] !== 0;
     const locked = S.done || givenSel || (notesMode && filledSel);
+    $("#erase").disabled = S.done || sel === null || givenSel || (!filledSel && !notes[sel]);
+    $("#notes").disabled = S.done || givenSel || filledSel;
     keys.forEach((k, idx) => {
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
@@ -426,6 +428,7 @@
   $("#erase").addEventListener("click", erase);
   $("#hint").addEventListener("click", hint);
   const toggleNotes = () => {
+    if ($("#notes").disabled) return;
     notesMode = !notesMode;
     $("#notes").setAttribute("aria-pressed", String(notesMode));
     render();
