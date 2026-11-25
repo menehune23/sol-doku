@@ -143,9 +143,10 @@
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
     const solKey = settings.sol && selVal ? S.sym[selVal] : null;
-    $("#kicker").innerHTML = solKey
-      ? `// Sol <b>${solKey}</b> as in ${SOLAT[solKey].replace(/\[([^\]]+)\]/g, "<b>$1</b>")}`
-      : "// Logic core";
+    $("#sol-block").hidden = !settings.sol;
+    $("#sol-block .label").hidden = Boolean(solKey);
+    $("#stat-sol").textContent = solKey || "—";
+    $("#stat-sol-ex").innerHTML = solKey ? SOLAT[solKey].replace(/\[([^\]]+)\]/g, "<b>$1</b>") : "";
     $("#hint-count").textContent = S.hints ? S.hints : "";
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
