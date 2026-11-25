@@ -4,6 +4,7 @@ src = open(os.path.join(HERE, "..", "static", "sol.js")).read()
 sol = json.loads(re.search(r"window\.SOL = (\{.*\});", src, re.S).group(1))
 bx, by, bw, bh = sol["box"]
 FG = "#A57BE8"
+LETTER = "#D2BDF5"
 o0, o1 = 33, 147          # outer edge of border
 t = 7                     # border thickness
 i0, i1 = o0 + t, o1 - t   # inner square
@@ -28,7 +29,7 @@ svg = f'''<!doctype html><html><head>
 <rect width="180" height="180" fill="url(#st)"/>
 <path d="{lines}" fill="none" stroke="{FG}" stroke-opacity=".5" stroke-width="2.2"/>
 <path d="{frame}" fill="{FG}" fill-rule="evenodd"/>
-<g fill="{FG}" stroke="{FG}" stroke-width="30">{glyphs}</g>
+<g fill="{LETTER}" stroke="{LETTER}" stroke-width="30">{glyphs}</g>
 </svg></body></html>
 '''
 open(os.path.join(HERE, "icon.html"), "w").write(svg)
