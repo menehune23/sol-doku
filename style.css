@@ -53,7 +53,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .app {
   max-width: 520px;
   margin: 0 auto;
-  padding: calc(var(--safe-top) + 14px) 14px calc(var(--safe-bottom) + 14px);
+  padding: calc(var(--safe-top) + 30px) 14px calc(var(--safe-bottom) + 14px);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -105,7 +105,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 
 .board-wrap {
   position: relative;
-  width: min(100%, calc(100dvh - var(--safe-top) - var(--safe-bottom) - 302px));
+  width: min(100%, calc(100dvh - var(--safe-top) - var(--safe-bottom) - 318px));
   min-width: 280px;
   margin: 0 auto;
   container-type: inline-size;
