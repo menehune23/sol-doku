@@ -110,15 +110,37 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   container-type: inline-size;
 }
 .board {
+  --box-line: color-mix(in srgb, var(--accent) 60%, var(--surface));
+  position: relative;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   aspect-ratio: 1;
-  border: 2px solid var(--grid-major);
+  border: 2px solid var(--box-line);
   background: var(--surface);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 32px rgba(var(--accent-rgb), 0.12);
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
+}
+/* 3x3 box lines drawn above the cells so highlights can't cover them. */
+.board::before, .board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.board::before {
+  left: calc(100% / 3 - 1px);
+  right: calc(100% / 3 - 1px);
+  border-left: 2px solid var(--box-line);
+  border-right: 2px solid var(--box-line);
+}
+.board::after {
+  top: calc(100% / 3 - 1px);
+  bottom: calc(100% / 3 - 1px);
+  border-top: 2px solid var(--box-line);
+  border-bottom: 2px solid var(--box-line);
 }
 .board-wrap::before, .board-wrap::after {
   content: "";
@@ -148,8 +170,6 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 }
 .cell.c8 { border-right: 0; }
 .cell.r8 { border-bottom: 0; }
-.cell.c2, .cell.c5 { border-right: 2px solid var(--grid-major); }
-.cell.r2, .cell.r5 { border-bottom: 2px solid var(--grid-major); }
 .cell.given { color: var(--text); font-weight: 700; }
 .cell.peer { background: rgba(255, 255, 255, 0.045); }
 .cell.same { background: rgba(var(--accent-rgb), 0.2); }
