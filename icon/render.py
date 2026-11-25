@@ -8,7 +8,7 @@ with sync_playwright() as p:
     pg = ctx.new_page(); pg.goto("file://" + HERE + "/icon.html"); pg.wait_for_load_state("networkidle")
     pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(500)
     png = pg.locator("#i").screenshot(); ctx.close()
-im = Image.open(io.BytesIO(png)).convert("RGB"); im.save(HERE + "/icon-180.png")
+im = Image.open(io.BytesIO(png)).convert("L").convert("RGB")  # icon is neutral; drops subpixel text fringing; im.save(HERE + "/icon-180.png")
 buf = io.BytesIO(); im.save(buf, "PNG", optimize=True)
 uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
 path = os.path.join(HERE, "..", "static", "index.html"); s = open(path).read()
