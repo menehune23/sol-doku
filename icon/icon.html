@@ -3,13 +3,9 @@
 <svg id="i" xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
 <defs>
  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#262626"/><stop offset="1" stop-color="#121212"/></linearGradient>
- <radialGradient id="glow" cx="90" cy="90" r="62" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".07"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
- <radialGradient id="fade" cx="90" cy="90" r="80" gradientUnits="userSpaceOnUse"><stop offset=".7" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
- <mask id="m"><rect width="180" height="180" fill="url(#fade)"/></mask>
+ <pattern id="st" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="8" fill="#FFFFFF" fill-opacity=".04"/></pattern>
 </defs>
 <rect width="180" height="180" fill="url(#bg)"/>
-<circle cx="90" cy="90" r="62" fill="url(#glow)"/>
-<g mask="url(#m)" stroke="#A1A1A1" stroke-opacity=".3" stroke-width="2" stroke-linecap="square"><path d="M150.00 90.00L190.00 90.00M145.43 112.96L160.21 119.08M132.43 132.43L160.71 160.71M112.96 145.43L119.08 160.21M90.00 150.00L90.00 190.00M67.04 145.43L60.92 160.21M47.57 132.43L19.29 160.71M34.57 112.96L19.79 119.08M30.00 90.00L-10.00 90.00M34.57 67.04L19.79 60.92M47.57 47.57L19.29 19.29M67.04 34.57L60.92 19.79M90.00 30.00L90.00 -10.00M112.96 34.57L119.08 19.79M132.43 47.57L160.71 19.29M145.43 67.04L160.21 60.92"/></g>
-<circle cx="90" cy="90" r="60" fill="none" stroke="#A1A1A1" stroke-opacity=".22" stroke-width="1.5" stroke-dasharray="2 5.4"/>
-<path d="M60 60h60v60h-60zM80.0 60v60M60 80.0h60M100.0 60v60M60 100.0h60" fill="none" stroke="#E4E4E4" stroke-width="4" stroke-linecap="square"/>
+<rect width="180" height="180" fill="url(#st)"/>
+<path d="M60 60h60v60h-60zM80 60v60M60 80h60M100 60v60M60 100h60" fill="none" stroke="#E4E4E4" stroke-width="4" stroke-linecap="square"/>
 </svg></body></html>
