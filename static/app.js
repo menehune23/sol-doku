@@ -1,8 +1,8 @@
 (() => {
   const $ = (s) => document.querySelector(s);
   const KEY = "sudoku.v1";
-  // Sol letters (github.com/menehune23/sol): the vowel root h, then the eight base consonants, in Sol order.
-  const SYM = [null, "h", "b", "d", "f", "g", "l", "m", "r", "s"];
+  // Sol vowels (github.com/menehune23/sol), in Sol order.
+  const SYM = [null, "a", "e", "i", "ah", "u", "uu", "o", "oo", "ee"];
   const symSVG = (d) => {
     return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
   };
@@ -348,6 +348,27 @@
   $("#start").addEventListener("click", () => closeSheet($("#new-sheet"), () => newGame(pendingLevel)));
   $("#win-new").addEventListener("click", () => closeSheet($("#win-sheet"), openNew));
 
+  function resetGame() {
+    Object.assign(S, {
+      values: S.puzzle.slice(),
+      notes: Array(81).fill(0),
+      hinted: [],
+      history: [],
+      mistakes: 0,
+      hints: 0,
+      elapsed: 0,
+      done: false,
+    });
+    selected = -1;
+    notesMode = false;
+    $("#notes").setAttribute("aria-pressed", "false");
+    save();
+    render();
+    renderTime();
+  }
+  $("#open-reset").addEventListener("click", () => { if (S) $("#reset-sheet").showModal(); });
+  $("#do-reset").addEventListener("click", () => closeSheet($("#reset-sheet"), resetGame));
+
   function setHue(id) {
     document.documentElement.dataset.hue = id;
     store.set("sudoku.hue", id);
@@ -393,11 +414,9 @@
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); return; }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (/^[1-9]$/.test(e.key)) { input(Number(e.key)); return; }
-    const sym = SYM.indexOf(e.key.toLowerCase());
-    if (sym > 0 && !e.ctrlKey && !e.metaKey && !e.altKey) { input(sym); return; }
     if (["Backspace", "Delete", "0"].includes(e.key)) { erase(); return; }
     if (e.key.toLowerCase() === "n") { toggleNotes(); return; }
-    if (e.key === "?") { if (settings.hints) hint(); return; }
+    if (e.key.toLowerCase() === "h") { if (settings.hints) hint(); return; }
     const moves = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 };
     if (moves[e.key] !== undefined) {
       e.preventDefault();
