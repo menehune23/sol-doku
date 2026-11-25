@@ -106,6 +106,25 @@
     $("#app").classList.toggle("solved", S.done);
     $("#footer-info").textContent = `${S.clues} clues · unique solution`;
     padEl.classList.toggle("notes-on", notesMode);
+    const sel = selected >= 0 ? selected : null;
+    const givenSel = sel !== null && puzzle[sel] !== 0;
+    const filledSel = sel !== null && values[sel] !== 0;
+    const locked = S.done || givenSel || (notesMode && filledSel);
+    keys.forEach((k, idx) => {
+      const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
+      k.classList.toggle("noted", on);
+      k.classList.toggle("locked", locked);
+      k.setAttribute("aria-pressed", notesMode ? String(on) : "false");
+      k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${idx + 1}` : `Enter ${idx + 1}`);
+    });
+    let hintText = "";
+    if (notesMode) {
+      if (givenSel) hintText = "Given cell · notes locked";
+      else if (filledSel) hintText = "Erase the number to add notes";
+      else if (sel === null) hintText = "Select a cell to add notes";
+      else hintText = "Notes mode · tap a lit number to remove it";
+    }
+    $("#pad-hint").textContent = hintText;
     renderTime();
   }
 
@@ -263,10 +282,44 @@
   document.addEventListener("visibilitychange", () => { last = performance.now(); if (document.hidden) save(); });
 
   // Sheets
+  function closeSheet(dlg, after) {
+    if (!dlg.open || dlg.classList.contains("closing")) return;
+    dlg.classList.add("closing");
+    setTimeout(() => {
+      dlg.close();
+      dlg.classList.remove("closing");
+      if (after) after();
+    }, 220);
+  }
   document.querySelectorAll("dialog").forEach((dlg) => {
     dlg.addEventListener("click", (e) => {
-      if (e.target === dlg || e.target.closest("[data-close]")) dlg.close();
+      if (e.target === dlg || e.target.closest("[data-close]")) closeSheet(dlg);
     });
+    dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeSheet(dlg); });
+    let drag = null;
+    dlg.addEventListener("pointerdown", (e) => {
+      if (e.button > 0 || !e.target.closest(".grabber, h2, .kicker")) return;
+      drag = { id: e.pointerId, y: e.clientY, t: e.timeStamp, dy: 0 };
+      dlg.style.transition = "none";
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      drag.dy = Math.max(0, e.clientY - drag.y);
+      dlg.style.transform = `translateY(${drag.dy}px)`;
+      dlg.style.setProperty("--scrim", String(1 - Math.min(drag.dy / dlg.offsetHeight, 1)));
+    });
+    const endDrag = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const { dy, t } = drag;
+      drag = null;
+      dlg.style.transition = "";
+      dlg.style.transform = "";
+      dlg.style.removeProperty("--scrim");
+      const flick = dy > 30 && dy / Math.max(e.timeStamp - t, 1) > 0.5;
+      if (dy > 90 || flick || (dy < 6 && e.target.closest(".grabber"))) closeSheet(dlg);
+    };
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
   });
 
   function renderLevels() {
@@ -288,8 +341,8 @@
     $("#new-sheet").showModal();
   }
   $("#open-new").addEventListener("click", openNew);
-  $("#start").addEventListener("click", () => { $("#new-sheet").close(); newGame(pendingLevel); });
-  $("#win-new").addEventListener("click", () => { $("#win-sheet").close(); openNew(); });
+  $("#start").addEventListener("click", () => closeSheet($("#new-sheet"), () => newGame(pendingLevel)));
+  $("#win-new").addEventListener("click", () => closeSheet($("#win-sheet"), openNew));
 
   function setHue(id) {
     document.documentElement.dataset.hue = id;

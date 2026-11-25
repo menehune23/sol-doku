@@ -65,6 +65,7 @@
     </section>
 
     <section class="pad" id="pad" aria-label="Number pad"></section>
+    <div class="pad-hint" id="pad-hint" aria-live="polite"></div>
 
     <footer class="footer">
       <span id="footer-info">Unique solution guaranteed</span>
@@ -73,7 +74,7 @@
   </main>
 
   <dialog class="sheet" id="new-sheet" aria-labelledby="new-title">
-    <div class="grabber" aria-hidden="true"></div>
+    <div class="grabber" title="Close" aria-hidden="true"></div>
     <div class="kicker">// New mission</div>
     <h2 id="new-title">Select difficulty</h2>
     <div class="levels" id="levels" role="radiogroup" aria-labelledby="new-title"></div>
@@ -82,7 +83,7 @@
   </dialog>
 
   <dialog class="sheet" id="hue-sheet" aria-labelledby="hue-title">
-    <div class="grabber" aria-hidden="true"></div>
+    <div class="grabber" title="Close" aria-hidden="true"></div>
     <div class="kicker">// Display</div>
     <h2 id="hue-title">Color</h2>
     <div class="hues" id="hues" role="radiogroup" aria-labelledby="hue-title"></div>
@@ -91,7 +92,7 @@
   </dialog>
 
   <dialog class="sheet" id="win-sheet" aria-labelledby="win-title">
-    <div class="grabber" aria-hidden="true"></div>
+    <div class="grabber" title="Close" aria-hidden="true"></div>
     <div class="kicker">// Grid stabilized</div>
     <h2 id="win-title">Puzzle solved</h2>
     <dl class="stats" id="win-stats"></dl>
