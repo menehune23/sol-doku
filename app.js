@@ -1,6 +1,8 @@
 (() => {
   const $ = (s) => document.querySelector(s);
   const KEY = "sudoku.v1";
+  // Sol letters (github.com/menehune23/sol): the vowel root h, then the eight base consonants, in Sol order.
+  const SYM = [null, "h", "b", "d", "f", "g", "l", "m", "r", "s"];
   const BEST_KEY = "sudoku.best";
   const LEVELS = [
     ["easy", "Easy", 1, "Lots of clues · singles only"],
@@ -61,8 +63,8 @@
     const k = document.createElement("button");
     k.className = "key";
     k.type = "button";
-    k.innerHTML = `<b>${d}</b>`;
-    k.setAttribute("aria-label", `Enter ${d}`);
+    k.innerHTML = `<b>${SYM[d]}</b>`;
+    k.setAttribute("aria-label", `Enter ${SYM[d]}`);
     k.addEventListener("click", () => input(d));
     padEl.appendChild(k);
     keys.push(k);
@@ -82,15 +84,15 @@
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
       el.classList.toggle("same", i !== selected && selVal !== 0 && v === selVal);
-      el.firstChild.textContent = v || "";
+      el.firstChild.textContent = v ? SYM[v] : "";
       const noteEls = el.lastChild.children;
       for (let d = 1; d <= 9; d++) {
         const on = !v && (notes[i] & (1 << (d - 1)));
-        noteEls[d - 1].textContent = on ? d : "";
+        noteEls[d - 1].textContent = on ? SYM[d] : "";
         noteEls[d - 1].classList.toggle("match", Boolean(on) && d === selVal);
       }
       const r = Math.floor(i / 9) + 1, c = (i % 9) + 1;
-      el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? v : "empty"}${given ? ", given" : ""}`);
+      el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? SYM[v] : "empty"}${given ? ", given" : ""}`);
     }
     const counts = Array(10).fill(0);
     for (let i = 0; i < 81; i++) if (values[i] && (!settings.errors || values[i] === solution[i])) counts[values[i]]++;
@@ -118,7 +120,7 @@
       k.classList.toggle("noted", on);
       k.classList.toggle("locked", locked);
       k.setAttribute("aria-pressed", notesMode ? String(on) : "false");
-      k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${idx + 1}` : `Enter ${idx + 1}`);
+      k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${SYM[idx + 1]}` : `Enter ${SYM[idx + 1]}`);
     });
     renderTime();
   }
@@ -385,9 +387,11 @@
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); return; }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (/^[1-9]$/.test(e.key)) { input(Number(e.key)); return; }
+    const sym = SYM.indexOf(e.key.toLowerCase());
+    if (sym > 0 && !e.ctrlKey && !e.metaKey && !e.altKey) { input(sym); return; }
     if (["Backspace", "Delete", "0"].includes(e.key)) { erase(); return; }
     if (e.key.toLowerCase() === "n") { toggleNotes(); return; }
-    if (e.key.toLowerCase() === "h") { if (settings.hints) hint(); return; }
+    if (e.key === "?") { if (settings.hints) hint(); return; }
     const moves = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 };
     if (moves[e.key] !== undefined) {
       e.preventDefault();
