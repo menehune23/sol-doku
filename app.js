@@ -59,7 +59,7 @@
     const k = document.createElement("button");
     k.className = "key";
     k.type = "button";
-    k.innerHTML = `<b>${d}</b><small></small>`;
+    k.innerHTML = `<b>${d}</b>`;
     k.setAttribute("aria-label", `Enter ${d}`);
     k.addEventListener("click", () => input(d));
     padEl.appendChild(k);
@@ -94,7 +94,6 @@
     for (let i = 0; i < 81; i++) if (values[i] && values[i] === solution[i]) counts[values[i]]++;
     keys.forEach((k, idx) => {
       const left = 9 - counts[idx + 1];
-      k.lastChild.textContent = left;
       k.classList.toggle("complete", left === 0);
     });
     $("#stat-level").textContent = levelName(S.level);
