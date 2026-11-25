@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" data-hue="ember">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sudoku">
+  <title>Sudoku</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAImUlEQVR42u2dPWwcxxXH35ud2937EMmzBKhQLEOskiIqZERBXBowDDbxB+LCriwgVQKXSuDKpVOojotUdpMmRgJEagMYSJDYCSiLNhJBsAFBBOUUyYm+z739mJdijzYjyjRJ7c7s7v1/OBZkcY9389uZN3u7/+N+v08APAqFtwBADgA5AOQAkANADgA5AOQAkANADgA5AIAcAHIAyAEgB4AcAHIAyAEgB4AcAHIAADkA5ACQA0AOADlAJdAV+T948QOOjUij5VBMSSYCPU5gBpHHzNxQORTTNJbTPc9jEoz28WfcSSypEW6eHFrxf8bplWfWrj53JkoEi8uxtDBCHV/97Lf3//zZtBcqIw2SIzfj9R+tvf3i2VkivYAUzDgymVBmqOcr7XFJM652bsavXjo7jEyoaTKXWQo/jtqEdnxe9GoNa0j3m7E7M2shf3w/efP6aJ6KerzOg/d1arZ3W7bq5l3atRdWfnDeL1ENJ3IcNGPri/SN94fDyPiaH/PFZiIipJgtz0A26yrOm1Dikl3UVTDj57/7chybbsDGPFZDykyrvlJM85TmqTBbmkAs11VMWtlo3FUVzJjEpq05MyR0wgcRpYbaPr/zk9UbPz390sVgNF+sUKU+XNW1s2iqKpgRas6KeLlMtBJyv8PhYy9PtajbEDksmEF7x3GSkbE+Qq7q1l4Oa2bkBzG72Ay7qltvOWyaAeokB8yAHDCjmZR1nkMxHcsM5sM+eDbGYKgaIodimsbmyjNrb794dhgdyYwkSeI4fqQfSqkgCDBUTZCDmZJMTvf01efOzBITePTx/eSN94fj/EzXN5ixvr6+vr5+0A/P8waDwdbWlud5IliKGrGseExRIr1ATWJ58/poGJmu/+g+g5njOL5w4cLGxsZ4PFbq6zZIRIIguHPnzs2bNz3Pw2g1RA4hYibFFCUyTyXQfMgJonzyGI/Hk8nkITnSNJ3NZhinRsmxf5VRTEa+5UINZlZ77Jfjob+A5pzn+GoWAZADQA6AnsMmImKMEZH9+1XZA+O01HJordvtdpZlDzWkYRj6vo9xWlI58i3JYDC4fft2FEUPydFqtXZ2dphxTfqyyhEEwa1btzY3Nw9KkKujtcbistTLitb6EIEwVEvdkGIwsJUFkANADgA5AOQAAHIAyAEgBygHqyfBuMxn5v9//oN/aUZdaaocqSlxkFLz9fMbWfyamdLlsFzX5jWT2ua0sRpyScdUPkirITOTCIWa19q82mY7cliry0TTRKzdy6/taJEZWQ3VO6+srYSlHFW8uN6dVwLejczLF8ON7wWq/EnYZt08JO4Xfxz9417scbNmDqXoqb7X73Biim+DZS+X88vIZIb6bXVulY2U3nPYrJsJ9XxuazJCzZFDiBTzPJFf/2UStkpJOMlHKND88vfDfkf99W784b2k3So9TcVmXRHyPb63m/maEyv3oVuaOZhpntJv/jYt6ahiosRQv8Mb3w3O+fzhvfjanyZPdJWFnsNmXSHp+irwKM4a1pAyrbW5vEFKDa22F41hu8VPdFW/w5khxaS44IxfJhKhTOSQuiW9UGPs7WatbmWzMrey2b4NpJHFr0ZoGkuUmGKvQhUSrbjnM31D3VJnLG6kHJZRzNNYfviUf/l8K0oKy+wSIt+j7d3sxj/nfqPv7m6yHMwUJXL5vH/12e5gYryC9khG6FSgPvh8/vtPosBjyFFjP2aJDCbmwVQKlCPJzGgujb9dQjf9BZJi8tTiUYxwQp5aim93wKeyAHIAyAEgB0BD2uRtVA1yVyGHGzNqkbsKOdyYUYvcVcjhQI665K5CDmeTR/VzVyGHMz+qn7uKrSyAHAByAPQctacWuauQw9H7XofcVcjhYM6oS+4q5HAgR11yVyGHs2Wl+rmrkMPZ/IGtLKgxkANADgA5ABrSY7V+ZISMUFE3U5u9J4QcNTeDyNd8KuAko0Jvh+ROiyFHveeMlqLtB+kHn8ejSIq6TCKPWvj034nihn8rapPlMCJdn2/8a/6HTyMuLqcrfyqPKdDc7G+JaXgOKRH5HgW66GOcSYREkENaHMghLWB7iRzSkw0SckjrJwdySItqhJFDesKVGDmktZQDOaRFzRzIIT3hICGHtM4NqaMcUhsNKXJIC1g1reeQWpCjwTmk+FQWQA4AOQDkAJADQA4AOQDkAE2hKleCucrlXLa69ZPDVS7nstWtnxyucjmXrW5d5XCSy7lsdeu9rNjP5Vy2ujVuSJ3kci5bXWxlAeQAkAMse8/hKpezpnUVL5McrnI561hXMc0Syc+PGCnxklJdhTnDSS5nTet6iv47kdcudZ7+TmsUmTM93VJl3c9dCTmc5HLWsa6naDCRVy+Fbz3fG0am3/E+uju7tTPr+CyNlOOradZJLmeN6u4z49TuzKx1vM3t6Mp7O6PIhC0u4zaqCjWkqHsIB824uR29/u7OKDJtv6zbZLCVrQFOzIAcMANywAzIATMgx2HkCaFS/7rOzWiaHEzUaXHX55ay6kfhdatgBjUmalKIlKJpIr+8PgxbvL2bdX22kJ1VRt2KmGFJDsWLR9mDZYT+vp3kCTiBl6d1WVpTiqrLXBUzbMghRNNEJrFoZSO+TTGRotSIneybAusyETNFCb16qf3W8z3nZpQrRx5s0tF87ccraUbc/KzwYt60p59sDSP3ZpQrhxHKhBTT5Sd9ghlHZhSZfsfbdG1GiXIwUdfnbqDSVISEBIN+1CPqTE9/dHeWf6Lm0Awi4n6/X3yfIaQ9vngu0B6LYNY4XoumFW3tzB9Ms45TM8qSI3+Rs9iI7IX8giNPuSLU8ZVW7r/vp8RlpRfg3PwJd7MV+SaochtScMJZtxrg4AaQA0AOADkA5ACQA0AOADkA5ACQA0AOACAHgBwAcgDIASAHgBwAcgDIASAHgBwAQA4AOQDkAJADQA5QDf4HR/Cw1IO6BTEAAAAASUVORK5CYII=">
+  <link rel="apple-touch-icon" href="data:image/png;base64,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">
+  <script>try { var h = localStorage.getItem("sudoku.hue"); if (h) document.documentElement.dataset.hue = h; } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="kicker">// Logic core</div>
+        <h1>Sudoku</h1>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="open-hue" aria-label="Change color">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.5-1.5 0-1.4-1.2-1.6-1.2-3 0-.9.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5C21 6.4 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/></svg>
+        </button>
+        <button class="icon-btn" id="open-new" aria-label="New game">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="panel status" aria-label="Game status">
+      <div><span class="label">Level</span><span class="readout" id="stat-level">—</span></div>
+      <div><span class="label">Time</span><span class="readout" id="stat-time">00:00</span></div>
+      <div><span class="label">Errors</span><span class="readout" id="stat-mistakes">0</span></div>
+    </section>
+
+    <div class="board-wrap">
+      <div class="board" id="board" role="grid" aria-label="Sudoku board"></div>
+    </div>
+
+    <section class="tools" aria-label="Tools">
+      <button class="tool" id="undo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+        <span>Undo</span>
+      </button>
+      <button class="tool" id="erase">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M20 20H8l-5-5 10-10 8 8-6 7"/><path d="M8.5 9.5l7 7"/></svg>
+        <span>Erase</span>
+      </button>
+      <button class="tool" id="notes" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>
+        <span>Notes</span>
+      </button>
+      <button class="tool" id="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>
+        <span>Hint</span>
+        <i class="badge" id="hint-count"></i>
+      </button>
+    </section>
+
+    <section class="pad" id="pad" aria-label="Number pad"></section>
+
+    <footer class="footer">
+      <span id="footer-info">Unique solution guaranteed</span>
+      <a href="https://app.devin.ai/sessions/24729240f18b49819ce347943eb49a1e" target="_blank" rel="noopener">Request changes</a>
+    </footer>
+  </main>
+
+  <dialog class="sheet" id="new-sheet" aria-labelledby="new-title">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="kicker">// New mission</div>
+    <h2 id="new-title">Select difficulty</h2>
+    <div class="levels" id="levels" role="radiogroup" aria-labelledby="new-title"></div>
+    <button class="btn" id="start">Generate grid</button>
+    <button class="btn ghost" data-close>Cancel</button>
+  </dialog>
+
+  <dialog class="sheet" id="hue-sheet" aria-labelledby="hue-title">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="kicker">// Display</div>
+    <h2 id="hue-title">Color</h2>
+    <div class="hues" id="hues" role="radiogroup" aria-labelledby="hue-title"></div>
+    <div class="hue-name" id="hue-name"></div>
+    <button class="btn" data-close>Done</button>
+  </dialog>
+
+  <dialog class="sheet" id="win-sheet" aria-labelledby="win-title">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="kicker">// Grid stabilized</div>
+    <h2 id="win-title">Puzzle solved</h2>
+    <dl class="stats" id="win-stats"></dl>
+    <button class="btn" id="win-new">New game</button>
+    <button class="btn ghost" data-close>View grid</button>
+  </dialog>
+
+  <div class="overlay" id="loading" hidden>
+    <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
+  </div>
+
+  <script src="sudoku.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
