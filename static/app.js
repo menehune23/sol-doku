@@ -3,6 +3,9 @@
   const KEY = "sudoku.v1";
   // Sol letters (github.com/menehune23/sol): the vowel root h, then the eight base consonants, in Sol order.
   const SYM = [null, "h", "b", "d", "f", "g", "l", "m", "r", "s"];
+  const symSVG = (d) => {
+    return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
+  };
   const BEST_KEY = "sudoku.best";
   const LEVELS = [
     ["easy", "Easy", 1, "Lots of clues · singles only"],
@@ -50,7 +53,7 @@
     el.type = "button";
     el.dataset.i = i;
     el.setAttribute("role", "gridcell");
-    el.innerHTML = `<span class="v"></span><div class="notes" aria-hidden="true">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => "<span></span>").join("")}</div>`;
+    el.innerHTML = `<span class="v"></span><div class="notes" aria-hidden="true">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<span>${symSVG(d)}</span>`).join("")}</div>`;
     el.addEventListener("click", () => select(i));
     boardEl.appendChild(el);
     cells.push(el);
@@ -63,7 +66,7 @@
     const k = document.createElement("button");
     k.className = "key";
     k.type = "button";
-    k.innerHTML = `<b>${SYM[d]}</b>`;
+    k.innerHTML = `<b>${symSVG(d)}</b>`;
     k.setAttribute("aria-label", `Enter ${SYM[d]}`);
     k.addEventListener("click", () => input(d));
     padEl.appendChild(k);
@@ -84,11 +87,14 @@
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
       el.classList.toggle("same", i !== selected && selVal !== 0 && v === selVal);
-      el.firstChild.textContent = v ? SYM[v] : "";
+      if (el.firstChild.dataset.v !== String(v)) {
+        el.firstChild.dataset.v = v;
+        el.firstChild.innerHTML = v ? symSVG(v) : "";
+      }
       const noteEls = el.lastChild.children;
       for (let d = 1; d <= 9; d++) {
         const on = !v && (notes[i] & (1 << (d - 1)));
-        noteEls[d - 1].textContent = on ? SYM[d] : "";
+        noteEls[d - 1].classList.toggle("on", Boolean(on));
         noteEls[d - 1].classList.toggle("match", Boolean(on) && d === selVal);
       }
       const r = Math.floor(i / 9) + 1, c = (i % 9) + 1;
