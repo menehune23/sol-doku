@@ -38,7 +38,14 @@
   let selected = -1;
   let notesMode = false;
   let pendingLevel = "medium";
-  const settings = { timer: true, errors: true, hints: true };
+  const settings = { timer: true, errors: true, hints: true, sol: true };
+  const SOLAT = {
+    h: "[h]ot", a: "[a]pple", e: "p[e]t", i: "s[i]t", ah: "h[o]t", u: "h[u]t", uu: "p[u]t",
+    w: "[w]et", o: "n[o]", oo: "f[oo]d", y: "[y]es", ee: "m[ee]t", ey: "n[a]me", ahy: "l[i]ke", yoo: "h[u]ge",
+    b: "[b]uy", p: "[p]ay", d: "[d]ay", j: "[j]am", jh: "fu[si]on", t: "[t]en", thh: "[th]is", tth: "[th]ink",
+    f: "[f]ar", v: "[v]ast", g: "[g]o", k: "[k]aya[k]", l: "[l]it", m: "[m]y", n: "[n]o", r: "[r]est",
+    s: "[s]ay", z: "[z]oo", sh: "[sh]oe", ch: "[ch]at",
+  };
 
   const store = {
     get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
@@ -135,6 +142,10 @@
     mEl.classList.toggle("bad", S.mistakes > 0);
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
+    const solKey = settings.sol && selVal ? S.sym[selVal] : null;
+    $("#kicker").innerHTML = solKey
+      ? `// Sol <b>${solKey}</b> as in ${SOLAT[solKey].replace(/\[([^\]]+)\]/g, "<b>$1</b>")}`
+      : "// Logic core";
     $("#hint-count").textContent = S.hints ? S.hints : "";
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
@@ -421,9 +432,10 @@
     $("#set-timer").checked = settings.timer;
     $("#set-errors").checked = settings.errors;
     $("#set-hints").checked = settings.hints;
+    $("#set-sol").checked = settings.sol;
     $("#hue-sheet").showModal();
   });
-  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"]].forEach(([sel, key]) =>
+  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"], ["#set-sol", "sol"]].forEach(([sel, key]) =>
     $(sel).addEventListener("change", (e) => {
       settings[key] = e.target.checked;
       store.set("sudoku.settings", settings);
