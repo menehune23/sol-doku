@@ -27,6 +27,7 @@
 [data-hue="ember"] { --accent: #DE8A33; --accent-rgb: 222, 138, 51; }
 [data-hue="patina"] { --accent: #4FB89F; --accent-rgb: 79, 184, 159; }
 [data-hue="signal"] { --accent: #E5533D; --accent-rgb: 229, 83, 61; --negative: #FFB13D; --negative-rgb: 255, 177, 61; }
+[data-hue="sand"] { --accent: #C9B58C; --accent-rgb: 201, 181, 140; }
 [data-hue="ion"] { --accent: #5B9EE6; --accent-rgb: 91, 158, 230; }
 [data-hue="nebula"] { --accent: #A57BE8; --accent-rgb: 165, 123, 232; }
 [data-hue="flare"] { --accent: #E56BAA; --accent-rgb: 229, 107, 170; }
@@ -323,7 +324,7 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .btn.ghost { background-color: rgba(255, 255, 255, 0.07); color: var(--text); margin-top: 8px; }
 .btn:active { filter: brightness(1.12); }
 
-.hues { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 8px; }
+.hues { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-bottom: 8px; }
 .hue {
   aspect-ratio: 1;
   border: 2px solid transparent;

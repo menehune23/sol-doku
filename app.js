@@ -23,9 +23,10 @@
     ["expert", "Expert", 4, "Sparse clues · deep deduction"],
   ];
   const COLORS = [
-    ["ember", "Ember", "#DE8A33"],
-    ["patina", "Patina", "#4FB89F"],
     ["signal", "Signal", "#E5533D"],
+    ["ember", "Ember", "#DE8A33"],
+    ["sand", "Sand", "#C9B58C"],
+    ["patina", "Patina", "#4FB89F"],
     ["ion", "Ion", "#5B9EE6"],
     ["nebula", "Nebula", "#A57BE8"],
     ["flare", "Flare", "#E56BAA"],
