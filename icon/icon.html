@@ -1,23 +1,22 @@
 <!doctype html><html><head>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
 <style>html,body{margin:0;background:#000;overflow:hidden}svg{display:block}</style></head><body>
 <svg id="i" xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
 <defs>
  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#202020"/><stop offset="1" stop-color="#0E0E0E"/></linearGradient>
  <linearGradient id="pn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2A2A"/><stop offset="1" stop-color="#1A1A1A"/></linearGradient>
- <pattern id="st" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="8" fill="#FFFFFF" fill-opacity=".025"/></pattern>
+ <radialGradient id="glow" cx="90" cy="90" r="62" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".07"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+ <radialGradient id="fade" cx="90" cy="90" r="78" gradientUnits="userSpaceOnUse"><stop offset=".7" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+ <mask id="m"><rect width="180" height="180" fill="url(#fade)"/></mask>
+ <clipPath id="c"><path d="M50 30h100v90l-20 30H30V60z"/></clipPath>
 </defs>
 <rect width="180" height="180" fill="url(#bg)"/>
 <path d="M50 30h100v90l-20 30H30V60z" fill="url(#pn)"/>
-<path d="M50 30h100v90l-20 30H30V60z" fill="url(#st)"/>
-<path d="M51 31.5h97.5v88L129 148.5H31.5V60.5z" fill="none" stroke="#A1A1A1" stroke-opacity=".55" stroke-width="3"/>
-<g stroke="#A1A1A1" stroke-opacity=".35" stroke-width="2"><path d="M70 50v80M110 50v80M50 70h80M50 110h80"/></g>
-<g fill="#E4E4E4" fill-opacity=".28"><circle cx="138" cy="42" r="3"/><circle cx="42" cy="138" r="3"/></g>
-<g fill="#E4E4E4">
- <path transform="translate(73.97 72.00) scale(0.04932) translate(-125 730) scale(1 -1)" d="M775 730H530V650H695V485H775ZM175 527.5V447.5H580V527.5ZM125 245H450C529.1 245 589.2 220.5 629.8 179.8C670.5 139.2 695 79.1 695 0H775C775 197.1 647 325 450 325H125Z" stroke="#E4E4E4" stroke-width="40"/>
- <path transform="translate(121.10 80.00) scale(0.02740) translate(-125 730) scale(1 -1)" d="M570 445H325V365H490V200H570Z" fill-opacity=".6" stroke="#E4E4E4" stroke-opacity=".6" stroke-width="30"/>
- <path transform="translate(81.10 40.00) scale(0.02740) translate(-125 730) scale(1 -1)" d="M125 245H450C529.1 245 589.2 220.5 629.8 179.8C670.5 139.2 695 79.1 695 0H775C775 197.1 647 325 450 325H125Z" fill-opacity=".6" stroke="#E4E4E4" stroke-opacity=".6" stroke-width="30"/>
- <path transform="translate(41.10 80.00) scale(0.02740) translate(-125 730) scale(1 -1)" d="M287.5 245V325C195.4 325 125 254.5 125 162.5C125 70.4 195.4 0 287.5 0H775V80H287.5C239.5 80 205 114.5 205 162.5C205 210.4 239.5 245 287.5 245Z" fill-opacity=".6" stroke="#E4E4E4" stroke-opacity=".6" stroke-width="30"/>
- <path transform="translate(81.10 120.00) scale(0.02740) translate(-125 730) scale(1 -1)" d="M450 325V245H775V325ZM287.5 245V325C195.4 325 125 254.5 125 162.5C125 70.4 195.4 0 287.5 0H775V80H287.5C239.5 80 205 114.5 205 162.5C205 210.4 239.5 245 287.5 245Z" fill-opacity=".6" stroke="#E4E4E4" stroke-opacity=".6" stroke-width="30"/>
+<g clip-path="url(#c)">
+ <circle cx="90" cy="90" r="62" fill="url(#glow)"/>
+ <g mask="url(#m)" stroke="#A1A1A1" stroke-opacity=".3" stroke-width="2" stroke-linecap="square"><path d="M150.00 90.00L190.00 90.00M145.43 112.96L160.21 119.08M132.43 132.43L160.71 160.71M112.96 145.43L119.08 160.21M90.00 150.00L90.00 190.00M67.04 145.43L60.92 160.21M47.57 132.43L19.29 160.71M34.57 112.96L19.79 119.08M30.00 90.00L-10.00 90.00M34.57 67.04L19.79 60.92M47.57 47.57L19.29 19.29M67.04 34.57L60.92 19.79M90.00 30.00L90.00 -10.00M112.96 34.57L119.08 19.79M132.43 47.57L160.71 19.29M145.43 67.04L160.21 60.92"/></g>
+ <circle cx="90" cy="90" r="60" fill="none" stroke="#A1A1A1" stroke-opacity=".22" stroke-width="1.5" stroke-dasharray="2 5.4"/>
 </g>
+<path d="M51 31.5h97.5v88L129 148.5H31.5V60.5z" fill="none" stroke="#A1A1A1" stroke-opacity=".55" stroke-width="3"/>
+<g fill="#E4E4E4" fill-opacity=".28"><circle cx="138" cy="42" r="3"/><circle cx="42" cy="138" r="3"/></g>
+<path transform="translate(51.00 46.20) scale(0.12) translate(-125 730) scale(1 -1)" d="M601.8 420.2 775 593.4 718.4 650 545.2 476.8ZM370 0H450V325C450 522 322.1 650 125 650V570C204.1 570 264.2 545.5 304.8 504.8C345.5 464.2 370 404.1 370 325Z" fill="#E4E4E4" stroke="#E4E4E4" stroke-width="30"/>
 </svg></body></html>
