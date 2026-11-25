@@ -144,7 +144,6 @@
     $("#err-block").hidden = !settings.errors;
     const solKey = settings.sol && selVal ? S.sym[selVal] : null;
     $("#sol-block").hidden = !settings.sol;
-    $("#sol-block .label").hidden = Boolean(solKey);
     $("#stat-sol").textContent = solKey || "—";
     $("#stat-sol-ex").innerHTML = solKey ? SOLAT[solKey].replace(/\[([^\]]+)\]/g, "<b>$1</b>") : "";
     $("#hint-count").textContent = S.hints ? S.hints : "";

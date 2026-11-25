@@ -41,7 +41,6 @@
       <div><span class="label">Level</span><span class="readout" id="stat-level">—</span></div>
       <div id="time-block"><span class="label">Time</span><span class="readout" id="stat-time">00:00</span></div>
       <div id="err-block"><span class="label">Errors</span><span class="readout" id="stat-mistakes">0</span></div>
-      <div id="sol-block" aria-live="polite"><span class="label">Sol</span><span class="readout" id="stat-sol">—</span><span class="sol-ex" id="stat-sol-ex"></span></div>
     </section>
 
     <div class="board-wrap">
@@ -72,7 +71,10 @@
     <section class="pad" id="pad" aria-label="Number pad"></section>
 
     <footer class="footer">
-      <a href="https://github.com/menehune23/sol" target="_blank" rel="noopener">What is Sol?</a>
+      <div class="footer-left">
+        <div class="sol-guide" id="sol-block" aria-live="polite"><span>Sol</span><span class="readout" id="stat-sol">—</span><span class="sol-ex" id="stat-sol-ex"></span></div>
+        <a class="info" href="https://github.com/menehune23/sol" target="_blank" rel="noopener" aria-label="What is Sol?" title="What is Sol?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg></a>
+      </div>
       <a href="https://app.devin.ai/sessions/24729240f18b49819ce347943eb49a1e" target="_blank" rel="noopener">Request changes</a>
     </footer>
   </main>
