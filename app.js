@@ -1,0 +1,348 @@
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const KEY = "sudoku.v1";
+  const BEST_KEY = "sudoku.best";
+  const LEVELS = [
+    ["easy", "Easy", 1, "Lots of clues · singles only"],
+    ["medium", "Medium", 2, "Fewer clues · hidden singles"],
+    ["hard", "Hard", 3, "Needs pairs & locked candidates"],
+    ["expert", "Expert", 4, "Sparse clues · deep deduction"],
+  ];
+  const COLORS = [
+    ["ember", "Ember", "#DE8A33"],
+    ["patina", "Patina", "#4FB89F"],
+    ["signal", "Signal", "#E5533D"],
+    ["ion", "Ion", "#5B9EE6"],
+    ["nebula", "Nebula", "#A57BE8"],
+    ["flare", "Flare", "#E56BAA"],
+    ["steel", "Steel", "#A1A1A1"],
+  ];
+  const levelName = (id) => (LEVELS.find((l) => l[0] === id) || LEVELS[1])[1];
+
+  let S = null;
+  let selected = -1;
+  let notesMode = false;
+  let pendingLevel = "medium";
+
+  const store = {
+    get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+    set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  };
+  const save = () => store.set(KEY, S);
+  const fmt = (sec) => {
+    sec = Math.floor(sec);
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    const mm = String(m).padStart(2, "0"), ss = String(s).padStart(2, "0");
+    return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
+  };
+
+  // Board
+  const boardEl = $("#board");
+  const cells = [];
+  for (let i = 0; i < 81; i++) {
+    const r = Math.floor(i / 9), c = i % 9;
+    const el = document.createElement("button");
+    el.className = `cell r${r} c${c}`;
+    el.type = "button";
+    el.dataset.i = i;
+    el.setAttribute("role", "gridcell");
+    el.innerHTML = `<span class="v"></span><div class="notes" aria-hidden="true">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => "<span></span>").join("")}</div>`;
+    el.addEventListener("click", () => select(i));
+    boardEl.appendChild(el);
+    cells.push(el);
+  }
+
+  // Pad
+  const padEl = $("#pad");
+  const keys = [];
+  for (let d = 1; d <= 9; d++) {
+    const k = document.createElement("button");
+    k.className = "key";
+    k.type = "button";
+    k.innerHTML = `<b>${d}</b><small></small>`;
+    k.setAttribute("aria-label", `Enter ${d}`);
+    k.addEventListener("click", () => input(d));
+    padEl.appendChild(k);
+    keys.push(k);
+  }
+
+  function render() {
+    if (!S) return;
+    const { puzzle, solution, values, notes, hinted } = S;
+    const selVal = selected >= 0 ? values[selected] : 0;
+    const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
+    for (let i = 0; i < 81; i++) {
+      const el = cells[i], v = values[i];
+      const given = puzzle[i] !== 0;
+      el.classList.toggle("given", given);
+      el.classList.toggle("wrong", !given && v !== 0 && v !== solution[i]);
+      el.classList.toggle("hint", hinted.includes(i));
+      el.classList.toggle("sel", i === selected);
+      el.classList.toggle("peer", peers.has(i));
+      el.classList.toggle("same", i !== selected && selVal !== 0 && v === selVal);
+      el.firstChild.textContent = v || "";
+      const noteEls = el.lastChild.children;
+      for (let d = 1; d <= 9; d++) {
+        const on = !v && (notes[i] & (1 << (d - 1)));
+        noteEls[d - 1].textContent = on ? d : "";
+        noteEls[d - 1].classList.toggle("match", Boolean(on) && d === selVal);
+      }
+      const r = Math.floor(i / 9) + 1, c = (i % 9) + 1;
+      el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? v : "empty"}${given ? ", given" : ""}`);
+    }
+    const counts = Array(10).fill(0);
+    for (let i = 0; i < 81; i++) if (values[i] && values[i] === solution[i]) counts[values[i]]++;
+    keys.forEach((k, idx) => {
+      const left = 9 - counts[idx + 1];
+      k.lastChild.textContent = left;
+      k.classList.toggle("complete", left === 0);
+    });
+    $("#stat-level").textContent = levelName(S.level);
+    const mEl = $("#stat-mistakes");
+    mEl.textContent = S.mistakes;
+    mEl.classList.toggle("bad", S.mistakes > 0);
+    $("#hint-count").textContent = S.hints ? S.hints : "";
+    $("#undo").disabled = !S.history.length || S.done;
+    $("#app").classList.toggle("solved", S.done);
+    $("#footer-info").textContent = `${S.clues} clues · unique solution`;
+    padEl.classList.toggle("notes-on", notesMode);
+    renderTime();
+  }
+
+  function renderTime() {
+    if (S) $("#stat-time").textContent = fmt(S.elapsed);
+  }
+
+  function select(i) {
+    selected = i;
+    render();
+  }
+
+  const snapshot = () => ({ v: S.values.slice(), n: S.notes.slice() });
+  function pushHistory() {
+    S.history.push(snapshot());
+    if (S.history.length > 300) S.history.shift();
+  }
+
+  function clearPeerNotes(i, d) {
+    const b = ~(1 << (d - 1));
+    for (const p of Sudoku.PEERS[i]) S.notes[p] &= b;
+  }
+
+  function input(d) {
+    if (!S || S.done || selected < 0) return;
+    const i = selected;
+    if (S.puzzle[i]) return;
+    if (notesMode) {
+      if (S.values[i]) return;
+      pushHistory();
+      S.notes[i] ^= 1 << (d - 1);
+    } else {
+      if (S.values[i] === d) return;
+      pushHistory();
+      S.values[i] = d;
+      S.notes[i] = 0;
+      if (d === S.solution[i]) clearPeerNotes(i, d);
+      else S.mistakes++;
+    }
+    afterMove();
+  }
+
+  function erase() {
+    if (!S || S.done || selected < 0 || S.puzzle[selected]) return;
+    if (!S.values[selected] && !S.notes[selected]) return;
+    pushHistory();
+    S.values[selected] = 0;
+    S.notes[selected] = 0;
+    afterMove();
+  }
+
+  function undo() {
+    if (!S || S.done || !S.history.length) return;
+    const h = S.history.pop();
+    S.values = h.v;
+    S.notes = h.n;
+    afterMove();
+  }
+
+  function hint() {
+    if (!S || S.done) return;
+    let i = selected;
+    if (i < 0 || S.puzzle[i] || S.values[i] === S.solution[i]) {
+      const open = [];
+      for (let k = 0; k < 81; k++) if (S.values[k] !== S.solution[k]) open.push(k);
+      if (!open.length) return;
+      // Prefer the most constrained open cell so the hint is a useful foothold.
+      const score = (k) => Sudoku.PEERS[k].filter((p) => S.values[p] && S.values[p] === S.solution[p]).length;
+      const max = Math.max(...open.map(score));
+      const top = open.filter((k) => score(k) === max);
+      i = top[Math.floor(Math.random() * top.length)];
+    }
+    pushHistory();
+    S.values[i] = S.solution[i];
+    S.notes[i] = 0;
+    clearPeerNotes(i, S.solution[i]);
+    S.hints++;
+    if (!S.hinted.includes(i)) S.hinted.push(i);
+    selected = i;
+    cells[i].classList.remove("flash");
+    void cells[i].offsetWidth;
+    cells[i].classList.add("flash");
+    afterMove();
+  }
+
+  function afterMove() {
+    if (S.values.every((v, i) => v === S.solution[i])) win();
+    save();
+    render();
+  }
+
+  function win() {
+    S.done = true;
+    S.history = [];
+    const best = store.get(BEST_KEY, {});
+    const prev = best[S.level];
+    const record = !S.hints && (!prev || S.elapsed < prev);
+    if (record) { best[S.level] = Math.floor(S.elapsed); store.set(BEST_KEY, best); }
+    const bestNow = best[S.level];
+    $("#win-stats").innerHTML = [
+      ["Level", levelName(S.level)],
+      ["Time", fmt(S.elapsed)],
+      ["Errors", S.mistakes],
+      ["Hints", S.hints],
+      ["Best time", bestNow ? fmt(bestNow) : "—", record],
+      ["Clues", S.clues],
+    ]
+      .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? " ★" : ""}</dd></div>`)
+      .join("");
+    $("#win-title").textContent = record ? "New record" : "Puzzle solved";
+    selected = -1;
+    setTimeout(() => $("#win-sheet").showModal(), 500);
+  }
+
+  function newGame(level) {
+    $("#loading").hidden = false;
+    setTimeout(() => {
+      const g = Sudoku.generate(level);
+      S = {
+        level,
+        puzzle: g.puzzle,
+        solution: g.solution,
+        clues: g.clues,
+        values: g.puzzle.slice(),
+        notes: Array(81).fill(0),
+        hinted: [],
+        history: [],
+        mistakes: 0,
+        hints: 0,
+        elapsed: 0,
+        done: false,
+      };
+      store.set("sudoku.level", level);
+      selected = -1;
+      notesMode = false;
+      $("#notes").setAttribute("aria-pressed", "false");
+      save();
+      render();
+      $("#loading").hidden = true;
+    }, 60);
+  }
+
+  // Timer
+  let last = performance.now();
+  setInterval(() => {
+    const now = performance.now();
+    const dt = (now - last) / 1000;
+    last = now;
+    const paused = document.hidden || document.querySelector("dialog[open]") || !$("#loading").hidden;
+    if (!S || S.done || paused) return;
+    S.elapsed += Math.min(dt, 2);
+    renderTime();
+    if (Math.floor(S.elapsed) % 5 === 0) save();
+  }, 500);
+  document.addEventListener("visibilitychange", () => { last = performance.now(); if (document.hidden) save(); });
+
+  // Sheets
+  document.querySelectorAll("dialog").forEach((dlg) => {
+    dlg.addEventListener("click", (e) => {
+      if (e.target === dlg || e.target.closest("[data-close]")) dlg.close();
+    });
+  });
+
+  function renderLevels() {
+    const best = store.get(BEST_KEY, {});
+    $("#levels").innerHTML = LEVELS.map(
+      ([id, name, pips, desc]) => `<button type="button" class="level-option" role="radio" data-level="${id}" aria-checked="${id === pendingLevel}">
+        <span class="pips">${[1, 2, 3, 4].map((n) => `<i class="${n <= pips ? "on" : ""}"></i>`).join("")}</span>
+        <span><strong>${name}</strong><small>${desc}</small></span>
+        <span class="best">${best[id] ? "Best<br>" + fmt(best[id]) : ""}</span>
+      </button>`
+    ).join("");
+    $("#levels").querySelectorAll(".level-option").forEach((b) =>
+      b.addEventListener("click", () => { pendingLevel = b.dataset.level; renderLevels(); })
+    );
+  }
+  function openNew() {
+    pendingLevel = S ? S.level : store.get("sudoku.level", "medium");
+    renderLevels();
+    $("#new-sheet").showModal();
+  }
+  $("#open-new").addEventListener("click", openNew);
+  $("#start").addEventListener("click", () => { $("#new-sheet").close(); newGame(pendingLevel); });
+  $("#win-new").addEventListener("click", () => { $("#win-sheet").close(); openNew(); });
+
+  function setHue(id) {
+    document.documentElement.dataset.hue = id;
+    store.set("sudoku.hue", id);
+    try { localStorage.setItem("sudoku.hue", id); } catch {}
+    renderHues();
+  }
+  function renderHues() {
+    const cur = document.documentElement.dataset.hue || "ember";
+    $("#hues").innerHTML = COLORS.map(
+      ([id, name, hex]) => `<button type="button" class="hue" role="radio" data-color="${id}" aria-label="${name}" title="${name}" aria-checked="${id === cur}" style="--swatch:${hex}"></button>`
+    ).join("");
+    $("#hue-name").textContent = (COLORS.find((c) => c[0] === cur) || COLORS[0])[1];
+    $("#hues").querySelectorAll(".hue").forEach((b) => b.addEventListener("click", () => setHue(b.dataset.color)));
+  }
+  $("#open-hue").addEventListener("click", () => { renderHues(); $("#hue-sheet").showModal(); });
+
+  // Tools
+  $("#undo").addEventListener("click", undo);
+  $("#erase").addEventListener("click", erase);
+  $("#hint").addEventListener("click", hint);
+  const toggleNotes = () => {
+    notesMode = !notesMode;
+    $("#notes").setAttribute("aria-pressed", String(notesMode));
+    render();
+  };
+  $("#notes").addEventListener("click", toggleNotes);
+
+  document.addEventListener("keydown", (e) => {
+    if (document.querySelector("dialog[open]") || !S) return;
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (/^[1-9]$/.test(e.key)) { input(Number(e.key)); return; }
+    if (["Backspace", "Delete", "0"].includes(e.key)) { erase(); return; }
+    if (e.key.toLowerCase() === "n") { toggleNotes(); return; }
+    if (e.key.toLowerCase() === "h") { hint(); return; }
+    const moves = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 };
+    if (moves[e.key] !== undefined) {
+      e.preventDefault();
+      if (selected < 0) { select(40); return; }
+      const r = Math.floor(selected / 9), c = selected % 9;
+      const nr = (r + (e.key === "ArrowUp" ? -1 : e.key === "ArrowDown" ? 1 : 0) + 9) % 9;
+      const nc = (c + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0) + 9) % 9;
+      select(nr * 9 + nc);
+    }
+  });
+
+  // Boot
+  const saved = store.get(KEY, null);
+  if (saved && Array.isArray(saved.puzzle) && saved.puzzle.length === 81) {
+    S = { hinted: [], history: [], hints: 0, mistakes: 0, ...saved };
+    render();
+  } else {
+    newGame(store.get("sudoku.level", "easy"));
+  }
+})();
