@@ -204,6 +204,8 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   position: absolute; top: 4px; right: 6px;
   font-family: var(--mono); font-size: 10px; color: var(--accent);
 }
+#erase .ic-clear, #erase.clear-notes .ic-erase { display: none; }
+#erase.clear-notes .ic-clear { display: block; }
 .tool:disabled { opacity: 0.4; cursor: default; }
 
 .pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 5px; }
