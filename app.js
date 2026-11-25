@@ -484,3 +484,5 @@
     newGame(store.get("sudoku.level", "easy"));
   }
 })();
+
+if (!/\.devinapps\.com$|^localhost$|^127\./.test(location.hostname)) document.getElementById("request-link")?.remove();
