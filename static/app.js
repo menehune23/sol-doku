@@ -23,12 +23,14 @@
   let selected = -1;
   let notesMode = false;
   let pendingLevel = "medium";
+  const settings = { timer: true, errors: true };
 
   const store = {
     get: (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
     set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
   };
   const save = () => store.set(KEY, S);
+  Object.assign(settings, store.get("sudoku.settings", {}));
   const fmt = (sec) => {
     sec = Math.floor(sec);
     const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
@@ -75,7 +77,7 @@
       const el = cells[i], v = values[i];
       const given = puzzle[i] !== 0;
       el.classList.toggle("given", given);
-      el.classList.toggle("wrong", !given && v !== 0 && v !== solution[i]);
+      el.classList.toggle("wrong", settings.errors && !given && v !== 0 && v !== solution[i]);
       el.classList.toggle("hint", hinted.includes(i));
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
@@ -91,7 +93,7 @@
       el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? v : "empty"}${given ? ", given" : ""}`);
     }
     const counts = Array(10).fill(0);
-    for (let i = 0; i < 81; i++) if (values[i] && values[i] === solution[i]) counts[values[i]]++;
+    for (let i = 0; i < 81; i++) if (values[i] && (!settings.errors || values[i] === solution[i])) counts[values[i]]++;
     keys.forEach((k, idx) => {
       const left = 9 - counts[idx + 1];
       k.classList.toggle("complete", left === 0);
@@ -100,6 +102,8 @@
     const mEl = $("#stat-mistakes");
     mEl.textContent = S.mistakes;
     mEl.classList.toggle("bad", S.mistakes > 0);
+    $("#time-block").hidden = !settings.timer;
+    $("#err-block").hidden = !settings.errors;
     $("#hint-count").textContent = S.hints ? S.hints : "";
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
@@ -116,14 +120,6 @@
       k.setAttribute("aria-pressed", notesMode ? String(on) : "false");
       k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${idx + 1}` : `Enter ${idx + 1}`);
     });
-    let hintText = "";
-    if (notesMode) {
-      if (givenSel) hintText = "Given cell · notes locked";
-      else if (filledSel) hintText = "Erase the number to add notes";
-      else if (sel === null) hintText = "Select a cell to add notes";
-      else hintText = "Notes mode · tap a lit number to remove it";
-    }
-    $("#pad-hint").textContent = hintText;
     renderTime();
   }
 
@@ -160,8 +156,8 @@
       pushHistory();
       S.values[i] = d;
       S.notes[i] = 0;
-      if (d === S.solution[i]) clearPeerNotes(i, d);
-      else S.mistakes++;
+      if (d !== S.solution[i]) S.mistakes++;
+      if (d === S.solution[i] || !settings.errors) clearPeerNotes(i, d);
     }
     afterMove();
   }
@@ -225,15 +221,16 @@
     const bestNow = best[S.level];
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
-      ["Time", fmt(S.elapsed)],
-      ["Errors", S.mistakes],
+      settings.timer && ["Time", fmt(S.elapsed)],
+      settings.errors && ["Errors", S.mistakes],
       ["Hints", S.hints],
-      ["Best time", bestNow ? fmt(bestNow) : "—", record],
+      settings.timer && ["Best time", bestNow ? fmt(bestNow) : "—", record],
       ["Clues", S.clues],
     ]
+      .filter(Boolean)
       .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? " ★" : ""}</dd></div>`)
       .join("");
-    $("#win-title").textContent = record ? "New record" : "Puzzle solved";
+    $("#win-title").textContent = record && settings.timer ? "New record" : "Puzzle solved";
     selected = -1;
     setTimeout(() => $("#win-sheet").showModal(), 500);
   }
@@ -357,7 +354,19 @@
     $("#hue-name").textContent = (COLORS.find((c) => c[0] === cur) || COLORS[0])[1];
     $("#hues").querySelectorAll(".hue").forEach((b) => b.addEventListener("click", () => setHue(b.dataset.color)));
   }
-  $("#open-hue").addEventListener("click", () => { renderHues(); $("#hue-sheet").showModal(); });
+  $("#open-hue").addEventListener("click", () => {
+    renderHues();
+    $("#set-timer").checked = settings.timer;
+    $("#set-errors").checked = settings.errors;
+    $("#hue-sheet").showModal();
+  });
+  [["#set-timer", "timer"], ["#set-errors", "errors"]].forEach(([sel, key]) =>
+    $(sel).addEventListener("change", (e) => {
+      settings[key] = e.target.checked;
+      store.set("sudoku.settings", settings);
+      render();
+    })
+  );
 
   // Tools
   $("#undo").addEventListener("click", undo);
