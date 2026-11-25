@@ -67,6 +67,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   font-size: 11px;
 }
 .brand .kicker { color: var(--accent); }
+.brand .kicker b { font-weight: 400; color: var(--text); }
 .brand h1 { margin: 2px 0 0; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
 
@@ -99,6 +100,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .status > div[hidden] { display: none; }
 .status > div + div { border-left: 1px dashed var(--border); padding-left: 10px; }
 .label { color: var(--text-muted); font-size: 10px; }
+
 .readout { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
 #stat-level { color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
 #stat-mistakes.bad { color: var(--negative); }

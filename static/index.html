@@ -21,7 +21,7 @@
   <main class="app" id="app">
     <header class="topbar">
       <div class="brand">
-        <div class="kicker">// Logic core</div>
+        <div class="kicker" id="kicker" aria-live="polite">// Logic core</div>
         <h1>Stardoku</h1>
       </div>
       <div class="top-actions">
@@ -105,6 +105,7 @@
       <label class="toggle"><span><strong>Timer</strong><small>Show elapsed time</small></span><input type="checkbox" id="set-timer" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Errors</strong><small>Mark wrong numbers in red and count them</small></span><input type="checkbox" id="set-errors" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
+      <label class="toggle"><span><strong>Sol guide</strong><small>Show the selected letter's Solat and an example word</small></span><input type="checkbox" id="set-sol" role="switch"><i aria-hidden="true"></i></label>
     </div>
     <button class="btn" data-close>Done</button>
   </dialog>
