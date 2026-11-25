@@ -176,7 +176,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   font-weight: 600;
   font-size: 2.8cqi;
   line-height: 1;
-  color: var(--text);
+  color: color-mix(in srgb, var(--text) 50%, transparent);
 }
 .notes span { display: grid; place-items: center; }
 .notes span.match { color: var(--accent-fg); background: var(--accent); }
