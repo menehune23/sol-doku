@@ -295,6 +295,8 @@ dialog.sheet.closing::backdrop { opacity: 0; }
   background-image: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 6px);
   clip-path: polygon(var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)), calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer));
 }
+.btn.danger { background-color: var(--negative); color: #141414; }
+.sheet-note { margin: -4px 0 18px; color: var(--text-muted); font-size: 14px; line-height: 1.45; }
 .btn.ghost { background-color: rgba(255, 255, 255, 0.07); color: var(--text); margin-top: 8px; }
 .btn:active { filter: brightness(1.12); }
 
