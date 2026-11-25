@@ -170,12 +170,14 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  font-family: var(--mono);
-  font-size: 2.6cqi;
-  color: var(--text-muted);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 3.3cqi;
+  line-height: 1;
+  color: var(--text);
 }
 .notes span { display: grid; place-items: center; }
-.notes span.match { color: var(--accent); font-weight: 700; }
+.notes span.match { color: var(--accent-fg); background: var(--accent); }
 
 .tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .tool {
@@ -213,8 +215,18 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .key b { font-size: 26px; font-weight: 600; line-height: 1; }
 .key small { font-family: var(--mono); font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 .key:active { background-color: rgba(var(--accent-rgb), 0.3); }
-.notes-on .key b { color: var(--accent); font-size: 20px; }
 .key.complete { opacity: 0.32; }
+.notes-on .key {
+  background-color: transparent;
+  background-image: none;
+  border: 1px dashed rgba(var(--accent-rgb), 0.55);
+}
+.notes-on .key b { color: var(--accent); font-size: 21px; }
+.notes-on .key small { visibility: hidden; }
+.notes-on .key.noted { background-color: var(--accent); border-style: solid; border-color: var(--accent); opacity: 1; }
+.notes-on .key.noted b { color: var(--accent-fg); }
+.key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
+.pad-hint { min-height: 14px; margin-top: -4px; text-align: center; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
 
 .footer { display: flex; justify-content: space-between; gap: 12px; color: var(--text-muted); font-size: 10px; padding-top: 4px; }
 .footer a { color: inherit; }
@@ -234,7 +246,13 @@ dialog.sheet {
 dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.6); }
 dialog.sheet[open] { animation: rise 0.22s ease-out; }
 @keyframes rise { from { transform: translateY(24px); opacity: 0; } }
-.grabber { width: 40px; height: 3px; margin: 0 auto 14px; background: var(--border); }
+.grabber { position: relative; width: 36px; height: 5px; margin: 0 auto 14px; background: var(--border); cursor: grab; touch-action: none; }
+.grabber::before { content: ""; position: absolute; inset: -12px -60px; }
+.sheet h2, .sheet .kicker { touch-action: none; }
+dialog.sheet { transition: transform 0.22s ease-out; }
+dialog.sheet.closing { transform: translateY(100%); }
+dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
+dialog.sheet.closing::backdrop { opacity: 0; }
 .sheet .kicker { color: var(--accent); }
 .sheet h2 { margin: 2px 0 14px; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
 
