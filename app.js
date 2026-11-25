@@ -164,6 +164,10 @@
 
   function select(i) {
     selected = i;
+    if (S && !S.done && !S.puzzle[i] && !S.values[i]) {
+      notesMode = Boolean(S.notes[i]);
+      $("#notes").setAttribute("aria-pressed", String(notesMode));
+    }
     render();
   }
 
