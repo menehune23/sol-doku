@@ -173,9 +173,10 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .cell.given { color: var(--text); font-weight: 700; }
 .cell.peer { background: rgba(255, 255, 255, 0.045); }
 .cell.same { background: rgba(var(--accent-rgb), 0.2); }
-.cell.sel { background: rgba(var(--accent-rgb), 0.36); box-shadow: inset 0 0 0 2px var(--accent); }
+.cell.sel { background: rgba(var(--accent-rgb), 0.36); }
+.cell.sel::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; box-shadow: inset 0 0 0 2px var(--accent); }
 .cell.wrong { color: var(--negative); background: rgba(var(--negative-rgb), 0.14); }
-.cell.wrong.sel { box-shadow: inset 0 0 0 2px var(--negative); }
+.cell.wrong.sel::before { box-shadow: inset 0 0 0 2px var(--negative); }
 .cell.hint::after {
   content: "";
   position: absolute;
