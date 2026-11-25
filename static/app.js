@@ -143,7 +143,10 @@
     const givenSel = sel !== null && puzzle[sel] !== 0;
     const filledSel = sel !== null && values[sel] !== 0;
     const locked = S.done || givenSel || (notesMode && filledSel);
-    $("#erase").disabled = S.done || sel === null || givenSel || (!filledSel && !notes[sel]);
+    const clearNotes = sel !== null && !givenSel && !filledSel && Boolean(notes[sel]);
+    $("#erase").disabled = S.done || !(clearNotes || (filledSel && !givenSel));
+    $("#erase").classList.toggle("clear-notes", clearNotes && !S.done);
+    $("#erase span").textContent = clearNotes && !S.done ? "Clear notes" : "Erase";
     $("#notes").disabled = S.done || givenSel || filledSel;
     keys.forEach((k, idx) => {
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
@@ -198,8 +201,8 @@
     if (!S || S.done || selected < 0 || S.puzzle[selected]) return;
     if (!S.values[selected] && !S.notes[selected]) return;
     pushHistory();
-    S.values[selected] = 0;
-    S.notes[selected] = 0;
+    if (S.values[selected]) S.values[selected] = 0;
+    else S.notes[selected] = 0;
     afterMove();
   }
 
