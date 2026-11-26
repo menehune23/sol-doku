@@ -161,7 +161,7 @@
     $("#erase").disabled = S.done || !(clearNotes || (!notesMode && filledSel && !givenSel));
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Erase";
-    $("#notes").disabled = S.done || givenSel || filledSel;
+    $("#notes").disabled = S.done || sel === null || givenSel || filledSel;
     keys.forEach((k, idx) => {
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
