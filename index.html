@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261126225521";
+      const V = "20261126225816";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261126225521">
+  <link rel="stylesheet" href="style.css?v=20261126225816">
 </head>
 <body>
   <main class="app" id="app">
@@ -71,7 +71,7 @@
         <span>Undo</span>
       </button>
       <button class="tool" id="erase">
-        <svg class="ic-erase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M21 5H8.5L2.5 12l6 7H21z"/><path d="M11.5 9.5l5 5M16.5 9.5l-5 5"/></svg>
+        <svg class="ic-erase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="7.5"/><path d="M4 20L20 4"/></svg>
         <svg class="ic-clear" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="square"><g stroke="none"><rect x="4" y="4" width="3" height="3"/><rect x="10.5" y="4" width="3" height="3"/><rect x="17" y="4" width="3" height="3"/><rect x="4" y="10.5" width="3" height="3"/><rect x="17" y="10.5" width="3" height="3"/><rect x="4" y="17" width="3" height="3"/><rect x="10.5" y="17" width="3" height="3"/><rect x="17" y="17" width="3" height="3"/></g><path d="M3 21L21 3" fill="none"/></svg>
         <span>Delete</span>
       </button>
@@ -140,8 +140,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261126225521"></script>
-  <script src="sol.js?v=20261126225521"></script>
-  <script src="app.js?v=20261126225521"></script>
+  <script src="sudoku.js?v=20261126225816"></script>
+  <script src="sol.js?v=20261126225816"></script>
+  <script src="app.js?v=20261126225816"></script>
 </body>
 </html>
