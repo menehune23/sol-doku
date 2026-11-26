@@ -12,7 +12,7 @@
   --text: color-mix(in srgb, var(--accent) 30%, var(--base-text));
   --text-muted: color-mix(in srgb, var(--text) 72%, transparent);
   --border: rgba(var(--accent-rgb), 0.6);
-  --grid-line: color-mix(in srgb, var(--accent) 25%, #6C6C6C);
+  --grid-line: color-mix(in srgb, var(--accent) 20%, #646464);
   --grid-major: rgba(var(--accent-rgb), 0.6);
   --negative: #FF5C4D;
   --negative-rgb: 255, 92, 77;
@@ -113,7 +113,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   container-type: inline-size;
 }
 .board {
-  --box-line: var(--accent);
+  --box-line: color-mix(in srgb, var(--accent) 80%, var(--surface));
   position: relative;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
