@@ -195,18 +195,18 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .cell .v { display: block; width: 40%; aspect-ratio: 1; }
 .cell.given .sym path { stroke: currentColor; stroke-width: 24; stroke-linejoin: round; }
 .notes {
-  position: absolute; inset: 12%;
+  position: absolute; inset: 6%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   font-size: 3.8cqi;
   line-height: 1;
-  color: color-mix(in srgb, var(--text) 50%, transparent);
+  color: color-mix(in srgb, var(--text) 75%, transparent);
 }
 .notes span { display: grid; place-items: center; }
-.notes .sym { width: 58%; height: 58%; }
+.notes .sym { width: 72%; height: 72%; }
 .notes span:not(.on) .sym { visibility: hidden; }
-.notes span.match { color: var(--accent-fg); background: var(--accent); }
+.notes span.match { color: var(--accent); }
 
 .tools { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
 .tool[hidden] { display: none; }
