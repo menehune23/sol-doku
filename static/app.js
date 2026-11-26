@@ -166,7 +166,7 @@
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Erase";
     $("#notes").disabled = S.done || sel === null || givenSel || filledSel;
-    const keyHi = settings.sol && !notesMode && !S.done ? hiVal : 0;
+    const keyHi = !notesMode && !S.done ? hiVal : 0;
     keys.forEach((k, idx) => {
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
