@@ -38,7 +38,7 @@
   let selected = -1;
   let notesMode = false;
   let pendingLevel = "medium";
-  const settings = { timer: true, errors: true, hints: true, sol: true };
+  const settings = { timer: true, errors: true, hints: true, sol: true, autoNotes: true };
   const SOLAT = {
     h: "[h]ot", a: "[a]pple", e: "p[e]t", i: "s[i]t", ah: "h[o]t", u: "h[u]t", uu: "p[u]t",
     w: "[w]et", o: "n[o]", oo: "f[oo]d", y: "[y]es", ee: "m[ee]t", ey: "n[a]me", ahy: "l[i]ke", yoo: "h[u]ge",
@@ -191,6 +191,7 @@
   }
 
   function clearPeerNotes(i, d) {
+    if (!settings.autoNotes) return;
     const b = ~(1 << (d - 1));
     for (const p of Sudoku.PEERS[i]) S.notes[p] &= b;
   }
@@ -434,9 +435,10 @@
     $("#set-errors").checked = settings.errors;
     $("#set-hints").checked = settings.hints;
     $("#set-sol").checked = settings.sol;
+    $("#set-autonotes").checked = settings.autoNotes;
     $("#hue-sheet").showModal();
   });
-  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"], ["#set-sol", "sol"]].forEach(([sel, key]) =>
+  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"], ["#set-sol", "sol"], ["#set-autonotes", "autoNotes"]].forEach(([sel, key]) =>
     $(sel).addEventListener("change", (e) => {
       settings[key] = e.target.checked;
       store.set("sudoku.settings", settings);
