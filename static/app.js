@@ -56,7 +56,7 @@
   const save = () => store.set(KEY, S);
   Object.assign(settings, store.get("sudoku.settings", {}));
   const fmt = (sec) => {
-    sec = Math.floor(sec);
+    sec = Math.min(Math.floor(sec), 359999);
     const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
     const mm = String(m).padStart(2, "0"), ss = String(s).padStart(2, "0");
     return h ? `${String(h).padStart(2, "0")}:${mm}:${ss}` : `${mm}:${ss}`;
