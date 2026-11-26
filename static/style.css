@@ -275,6 +275,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
 .key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
+.key.locked.preview { opacity: 1; }
 
 
 .footer { display: flex; justify-content: space-between; gap: 12px; color: var(--text-muted); font-size: 10px; padding-top: 4px; }
