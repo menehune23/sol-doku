@@ -26,7 +26,7 @@
     ["signal", "Signal", "#E5533D"],
     ["ember", "Ember", "#DE8A33"],
     ["sand", "Sand", "#C9B58C"],
-    ["lime", "Lime", "#9BBC0F"],
+    ["lime", "Lime", "#A9BA35"],
     ["patina", "Patina", "#4FB89F"],
     ["ion", "Ion", "#5B9EE6"],
     ["nebula", "Nebula", "#A57BE8"],
@@ -38,6 +38,7 @@
   let S = null;
   let selected = -1;
   let notesMode = false;
+  let previewKey = 0;
   let pendingLevel = "medium";
   const settings = { timer: true, errors: true, hints: true, sol: true, autoNotes: true };
   const SOLAT = {
@@ -86,7 +87,7 @@
     k.type = "button";
     k.innerHTML = `<b>${symSVG(d)}</b>`;
     k.setAttribute("aria-label", `Enter ${SYM[d]}`);
-    k.addEventListener("click", () => input(d));
+    k.addEventListener("click", () => keyTap(d));
     padEl.appendChild(k);
     keys.push(k);
   }
@@ -143,7 +144,9 @@
     mEl.classList.toggle("bad", S.mistakes > 0);
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
-    const solKey = settings.sol && selVal ? S.sym[selVal] : null;
+    if (!settings.sol || notesMode || selected >= 0 || S.done) previewKey = 0;
+    const solVal = selVal || previewKey;
+    const solKey = settings.sol && solVal ? S.sym[solVal] : null;
     $("#sol-block").hidden = !settings.sol;
     $("#info-text").hidden = settings.sol;
     $("#stat-sol").textContent = solKey || "—";
@@ -167,7 +170,8 @@
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
       k.classList.toggle("locked", locked);
-      k.setAttribute("aria-pressed", notesMode ? String(on) : "false");
+      k.classList.toggle("preview", previewKey === idx + 1);
+      k.setAttribute("aria-pressed", notesMode ? String(on) : String(previewKey === idx + 1));
       k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${SYM[idx + 1]}` : `Enter ${SYM[idx + 1]}`);
     });
     renderTime();
@@ -177,8 +181,25 @@
     if (S) $("#stat-time").textContent = fmt(S.elapsed);
   }
 
+  function keyTap(d) {
+    if (S && !S.done && selected < 0 && settings.sol && !notesMode) {
+      previewKey = previewKey === d ? 0 : d;
+      render();
+    } else input(d);
+  }
+
+  function deselect() {
+    if (selected < 0 && !previewKey) return;
+    selected = -1;
+    previewKey = 0;
+    notesMode = false;
+    $("#notes").setAttribute("aria-pressed", "false");
+    render();
+  }
+
   function select(i) {
     selected = i;
+    previewKey = 0;
     if (S && !S.done && !S.puzzle[i] && !S.values[i]) {
       notesMode = Boolean(S.notes[i]);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
@@ -465,7 +486,8 @@
     if (document.querySelector("dialog[open]") || !S) return;
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); return; }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
-    if (/^[1-9]$/.test(e.key)) { input(Number(e.key)); return; }
+    if (/^[1-9]$/.test(e.key)) { keyTap(Number(e.key)); return; }
+    if (e.key === "Escape") { deselect(); return; }
     if (["Backspace", "Delete", "0"].includes(e.key)) { erase(); return; }
     if (e.key.toLowerCase() === "n") { toggleNotes(); return; }
     if (e.key.toLowerCase() === "h") { if (settings.hints) hint(); return; }
@@ -478,6 +500,12 @@
       const nc = (c + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0) + 9) % 9;
       select(nr * 9 + nc);
     }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (document.querySelector("dialog[open]")) return;
+    if (e.target.closest("button, a, input, label, dialog, #board, #pad")) return;
+    deselect();
   });
 
   // Boot

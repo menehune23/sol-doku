@@ -28,7 +28,7 @@
 [data-hue="patina"] { --accent: #4FB89F; --accent-rgb: 79, 184, 159; }
 [data-hue="signal"] { --accent: #E5533D; --accent-rgb: 229, 83, 61; --negative: #FFB13D; --negative-rgb: 255, 177, 61; }
 [data-hue="sand"] { --accent: #C9B58C; --accent-rgb: 201, 181, 140; }
-[data-hue="lime"] { --accent: #9BBC0F; --accent-rgb: 155, 188, 15; }
+[data-hue="lime"] { --accent: #A9BA35; --accent-rgb: 169, 186, 53; }
 [data-hue="ion"] { --accent: #5B9EE6; --accent-rgb: 91, 158, 230; }
 [data-hue="nebula"] { --accent: #A57BE8; --accent-rgb: 165, 123, 232; }
 [data-hue="flare"] { --accent: #E56BAA; --accent-rgb: 229, 107, 170; }
@@ -254,6 +254,8 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 }
 .notes-on .key.noted { background-color: var(--accent); border-style: solid; border-color: var(--accent); opacity: 1; }
 .notes-on .key.noted b { color: var(--accent-fg); }
+.key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
+.key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
 
 
