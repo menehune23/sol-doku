@@ -204,12 +204,13 @@
     const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
     if (empty && lastTap.i === i && now - lastTap.t < 350) {
       lastTap.i = -1;
+      if (selected !== i) select(i);
       notesMode = true;
       $("#notes").setAttribute("aria-pressed", String(notesMode));
       render();
       return;
     }
-    select(i);
+    if (selected === i) deselect(); else select(i);
     lastTap = { i, t: now };
   }
 
