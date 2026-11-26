@@ -104,7 +104,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   .status { padding: 6px 8px; }
   .status > div { gap: 5px; }
   .status > div + div { padding-left: 6px; margin-left: 6px; }
-  .status .readout { letter-spacing: 0; }
+  .status .readout { letter-spacing: 0; font-size: 14px; }
+  .status .label { letter-spacing: 0.12em; }
+  .status #stat-level { letter-spacing: 0.06em; }
 }
 .status > div + div { border-left: 1px dashed var(--border); padding-left: 10px; margin-left: 10px; }
 .label { color: var(--text-muted); font-size: 10px; }
