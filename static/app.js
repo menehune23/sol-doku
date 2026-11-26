@@ -109,6 +109,8 @@
     if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes, hinted } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
+    if (!settings.sol || notesMode || selected >= 0 || S.done) previewKey = 0;
+    const hiVal = selVal || previewKey;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
     for (let i = 0; i < 81; i++) {
       const el = cells[i], v = values[i];
@@ -118,7 +120,7 @@
       el.classList.toggle("hint", hinted.includes(i));
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
-      el.classList.toggle("same", i !== selected && selVal !== 0 && v === selVal);
+      el.classList.toggle("same", i !== selected && hiVal !== 0 && v === hiVal);
       if (el.firstChild.dataset.v !== String(v)) {
         el.firstChild.dataset.v = v;
         el.firstChild.innerHTML = v ? symSVG(v) : "";
@@ -127,7 +129,7 @@
       for (let d = 1; d <= 9; d++) {
         const on = !v && (notes[i] & (1 << (d - 1)));
         noteEls[d - 1].classList.toggle("on", Boolean(on));
-        noteEls[d - 1].classList.toggle("match", Boolean(on) && d === selVal);
+        noteEls[d - 1].classList.toggle("match", Boolean(on) && d === hiVal);
       }
       const r = Math.floor(i / 9) + 1, c = (i % 9) + 1;
       el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? SYM[v] : "empty"}${given ? ", given" : ""}`);
@@ -144,9 +146,7 @@
     mEl.classList.toggle("bad", S.mistakes > 0);
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
-    if (!settings.sol || notesMode || selected >= 0 || S.done) previewKey = 0;
-    const solVal = selVal || previewKey;
-    const solKey = settings.sol && solVal ? S.sym[solVal] : null;
+    const solKey = settings.sol && hiVal ? S.sym[hiVal] : null;
     $("#sol-block").hidden = !settings.sol;
     $("#info-text").hidden = settings.sol;
     $("#stat-sol").textContent = solKey || "—";
