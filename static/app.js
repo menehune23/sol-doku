@@ -308,7 +308,7 @@
 
   function fillResults() {
     const bestNow = store.get(BEST_KEY, {})[S.level];
-    const record = Boolean(S.record);
+    const record = S.record ?? (!S.hints && bestNow === Math.floor(S.elapsed));
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed), record],
