@@ -166,12 +166,13 @@
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Erase";
     $("#notes").disabled = S.done || sel === null || givenSel || filledSel;
+    const keyHi = settings.sol && !notesMode && !S.done ? hiVal : 0;
     keys.forEach((k, idx) => {
       const on = notesMode && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
       k.classList.toggle("locked", locked);
-      k.classList.toggle("preview", previewKey === idx + 1);
-      k.setAttribute("aria-pressed", notesMode ? String(on) : String(previewKey === idx + 1));
+      k.classList.toggle("preview", keyHi === idx + 1);
+      k.setAttribute("aria-pressed", notesMode ? String(on) : String(keyHi === idx + 1));
       k.setAttribute("aria-label", notesMode ? `${on ? "Remove" : "Add"} note ${SYM[idx + 1]}` : `Enter ${SYM[idx + 1]}`);
     });
     renderTime();
