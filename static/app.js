@@ -198,19 +198,19 @@
     render();
   }
 
-  let lastTap = { i: -1, t: 0, notes: false };
+  let lastTap = { i: -1, t: 0 };
   function tapCell(i) {
     const now = performance.now();
     const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
     if (empty && lastTap.i === i && now - lastTap.t < 350) {
       lastTap.i = -1;
-      notesMode = !lastTap.notes;
+      notesMode = true;
       $("#notes").setAttribute("aria-pressed", String(notesMode));
       render();
       return;
     }
     select(i);
-    lastTap = { i, t: now, notes: notesMode };
+    lastTap = { i, t: now };
   }
 
   function select(i) {
