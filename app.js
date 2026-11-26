@@ -354,6 +354,7 @@
     if (Math.floor(S.elapsed) % 5 === 0) save();
   }, 500);
   document.addEventListener("visibilitychange", () => { last = performance.now(); if (document.hidden) save(); });
+  window.addEventListener("pagehide", () => { if (S) save(); });
 
   // Sheets
   function closeSheet(dlg, after) {
