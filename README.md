@@ -2,7 +2,7 @@
 
 A sci-fi Sudoku played with [Sol](https://github.com/menehune23/sol) letters.
 
-**Play:** https://menehune23.github.io/stardoku/
+**Play:** https://menehune23.github.io/sol-doku/
 
 - Procedurally generated puzzles with a unique solution, in Easy, Medium, Hard and Expert.
 - Each puzzle uses 9 random Sol letters, shown in Sol order.
