@@ -248,11 +248,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .key:active { background-color: rgba(var(--accent-rgb), 0.3); }
 .key.complete { opacity: 0.32; }
 .notes-on .key {
-  background-color: transparent;
   background-image: none;
-  border: 1px dashed rgba(var(--accent-rgb), 0.55);
+  border: 1px dashed rgba(var(--accent-rgb), 0.7);
 }
-.notes-on .key b { color: var(--accent); }
 .notes-on .key.noted { background-color: var(--accent); border-style: solid; border-color: var(--accent); opacity: 1; }
 .notes-on .key.noted b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
