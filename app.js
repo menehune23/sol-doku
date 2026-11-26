@@ -73,7 +73,7 @@
     el.dataset.i = i;
     el.setAttribute("role", "gridcell");
     el.innerHTML = `<span class="v"></span><div class="notes" aria-hidden="true">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<span>${symSVG(d)}</span>`).join("")}</div>`;
-    el.addEventListener("click", () => select(i));
+    el.addEventListener("click", () => tapCell(i));
     boardEl.appendChild(el);
     cells.push(el);
   }
@@ -198,10 +198,26 @@
     render();
   }
 
+  let lastTap = { i: -1, t: 0, notes: false };
+  function tapCell(i) {
+    const now = performance.now();
+    const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
+    if (empty && lastTap.i === i && now - lastTap.t < 350) {
+      lastTap.i = -1;
+      notesMode = !lastTap.notes;
+      $("#notes").setAttribute("aria-pressed", String(notesMode));
+      render();
+      return;
+    }
+    select(i);
+    lastTap = { i, t: now, notes: notesMode };
+  }
+
   function select(i) {
+    const same = selected === i;
     selected = i;
     previewKey = 0;
-    if (S && !S.done && !S.puzzle[i] && !S.values[i]) {
+    if (!same && S && !S.done && !S.puzzle[i] && !S.values[i]) {
       notesMode = Boolean(S.notes[i]);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
     }
