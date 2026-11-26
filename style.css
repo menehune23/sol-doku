@@ -36,6 +36,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+html { touch-action: manipulation; }
 body {
   min-height: 100dvh;
   font-family: var(--font);
