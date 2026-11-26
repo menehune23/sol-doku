@@ -172,10 +172,10 @@ const Sudoku = (() => {
   }
 
   const LEVELS = {
-    easy: { minClues: 38, maxTier: 1, wantTier: 1 },
-    medium: { minClues: 30, maxTier: 1, wantTier: 1 },
-    hard: { minClues: 25, maxTier: 2, wantTier: 2 },
-    expert: { minClues: 17, maxTier: Infinity, wantTier: Infinity },
+    easy: { minClues: 45, maxTier: 1, wantTier: 1 },
+    medium: { minClues: 38, maxTier: 1, wantTier: 1 },
+    hard: { minClues: 30, maxTier: 1, wantTier: 1 },
+    expert: { minClues: 25, maxTier: 2, wantTier: 2 },
   };
 
   function dig(solution, cfg) {

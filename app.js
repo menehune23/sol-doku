@@ -17,10 +17,10 @@
   };
   const BEST_KEY = "sudoku.best";
   const LEVELS = [
-    ["easy", "Easy", 1, "Lots of clues · singles only"],
-    ["medium", "Medium", 2, "Fewer clues · hidden singles"],
-    ["hard", "Hard", 3, "Needs pairs & locked candidates"],
-    ["expert", "Expert", 4, "Sparse clues · deep deduction"],
+    ["easy", "Easy", 1, "Most cells filled · gentle start"],
+    ["medium", "Medium", 2, "Lots of clues · singles only"],
+    ["hard", "Hard", 3, "Fewer clues · hidden singles"],
+    ["expert", "Expert", 4, "Needs pairs & locked candidates"],
   ];
   const COLORS = [
     ["signal", "Signal", "#E5533D"],
