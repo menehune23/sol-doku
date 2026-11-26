@@ -26,6 +26,7 @@
     ["signal", "Signal", "#E5533D"],
     ["ember", "Ember", "#DE8A33"],
     ["sand", "Sand", "#C9B58C"],
+    ["lime", "Lime", "#9BBC0F"],
     ["patina", "Patina", "#4FB89F"],
     ["ion", "Ion", "#5B9EE6"],
     ["nebula", "Nebula", "#A57BE8"],
