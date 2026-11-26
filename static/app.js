@@ -190,8 +190,8 @@
 
   function deselect() {
     if (selected < 0 && !previewKey) return;
+    previewKey = selected >= 0 && S && settings.sol ? S.values[selected] : 0;
     selected = -1;
-    previewKey = 0;
     notesMode = false;
     $("#notes").setAttribute("aria-pressed", "false");
     render();
