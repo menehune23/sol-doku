@@ -1,4 +1,4 @@
-# Stardoku
+# Sol-doku
 
 A sci-fi Sudoku played with [Sol](https://github.com/menehune23/sol) letters.
 
