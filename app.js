@@ -24,14 +24,14 @@
   ];
   const COLORS = [
     ["signal", "Signal", "#E5533D"],
-    ["ember", "Ember", "#DE8A33"],
-    ["sand", "Sand", "#C9B58C"],
+    ["ember", "Oxide", "#DE8A33"],
+    ["sand", "Dune", "#C9B58C"],
     ["lime", "Phosphor", "#A9BA35"],
     ["patina", "Ion", "#4FB89F"],
     ["ion", "Cryo", "#5B9EE6"],
     ["nebula", "Nebula", "#A57BE8"],
     ["flare", "Flare", "#E56BAA"],
-    ["steel", "Steel", "#A1A1A1"],
+    ["steel", "Lunar", "#A1A1A1"],
   ];
   const levelName = (id) => (LEVELS.find((l) => l[0] === id) || LEVELS[1])[1];
 
