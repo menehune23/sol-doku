@@ -241,6 +241,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 #erase .ic-clear, #erase.clear-notes .ic-erase { display: none; }
 #erase.clear-notes .ic-clear { display: block; }
 .tool:disabled { opacity: 0.4; cursor: default; }
+#solved-btn, .solved .tools > .tool:not(#solved-btn) { display: none; }
+.solved #solved-btn { display: flex; flex-direction: row; justify-content: center; gap: 10px; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
+.solved #solved-btn span { color: var(--accent); font-size: 11px; }
 
 .pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 5px; }
 .key {

@@ -289,14 +289,9 @@
     render();
   }
 
-  function win() {
-    S.done = true;
-    S.history = [];
-    const best = store.get(BEST_KEY, {});
-    const prev = best[S.level];
-    const record = !S.hints && (!prev || S.elapsed < prev);
-    if (record) { best[S.level] = Math.floor(S.elapsed); store.set(BEST_KEY, best); }
-    const bestNow = best[S.level];
+  function fillResults() {
+    const bestNow = store.get(BEST_KEY, {})[S.level];
+    const record = Boolean(S.record);
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed)],
@@ -309,6 +304,17 @@
       .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? " ★" : ""}</dd></div>`)
       .join("");
     $("#win-title").textContent = record && settings.timer ? "New record" : "Puzzle solved";
+  }
+
+  function win() {
+    S.done = true;
+    S.history = [];
+    const best = store.get(BEST_KEY, {});
+    const prev = best[S.level];
+    const record = !S.hints && (!prev || S.elapsed < prev);
+    if (record) { best[S.level] = Math.floor(S.elapsed); store.set(BEST_KEY, best); }
+    S.record = record;
+    fillResults();
     selected = -1;
     setTimeout(() => $("#win-sheet").showModal(), 500);
   }
@@ -418,6 +424,7 @@
   }
   $("#open-new").addEventListener("click", openNew);
   $("#start").addEventListener("click", () => closeSheet($("#new-sheet"), () => newGame(pendingLevel)));
+  $("#solved-btn").addEventListener("click", () => { fillResults(); $("#win-sheet").showModal(); });
   $("#win-new").addEventListener("click", () => closeSheet($("#win-sheet"), openNew));
 
   function resetGame() {
