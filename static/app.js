@@ -164,7 +164,7 @@
     const showClear = notesMode || (clearNotes && !S.done);
     $("#erase").disabled = S.done || !(clearNotes || (!notesMode && filledSel && !givenSel));
     $("#erase").classList.toggle("clear-notes", showClear);
-    $("#erase span").textContent = showClear ? "Clear notes" : "Erase";
+    $("#erase span").textContent = showClear ? "Clear notes" : "Delete";
     $("#notes").disabled = S.done || sel === null || givenSel || filledSel;
     const keyHi = !notesMode && !S.done ? hiVal : 0;
     keys.forEach((k, idx) => {
