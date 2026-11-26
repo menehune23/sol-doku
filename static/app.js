@@ -488,3 +488,10 @@
 })();
 
 if (!/\.devinapps\.com$|^localhost$|^127\./.test(location.hostname)) document.getElementById("request-link")?.remove();
+
+document.addEventListener("touchmove", (e) => {
+  const dlg = document.querySelector("dialog[open]");
+  if (!dlg) return;
+  if (dlg.contains(e.target) && dlg.scrollHeight > dlg.clientHeight) return;
+  e.preventDefault();
+}, { passive: false });
