@@ -294,14 +294,14 @@
     const record = Boolean(S.record);
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
-      settings.timer && ["Time", fmt(S.elapsed)],
+      settings.timer && ["Time", fmt(S.elapsed), false, record],
       settings.errors && ["Errors", S.mistakes],
       (settings.hints || S.hints > 0) && ["Hints", S.hints],
       settings.timer && ["Best time", bestNow ? fmt(bestNow) : "—", record],
       ["Clues", S.clues],
     ]
       .filter(Boolean)
-      .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? " ★" : ""}</dd></div>`)
+      .map(([k, v, hl, badge]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? " ★" : ""}</dd>${badge ? '<i class="stat-badge">Record</i>' : ""}</div>`)
       .join("");
     $("#win-title").textContent = record && settings.timer ? "New record" : "Puzzle solved";
   }
