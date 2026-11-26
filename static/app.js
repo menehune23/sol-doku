@@ -183,7 +183,7 @@
 
   function keyTap(d) {
     if (S && !S.done && selected < 0 && settings.sol && !notesMode) {
-      previewKey = previewKey === d ? 0 : d;
+      previewKey = d;
       render();
     } else input(d);
   }
