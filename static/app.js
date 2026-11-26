@@ -313,7 +313,7 @@
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed), record],
       settings.errors && ["Errors", S.mistakes],
-      (settings.hints || S.hints > 0) && ["Hints", S.hints],
+      (settings.hints || S.hints > 0) && ["Hints used", S.hints],
       settings.timer && ["Best time", bestNow ? fmt(bestNow) : "—"],
       ["Clues used", S.clues],
     ]
