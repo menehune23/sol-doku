@@ -333,7 +333,7 @@
     $("#win-note").hidden = !S.hints;
     const streak = flawless && S.streak;
     $("#win-streak").hidden = !streak;
-    if (streak) $("#win-streak").innerHTML = `${starSVG()}Flawless streak on <span class="lvl">${levelName(S.level)}</span>: <b>${streak}</b>`;
+    if (streak) $("#win-streak").innerHTML = `Flawless streak on <span class="lvl">${levelName(S.level)}</span>: <b>${streak}</b>`;
     $("#win-title").textContent = record && flawless ? "New record • Flawless" : record ? "New record" : flawless ? "Flawless" : "Grid solved";
   }
 
