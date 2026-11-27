@@ -122,7 +122,7 @@
       const el = cells[i], v = values[i];
       const given = puzzle[i] !== 0;
       el.classList.toggle("given", given);
-      el.classList.toggle("wrong", settings.errors && !given && v !== 0 && v !== solution[i]);
+      el.classList.toggle("wrong", settings.errors && !given && v !== 0 && v !== solution[i] && i !== S.pending);
       el.classList.toggle("hint", hinted.includes(i));
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
@@ -141,7 +141,7 @@
       el.setAttribute("aria-label", `Row ${r}, column ${c}, ${v ? SYM[v] : "empty"}${given ? ", given" : ""}`);
     }
     const counts = Array(10).fill(0);
-    for (let i = 0; i < 81; i++) if (values[i] && (!settings.errors || values[i] === solution[i])) counts[values[i]]++;
+    for (let i = 0; i < 81; i++) if (values[i] && i !== S.pending && (!settings.errors || values[i] === solution[i])) counts[values[i]]++;
     keys.forEach((k, idx) => {
       const left = 9 - counts[idx + 1];
       k.classList.toggle("complete", left === 0);
@@ -195,7 +195,18 @@
     } else input(d);
   }
 
+  // A placed letter stays pending, free to change, until its cell loses selection.
+  function commit() {
+    const i = S ? S.pending : -1;
+    if (i == null || i < 0) return;
+    S.pending = -1;
+    const d = S.values[i];
+    if (d && d !== S.solution[i]) { S.mistakes++; breakStreak(); }
+    afterMove();
+  }
+
   function deselect() {
+    commit();
     if (selected < 0 && !previewKey) return;
     previewKey = selected >= 0 && S && settings.sol ? S.values[selected] : 0;
     selected = -1;
@@ -222,6 +233,7 @@
 
   function select(i) {
     const same = selected === i;
+    if (!same) commit();
     selected = i;
     previewKey = 0;
     if (!same && S && !S.done && !S.puzzle[i] && !S.values[i]) {
@@ -253,11 +265,13 @@
       S.notes[i] ^= 1 << (d - 1);
     } else {
       if (S.values[i] === d) return;
-      pushHistory();
+      if (S.pending === i) S.notes = S.history[S.history.length - 1].n.slice();
+      else pushHistory();
       S.values[i] = d;
       S.notes[i] = 0;
-      if (d !== S.solution[i]) { S.mistakes++; breakStreak(); }
-      if (d === S.solution[i] || !settings.errors) clearPeerNotes(i, d);
+      clearPeerNotes(i, d);
+      S.pending = i;
+      if (S.values.every((v, k) => v === S.solution[k])) { commit(); return; }
     }
     afterMove();
   }
@@ -266,6 +280,7 @@
     if (!S || S.done || selected < 0 || S.puzzle[selected]) return;
     if (!S.values[selected] && !S.notes[selected]) return;
     if (notesMode && S.values[selected]) return;
+    if (S.pending === selected) { undo(); return; }
     pushHistory();
     if (S.values[selected]) S.values[selected] = 0;
     else S.notes[selected] = 0;
@@ -275,6 +290,7 @@
   function undo() {
     if (!S || S.done || !S.history.length) return;
     const h = S.history.pop();
+    S.pending = -1;
     S.values = h.v;
     S.notes = h.n;
     afterMove();
@@ -282,6 +298,8 @@
 
   function hint() {
     if (!S || S.done) return;
+    commit();
+    if (S.done) return;
     let i = selected;
     if (i < 0 || S.puzzle[i] || S.values[i] === S.solution[i]) {
       const open = [];
@@ -576,6 +594,7 @@
       S.prevBest = !S.hints && S.record !== false && best === Math.floor(S.elapsed) ? null : best ?? null;
     }
     delete S.record;
+    commit();
     render();
   } else {
     newGame(store.get("sudoku.level", DEFAULT_LEVEL));
