@@ -334,7 +334,7 @@
     const streak = flawless && S.streak;
     $("#win-streak").hidden = !streak;
     if (streak) $("#win-streak").innerHTML = `${starSVG()}Flawless streak on ${levelName(S.level)}: <b>${streak}</b> in a row`;
-    $("#win-title").textContent = record && flawless ? "Flawless record" : record ? "New record" : flawless ? "Flawless" : "Grid solved";
+    $("#win-title").textContent = record && flawless ? "New record • Flawless" : record ? "New record" : flawless ? "Flawless" : "Grid solved";
   }
 
   function win() {
@@ -417,10 +417,27 @@
       if (e.target === dlg || e.target.closest("[data-close]")) closeSheet(dlg);
     });
     dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeSheet(dlg); });
-    const fit = () => dlg.classList.toggle("scrolls", dlg.scrollHeight > dlg.clientHeight + 1);
+    const bar = document.createElement("div");
+    bar.className = "sheet-bar";
+    bar.setAttribute("aria-hidden", "true");
+    bar.innerHTML = "<i></i>";
+    const fit = () => {
+      const max = dlg.scrollHeight - dlg.clientHeight;
+      dlg.classList.toggle("scrolls", max > 1);
+      if (max <= 1) return;
+      const top = dlg.querySelector(".sheet-head").offsetHeight + 16;
+      const h = dlg.clientHeight - top - dlg.querySelector(".sheet-actions").offsetHeight - 4;
+      const th = Math.max(24, (h * dlg.clientHeight) / dlg.scrollHeight);
+      bar.style.top = `${dlg.scrollTop + top}px`;
+      bar.style.height = `${h}px`;
+      bar.firstChild.style.height = `${th}px`;
+      bar.firstChild.style.transform = `translateY(${((h - th) * dlg.scrollTop) / max}px)`;
+    };
     const ro = new ResizeObserver(fit);
     ro.observe(dlg);
     [...dlg.children].forEach((c) => ro.observe(c));
+    dlg.append(bar);
+    dlg.addEventListener("scroll", fit, { passive: true });
     let drag = null;
     dlg.addEventListener("pointerdown", (e) => {
       if (e.button > 0 || !e.target.closest(".sheet-head")) return;
