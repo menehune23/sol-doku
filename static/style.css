@@ -354,7 +354,7 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .levels { display: grid; gap: 8px; margin-bottom: 16px; }
 .level-option {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
@@ -369,7 +369,8 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .level-option strong { display: block; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; }
 .level-option small { display: block; color: var(--text-muted); letter-spacing: 0.08em; font-size: 10px; margin-top: 2px; }
 .level-option .best { min-width: 6ch; font-family: var(--mono); font-size: 12px; color: var(--text-muted); text-align: right; }
-.level-option .best { align-self: end; }
+.level-option .best { grid-column: 2; display: grid; grid-template-columns: auto auto; justify-content: start; gap: 4px 12px; margin: -4px 0 0; text-align: left; }
+.level-option .best dd { margin: 0; color: var(--text); }
 .level-option[aria-checked="true"] { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
 
 .btn {
