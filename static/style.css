@@ -345,7 +345,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .notes-on .key {
   background-color: rgba(var(--accent-rgb), 0.1);
   background-image: none;
-  border: 1px dashed rgba(var(--accent-rgb), 0.7);
+  border: 1px solid rgba(var(--accent-rgb), 0.7);
 }
 /* Read-only marker: the selected cell already holds this note. */
 .key.noted::before {
