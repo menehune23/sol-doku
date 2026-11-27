@@ -147,9 +147,12 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 }
 .board-wrap {
   position: relative;
+  display: grid;
   width: min(100cqw, 100cqh);
   container-type: inline-size;
 }
+/* The board and its solved peak copy share one grid slot, so both get identical sizing. */
+.board-wrap > .board { grid-area: 1 / 1; }
 .board {
   --box-line: color-mix(in srgb, var(--accent) 80%, var(--surface));
   --letter: color-mix(in srgb, var(--accent) 80%, white);
@@ -285,7 +288,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .solved #solved-btn svg, .solved #solved-btn span { color: color-mix(in srgb, var(--neutral) 85%, var(--surface)); }
 .solved #solved-btn span { font-size: 0.6875rem; }
 @keyframes peak { 50% { opacity: 1; } }
-.board.peak { position: absolute; inset: 0; --pulse: 1; pointer-events: none; opacity: 0; animation: peak 2.4s ease-in-out infinite; }
+.board.peak { --pulse: 1; pointer-events: none; opacity: 0; animation: peak 2.4s ease-in-out infinite; }
 .solved .board { --box-line: color-mix(in srgb, var(--accent) calc(80% + 20% * var(--pulse)), var(--surface)); }
 .solved .cell.given { color: color-mix(in srgb, var(--letter) calc(100% * var(--pulse)), color-mix(in srgb, var(--text) 75%, var(--surface))); }
 .solved .board {
