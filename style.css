@@ -458,4 +458,4 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 
 html:has(dialog[open]),
 html:has(dialog[open]) body { overflow: hidden; overscroll-behavior: none; }
-dialog.sheet { max-height: 100dvh; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+dialog.sheet { max-height: calc(100dvh * 2 / 3); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
