@@ -251,7 +251,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .notes span.match { color: var(--accent); }
 .notes span:not(.match) { opacity: 0.55; }
 
-.tools { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.5rem; }
+.tools { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 0.5rem; }
 .tool[hidden] { display: none; }
 .tool {
   position: relative;
@@ -275,8 +275,9 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 #erase .ic-clear, #erase.clear-notes .ic-erase { display: none; }
 #erase.clear-notes .ic-clear { display: block; }
 .tool:disabled { opacity: 0.4; cursor: default; }
-#solved-btn, .solved .tools > .tool:not(#solved-btn) { display: none; }
-.solved #solved-btn { display: flex; flex-direction: row; justify-content: center; gap: 0.625rem; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
+#solved-btn { display: none; }
+.solved .tools > .tool:not(#solved-btn) { visibility: hidden; }
+.solved #solved-btn { position: absolute; inset: 0; display: flex; flex-direction: row; justify-content: center; gap: 0.625rem; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
 .solved #solved-btn { animation: border-pulse 2.4s ease-in-out infinite; }
 .solved #solved-btn svg, .solved #solved-btn span { color: color-mix(in srgb, var(--neutral) 85%, var(--surface)); }
 .solved #solved-btn span { font-size: 0.6875rem; }
