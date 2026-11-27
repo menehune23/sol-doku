@@ -175,7 +175,7 @@
     $("#erase").disabled = S.done || !(clearNotes || (!notesMode && filledSel && !givenSel));
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Delete";
-    $("#notes").disabled = S.done;
+    $("#notes").disabled = S.done || (!previewKey && (sel === null || givenSel || filledSel));
     const keyHi = !S.done && (!notesMode || previewKey) ? hiVal : 0;
     keys.forEach((k, idx) => {
       const on = notesMode && !previewKey && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
@@ -198,7 +198,7 @@
       render();
       return;
     }
-    if (S && !S.done && selected < 0 && settings.sol) {
+    if (S && !S.done && selected < 0 && settings.sol && !notesMode) {
       previewKey = d;
       render();
     } else {
@@ -222,6 +222,8 @@
     if (selected < 0 && !previewKey) return;
     previewKey = selected >= 0 && S && settings.sol ? S.values[selected] || previewKey : 0;
     selected = -1;
+    notesMode = false;
+    $("#notes").setAttribute("aria-pressed", "false");
     render();
   }
 
@@ -237,13 +239,14 @@
       render();
       return;
     }
-    // In notes mode a selected key stays selected: empty-cell taps toggle its note, filled-cell taps switch keys.
-    if (notesMode && S && !S.done && (previewKey || (!empty && settings.sol))) {
+    // With a key selected in notes mode, each empty-cell tap toggles that key's note.
+    if (notesMode && previewKey && S && !S.done) {
       lastTap = { i: -1, t: 0 };
       if (empty) {
-        commit();
-        selected = -1;
-        toggleNote(i, previewKey);
+        select(i);
+        notesMode = true;
+        $("#notes").setAttribute("aria-pressed", "true");
+        input(previewKey);
       } else {
         commit();
         previewKey = S.values[i] || S.puzzle[i];
@@ -269,6 +272,10 @@
     const same = selected === i;
     if (!same) commit();
     selected = i;
+    if (!same && S && !S.done && !S.puzzle[i] && !S.values[i]) {
+      notesMode = Boolean(S.notes[i]);
+      $("#notes").setAttribute("aria-pressed", String(notesMode));
+    }
     render();
   }
 
@@ -284,19 +291,14 @@
     for (const p of Sudoku.PEERS[i]) S.notes[p] &= b;
   }
 
-  function toggleNote(i, d) {
-    pushHistory();
-    S.notes[i] ^= 1 << (d - 1);
-    afterMove();
-  }
-
   function input(d) {
     if (!S || S.done || selected < 0) return;
     const i = selected;
     if (S.puzzle[i]) return;
     if (notesMode) {
-      if (!S.values[i]) toggleNote(i, d);
-      return;
+      if (S.values[i]) return;
+      pushHistory();
+      S.notes[i] ^= 1 << (d - 1);
     } else {
       if (S.values[i] === d) return;
       if (S.pending === i) S.notes = S.history[S.history.length - 1].n.slice();
@@ -685,10 +687,8 @@
   $("#hint").addEventListener("click", hint);
   const toggleNotes = () => {
     if ($("#notes").disabled) return;
-    const filled = selected >= 0 && S.values[selected];
-    if (previewKey || (!notesMode && filled)) {
+    if (previewKey) {
       commit();
-      if (filled && settings.sol) previewKey = filled;
       selected = -1;
     }
     notesMode = !notesMode;
