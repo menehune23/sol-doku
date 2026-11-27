@@ -334,12 +334,15 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
 }
 .sheet.scrolls .sheet-head { border-bottom: 1px solid var(--grid-line); margin-bottom: 12px; }
 .sheet.scrolls .sheet-actions { border-top: 1px solid var(--grid-line); padding-top: 12px; }
+.sheet-bar { display: none; position: absolute; right: 6px; width: 3px; z-index: 3; background: var(--grid-line); pointer-events: none; }
+.sheet.scrolls .sheet-bar { display: block; }
+.sheet-bar i { display: block; width: 100%; background: var(--accent); }
 dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
 dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
 dialog.sheet.closing::backdrop { opacity: 0; }
 .sheet .kicker { color: var(--accent); }
-.sheet h2 { margin: 2px 0 14px; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
+.sheet h2 { margin: 2px 0 14px; font-size: min(20px, 5.9vw); letter-spacing: 0.1em; text-transform: uppercase; }
 
 .levels { display: grid; gap: 8px; margin-bottom: 16px; }
 .level-option {
