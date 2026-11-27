@@ -175,7 +175,7 @@
     $("#erase").disabled = S.done || !(clearNotes || (!notesMode && filledSel && !givenSel));
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Delete";
-    $("#notes").disabled = S.done || (!previewKey && (sel === null || givenSel || filledSel));
+    $("#notes").disabled = S.done || (!previewKey && (givenSel || filledSel));
     const keyHi = !S.done && (!notesMode || previewKey) ? hiVal : 0;
     keys.forEach((k, idx) => {
       const on = notesMode && !previewKey && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
@@ -198,7 +198,7 @@
       render();
       return;
     }
-    if (S && !S.done && selected < 0 && settings.sol && !notesMode) {
+    if (S && !S.done && selected < 0 && settings.sol) {
       previewKey = d;
       render();
     } else {
@@ -270,10 +270,11 @@
 
   function select(i) {
     const same = selected === i;
+    const fresh = selected < 0;
     if (!same) commit();
     selected = i;
     if (!same && S && !S.done && !S.puzzle[i] && !S.values[i]) {
-      notesMode = Boolean(S.notes[i]);
+      notesMode = Boolean(S.notes[i]) || (fresh && notesMode);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
     }
     render();
