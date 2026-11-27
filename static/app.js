@@ -44,7 +44,8 @@
   let selected = -1;
   let notesMode = false;
   let previewKey = 0;
-  let pendingLevel = "medium";
+  const DEFAULT_LEVEL = "easy";
+  let pendingLevel = DEFAULT_LEVEL;
   const settings = { timer: true, errors: true, hints: true, sol: true, autoNotes: true };
   const SOLAT = {
     h: "[h]ot", a: "[a]pple", e: "p[e]t", i: "s[i]t", ah: "h[o]t", u: "h[u]t", uu: "p[u]t",
@@ -467,7 +468,7 @@
     );
   }
   function openNew() {
-    pendingLevel = S ? S.level : store.get("sudoku.level", "medium");
+    pendingLevel = S ? S.level : store.get("sudoku.level", DEFAULT_LEVEL);
     renderLevels();
     $("#new-sheet").showModal();
   }
@@ -577,7 +578,7 @@
     delete S.record;
     render();
   } else {
-    newGame(store.get("sudoku.level", "easy"));
+    newGame(store.get("sudoku.level", DEFAULT_LEVEL));
   }
 })();
 
