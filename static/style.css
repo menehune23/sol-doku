@@ -347,15 +347,19 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   background-image: none;
   border: 1px solid rgba(var(--accent-rgb), 0.7);
 }
-/* Read-only marker: the selected cell already holds this note. */
-.key.noted::before {
+/* Status light: shows and toggles whether the selected cell holds this key's note. Its tap zone is the key's top-right quarter. */
+.key .light { display: none; position: absolute; top: 0; right: 0; width: 50%; height: 50%; }
+.pad.lights .key .light { display: block; }
+.pad.lights .key.complete::after { display: none; }
+.key .light::before {
   content: "";
-  position: absolute; top: 0; right: 0;
+  position: absolute; top: 0.3125rem; right: 0.3125rem;
   width: 0.375rem; height: 0.375rem;
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-  background: var(--text);
+  background: color-mix(in srgb, var(--text) 22%, transparent);
 }
-.key.preview.noted::before { background: var(--accent-fg); }
+.key.noted .light::before { background: var(--text); box-shadow: 0 0 0.25rem var(--text), 0 0 0.5rem rgba(var(--accent-rgb), 0.6); }
+.key.preview .light::before { background: color-mix(in srgb, var(--accent-fg) 25%, transparent); }
+.key.preview.noted .light::before { background: var(--accent-fg); box-shadow: none; }
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
 .key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }

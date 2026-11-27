@@ -91,9 +91,9 @@
     const k = document.createElement("button");
     k.className = "key";
     k.type = "button";
-    k.innerHTML = `<b>${symSVG(d)}</b>`;
+    k.innerHTML = `<b>${symSVG(d)}</b><i class="light" aria-hidden="true"></i>`;
     k.setAttribute("aria-label", `Enter ${SYM[d]}`);
-    k.addEventListener("click", () => keyTap(d));
+    k.addEventListener("click", (e) => (padEl.classList.contains("lights") && e.target.closest(".light") ? lightTap(d) : keyTap(d)));
     padEl.appendChild(k);
     keys.push(k);
   }
@@ -169,6 +169,7 @@
     }
     $("#hint").hidden = !settings.hints;
     padEl.classList.toggle("notes-on", notesMode);
+    padEl.classList.toggle("lights", notesMode && !S.done && selected >= 0 && !puzzle[selected] && !values[selected]);
     const sel = selected >= 0 ? selected : null;
     const givenSel = sel !== null && puzzle[sel] !== 0;
     const filledSel = sel !== null && values[sel] !== 0;
@@ -193,6 +194,12 @@
 
   function renderTime() {
     if (S) $("#stat-time").textContent = fmt(S.elapsed);
+  }
+
+  // A key's status light toggles its note in the selected cell without changing the brush.
+  function lightTap(d) {
+    if (!S || S.done || !notesMode || selected < 0) return;
+    input(d);
   }
 
   function keyTap(d) {
