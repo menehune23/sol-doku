@@ -220,19 +220,15 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .cell.given { color: color-mix(in srgb, var(--text) var(--given-dim, 75%), var(--surface)); }
 [data-hue="sand"], [data-hue="steel"] { --given-dim: 62%; }
 .cell.given.sel, .cell.given.same { color: color-mix(in srgb, var(--text) 80%, var(--surface)); }
-/* Cell outlines cover the cell's surrounding grid, box, and border lines exactly, each side as thick as its line. */
-.cell { --lt: 1px; --lr: 1px; --lb: 1px; --ll: 1px; }
-.cell.c0 { --ll: 0.125rem; }
-.cell.r0 { --lt: 0.125rem; }
-.cell.c2, .cell.c5, .cell.c8 { --lr: 0.125rem; }
-.cell.r2, .cell.r5, .cell.r8 { --lb: 0.125rem; }
-/* Inner box lines straddle the thin line, so the cell after one reaches 1px back and keeps the full width. */
-.cell.c3, .cell.c6 { --ll: 0.125rem; --ol: 1px; }
-.cell.r3, .cell.r6 { --lt: 0.125rem; --ot: 1px; }
+/* Cell outlines sit 1px thick on the outer edge of the cell's surrounding grid, box, and border lines. */
+.cell { --ot: 1px; --or: 1px; --ob: 1px; --ol: 1px; }
+.cell.c0 { --ol: 0.125rem; }
+.cell.r0 { --ot: 0.125rem; }
+.cell.c2, .cell.c5, .cell.c8 { --or: 0.125rem; }
+.cell.r2, .cell.r5, .cell.r8 { --ob: 0.125rem; }
 .cell::before {
-  top: calc(-1 * var(--ot, var(--lt))); right: calc(-1 * var(--lr)); bottom: calc(-1 * var(--lb)); left: calc(-1 * var(--ol, var(--ll)));
-  border: solid var(--line-c, transparent);
-  border-width: var(--lt) var(--lr) var(--lb) var(--ll);
+  top: calc(-1 * var(--ot)); right: calc(-1 * var(--or)); bottom: calc(-1 * var(--ob)); left: calc(-1 * var(--ol));
+  border: 1px solid var(--line-c, transparent);
 }
 .cell.peer { background: rgba(255, 255, 255, 0.0525); }
 .cell.same, .cell.sel { background: rgba(var(--accent-rgb), 0.18); }
