@@ -417,16 +417,20 @@
       if (e.target === dlg || e.target.closest("[data-close]")) closeSheet(dlg);
     });
     dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeSheet(dlg); });
+    const body = document.createElement("div");
+    body.className = "sheet-body";
+    dlg.querySelector(".sheet-head").after(body);
+    while (body.nextElementSibling && !body.nextElementSibling.matches(".sheet-actions")) body.append(body.nextElementSibling);
     const fit = () => {
-      const max = dlg.scrollHeight - dlg.clientHeight;
+      const max = body.scrollHeight - body.clientHeight;
       dlg.classList.toggle("scrolls", max > 1);
-      dlg.classList.toggle("scrolled", max > 1 && dlg.scrollTop > 1);
-      dlg.classList.toggle("more", max > 1 && dlg.scrollTop < max - 1);
+      dlg.classList.toggle("scrolled", max > 1 && body.scrollTop > 1);
+      dlg.classList.toggle("more", max > 1 && body.scrollTop < max - 1);
     };
     const ro = new ResizeObserver(fit);
-    ro.observe(dlg);
-    [...dlg.children].forEach((c) => ro.observe(c));
-    dlg.addEventListener("scroll", fit, { passive: true });
+    ro.observe(body);
+    [...body.children].forEach((c) => ro.observe(c));
+    body.addEventListener("scroll", fit, { passive: true });
     let drag = null;
     dlg.addEventListener("pointerdown", (e) => {
       if (e.button > 0 || !e.target.closest(".sheet-head")) return;
@@ -587,6 +591,7 @@ if (!/\.devinapps\.com$|^localhost$|^127\./.test(location.hostname)) document.ge
 document.addEventListener("touchmove", (e) => {
   const dlg = document.querySelector("dialog[open]");
   if (!dlg) return;
-  if (dlg.contains(e.target) && dlg.scrollHeight > dlg.clientHeight) return;
+  const body = e.target.closest?.(".sheet-body");
+  if (body && dlg.contains(body) && body.scrollHeight > body.clientHeight) return;
   e.preventDefault();
 }, { passive: false });
