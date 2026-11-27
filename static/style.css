@@ -10,6 +10,7 @@
   --neutral: color-mix(in srgb, var(--accent) 10%, #DEDEDE);
   --neutral-muted: color-mix(in srgb, var(--neutral) 62%, transparent);
   --neutral-dim: color-mix(in srgb, var(--neutral) 65%, var(--surface));
+  --neutral-soft: color-mix(in srgb, var(--neutral) 75%, var(--surface));
   --neutral-dim-text: color-mix(in srgb, var(--neutral) 55%, var(--surface));
   --primary-action: var(--accent);
   --primary-action-fg: var(--accent-fg);
@@ -74,7 +75,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 }
 .brand .kicker { color: var(--accent); }
 .brand .kicker b { font-weight: 400; color: var(--text); }
-.brand h1 { margin: 2px 0 0; color: color-mix(in srgb, var(--neutral) 75%, var(--surface)); font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
+.brand h1 { margin: 2px 0 0; color: var(--neutral-soft); font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
 
 .icon-btn {
@@ -254,7 +255,14 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 .tool:disabled { opacity: 0.4; cursor: default; }
 #solved-btn, .solved .tools > .tool:not(#solved-btn) { display: none; }
 .solved #solved-btn { display: flex; flex-direction: row; justify-content: center; gap: 10px; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
-.solved #solved-btn span { color: var(--accent); font-size: 11px; }
+.solved #solved-btn { animation: border-pulse 2.4s ease-in-out infinite; }
+.solved #solved-btn svg, .solved #solved-btn span { color: var(--neutral-soft); }
+.solved #solved-btn span { font-size: 11px; }
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(var(--accent-rgb), 0.55); box-shadow: 0 0 0 rgba(var(--accent-rgb), 0); }
+  50% { border-color: var(--accent); box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.55); }
+}
+@media (prefers-reduced-motion: reduce) { .solved #solved-btn { animation: none; } }
 
 .pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 5px; }
 .key {
