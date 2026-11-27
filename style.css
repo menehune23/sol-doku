@@ -72,9 +72,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   letter-spacing: 0.16em;
   font-size: 11px;
 }
-.brand .kicker { color: var(--neutral-muted); }
+.brand .kicker { color: var(--accent); }
 .brand .kicker b { font-weight: 400; color: var(--text); }
-.brand h1 { margin: 2px 0 0; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
+.brand h1 { margin: 2px 0 0; color: var(--neutral); font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
 
 .icon-btn {
@@ -312,6 +312,8 @@ dialog.sheet {
   border-top: 2px solid var(--accent);
   border-radius: 0;
   background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.07), transparent 140px), var(--surface);
+  --text: var(--neutral);
+  --text-muted: color-mix(in srgb, var(--neutral) 72%, transparent);
   color: var(--text);
 }
 dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.6); }
@@ -324,7 +326,7 @@ dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
 dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
 dialog.sheet.closing::backdrop { opacity: 0; }
-.sheet .kicker { color: var(--neutral-muted); }
+.sheet .kicker { color: var(--accent); }
 .sheet h2 { margin: 2px 0 14px; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
 
 .levels { display: grid; gap: 8px; margin-bottom: 16px; }
