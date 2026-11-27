@@ -257,7 +257,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 #solved-btn, .solved .tools > .tool:not(#solved-btn) { display: none; }
 .solved #solved-btn { display: flex; flex-direction: row; justify-content: center; gap: 10px; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
 .solved #solved-btn { animation: border-pulse 2.4s ease-in-out infinite; }
-.solved #solved-btn svg, .solved #solved-btn span { color: var(--neutral-soft); }
+.solved #solved-btn svg, .solved #solved-btn span { color: color-mix(in srgb, var(--neutral) 85%, var(--surface)); }
 .solved #solved-btn span { font-size: 11px; }
 @keyframes border-pulse {
   0%, 100% { border-color: rgba(var(--accent-rgb), 0.55); box-shadow: 0 0 0 rgba(var(--accent-rgb), 0); }
