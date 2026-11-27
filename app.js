@@ -321,7 +321,7 @@
       .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? '<svg class="star" viewBox="0 0 24 24" role="img" aria-label="new record"><path d="M12 1.5l3.1 6.9 7.4.8-5.5 5 1.6 7.3L12 17.7l-6.6 3.8 1.6-7.3-5.5-5 7.4-.8z"/></svg>' : ""}</dd></div>`)
       .join("");
     $("#win-note").hidden = !S.hints;
-    $("#win-title").textContent = record ? "New record" : "Puzzle solved";
+    $("#win-title").textContent = record ? "New record" : "Grid solved";
   }
 
   function win() {

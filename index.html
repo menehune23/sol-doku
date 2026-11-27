@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261127035344";
+      const V = "20261127035919";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261127035344">
+  <link rel="stylesheet" href="style.css?v=20261127035919">
 </head>
 <body>
   <main class="app" id="app">
@@ -41,7 +41,7 @@
         <button class="icon-btn" id="open-hue" aria-label="Settings">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"/><path d="M15 4v4M9 10v4M17 16v4"/></svg>
         </button>
-        <button class="icon-btn" id="open-reset" aria-label="Reset puzzle">
+        <button class="icon-btn" id="open-reset" aria-label="Reset grid">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5"/></svg>
         </button>
         <button class="icon-btn" id="open-new" aria-label="New game">
@@ -108,7 +108,7 @@
   <dialog class="sheet" id="reset-sheet" aria-labelledby="reset-title">
     <div class="grabber" title="Close" aria-hidden="true"></div>
     <div class="kicker">// Purge input</div>
-    <h2 id="reset-title">Reset puzzle?</h2>
+    <h2 id="reset-title">Reset grid?</h2>
     <p class="sheet-note">Clears your entries, notes, hints and time. The starting grid stays the same.</p>
     <button class="btn danger" id="do-reset">Reset</button>
     <button class="btn ghost" data-close>Cancel</button>
@@ -125,7 +125,7 @@
       <label class="toggle"><span><strong>Timer</strong><small>Show elapsed time</small></span><input type="checkbox" id="set-timer" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Errors</strong><small>Mark wrong letters in red and count them</small></span><input type="checkbox" id="set-errors" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Auto-clear notes</strong><small>Placing a letter removes it from notes in the same row, column and box</small></span><input type="checkbox" id="set-autonotes" role="switch"><i aria-hidden="true"></i></label>
-      <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button. Using a hint means the puzzle can't set a record</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
+      <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button. Using a hint means the grid can't set a record</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Sol guide</strong><small>Show the selected letter's Solat and an example word</small></span><input type="checkbox" id="set-sol" role="switch"><i aria-hidden="true"></i></label>
     </div>
     <button class="btn" data-close>Done</button>
@@ -134,7 +134,7 @@
   <dialog class="sheet" id="win-sheet" aria-labelledby="win-title">
     <div class="grabber" title="Close" aria-hidden="true"></div>
     <div class="kicker">// Grid stabilized</div>
-    <h2 id="win-title">Puzzle solved</h2>
+    <h2 id="win-title">Grid solved</h2>
     <dl class="stats" id="win-stats"></dl>
     <p class="win-note" id="win-note" hidden>Hints used, so this time can't set a record</p>
     <button class="btn" id="win-new">New game</button>
@@ -145,8 +145,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261127035344"></script>
-  <script src="sol.js?v=20261127035344"></script>
-  <script src="app.js?v=20261127035344"></script>
+  <script src="sudoku.js?v=20261127035919"></script>
+  <script src="sol.js?v=20261127035919"></script>
+  <script src="app.js?v=20261127035919"></script>
 </body>
 </html>
