@@ -9,6 +9,8 @@
   --accent-fg: #111111;
   --neutral: #E6E0D4;
   --neutral-muted: color-mix(in srgb, var(--neutral) 62%, transparent);
+  --neutral-dim: color-mix(in srgb, var(--neutral) 65%, var(--surface));
+  --neutral-dim-text: color-mix(in srgb, var(--neutral) 55%, var(--surface));
   --primary-action: var(--accent);
   --primary-action-fg: var(--accent-fg);
   --text: color-mix(in srgb, var(--accent) 30%, var(--base-text));
@@ -81,7 +83,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   border: 1px solid var(--border);
   border-radius: 2px;
   background: var(--surface);
-  color: var(--neutral);
+  color: var(--neutral-dim);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 .icon-btn:active { background: var(--surface-2); }
@@ -231,8 +233,8 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   background: var(--surface);
   color: var(--text);
 }
-.tool span { font-size: 10px; letter-spacing: 0.14em; color: var(--neutral-muted); }
-.tool svg { color: var(--neutral); }
+.tool span { font-size: 10px; letter-spacing: 0.14em; color: var(--neutral-dim-text); }
+.tool svg { color: var(--neutral-dim); }
 .tool[aria-pressed="true"] svg { color: var(--accent); }
 .tool:active { background: var(--surface-2); }
 .tool[aria-pressed="true"] { background: rgba(var(--accent-rgb), 0.22); border-color: var(--accent); }
