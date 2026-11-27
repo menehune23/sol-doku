@@ -319,19 +319,16 @@
     const prev = S.prevBest;
     const record = !S.hints && (!prev || Math.floor(S.elapsed) < prev);
     const flawless = !S.hints && !S.mistakes;
-    $("#win-stats").innerHTML = [
-      ["Time", fmt(S.elapsed), record && "new record"],
-      ["Previous best", prev ? fmt(prev) : "—"],
-      ["Level", levelName(S.level)],
-      ["Errors", S.mistakes, flawless && "flawless"],
-      ["Hints used", S.hints],
-    ]
-      .map(([k, v, hl]) => `<div class="stat${hl ? " starred" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`)
-      .join("");
-    $("#win-note").hidden = !S.hints;
     const streak = flawless && S.streak;
-    $("#win-streak").hidden = !streak;
-    if (streak) $("#win-streak").innerHTML = `Flawless streak on <span class="lvl">${levelName(S.level)}</span>: <b>${streak}</b>`;
+    const row = ([k, v, hl]) => `<div class="stat${hl ? " starred" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`;
+    $("#win-stats").innerHTML = [
+      [["Level", levelName(S.level)]],
+      [["Time", fmt(S.elapsed), record && "new record"], ["Previous best", prev ? fmt(prev) : "—"]],
+      [["Errors", S.mistakes, flawless && "flawless"], ["Hints used", S.hints], streak && ["Flawless streak", streak]],
+    ]
+      .map((group) => group.filter(Boolean).map(row).join(""))
+      .join('<div class="stat-div" role="separator"></div>');
+    $("#win-note").hidden = !S.hints;
     $("#win-title").textContent = record && flawless ? "New record • Flawless" : record ? "New record" : flawless ? "Flawless" : "Grid solved";
   }
 

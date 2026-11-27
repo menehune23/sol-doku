@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261127094500";
+      const V = "20261127095500";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261127094500">
+  <link rel="stylesheet" href="style.css?v=20261127095500">
 </head>
 <body>
   <main class="app" id="app">
@@ -150,7 +150,6 @@
       <h2 id="win-title">Grid solved</h2>
     </div>
     <dl class="stats" id="win-stats"></dl>
-    <p class="win-streak" id="win-streak" hidden></p>
     <p class="win-note" id="win-note" hidden>Hints used, so this grid can't set a record or count as flawless</p>
     <div class="sheet-actions">
       <button class="btn" id="win-new">New game</button>
@@ -162,8 +161,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261127094500"></script>
-  <script src="sol.js?v=20261127094500"></script>
-  <script src="app.js?v=20261127094500"></script>
+  <script src="sudoku.js?v=20261127095500"></script>
+  <script src="sol.js?v=20261127095500"></script>
+  <script src="app.js?v=20261127095500"></script>
 </body>
 </html>
