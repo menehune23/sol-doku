@@ -101,7 +101,9 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   clip-path: polygon(0.5rem 0, 100% 0, 100% calc(100% - 0.5rem), calc(100% - 0.5rem) 100%, 0 100%, 0 0.5rem);
 }
 .icon-btn:active { background: var(--surface-2); }
-.icon-btn svg, .tool svg { width: 1.25rem; height: 1.25rem; }
+.icon-btn svg, .tool svg { --icon: 1.25rem; width: var(--icon); height: var(--icon); }
+/* Icons are drawn on a 24-unit grid with a 2-unit margin; trim it above the stacked label. */
+.tool:not(#solved-btn) svg { margin-top: calc(var(--icon) * -2 / 24); }
 
 .panel {
   border: 1px solid var(--border);
@@ -256,13 +258,13 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .tool {
   position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
-  padding: 0.5625rem 0.25rem 0.5rem;
+  padding: 0.5rem 0.25rem;
   border: 1px solid var(--border);
   border-radius: 0.125rem;
   background: var(--surface);
   color: var(--text);
 }
-.tool span { font-size: 0.625rem; letter-spacing: 0.14em; color: var(--neutral-dim-text); }
+.tool span { text-box: trim-both cap alphabetic; font-size: 0.625rem; letter-spacing: 0.14em; color: var(--neutral-dim-text); }
 .tool svg { color: var(--neutral-dim); }
 .tool[aria-pressed="true"] svg { color: var(--accent); }
 .tool:active { background: var(--surface-2); }
@@ -380,6 +382,7 @@ dialog.sheet {
   color: var(--text);
 }
 dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.6); }
+#sparks { position: fixed; inset: 0; width: 100vw; height: 100vh; margin: 0; padding: 0; border: 0; background: none; pointer-events: none; overflow: visible; }
 dialog.sheet[open] { animation: rise 0.22s ease-out; }
 @keyframes rise { from { transform: translateY(1.5rem); opacity: 0; } }
 .grabber { position: relative; width: 2.25rem; height: 0.3125rem; margin: 0 auto 0.875rem; background: var(--border); cursor: grab; touch-action: none; }

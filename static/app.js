@@ -380,10 +380,75 @@
     }
     fillResults();
     selected = -1;
-    setTimeout(() => $("#win-sheet").showModal(), 500);
+    clearTimeout(winTimer);
+    winTimer = setTimeout(() => {
+      if (!S.done || document.querySelector("dialog[open]")) return;
+      $("#win-sheet").showModal();
+      sparks($("#win-sheet"));
+    }, 3000);
+  }
+
+  let winTimer = 0;
+  function sparks(sheet) {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const cv = $("#sparks");
+    if (!cv.showPopover) return;
+    const dpr = devicePixelRatio || 1;
+    const W = innerWidth, H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    cv.showPopover();
+    const ctx = cv.getContext("2d");
+    ctx.scale(dpr, dpr);
+    const color = getComputedStyle(sheet).getPropertyValue("--accent").trim();
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const ps = [];
+    const emit = (n) => {
+      const r = sheet.getBoundingClientRect();
+      for (let k = 0; k < n; k++) {
+        const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.4;
+        const v = (0.35 + Math.random() * 0.55) * rem;
+        ps.push({
+          x: r.left + Math.random() * r.width, y: r.top,
+          vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+          life: 0, max: 45 + Math.random() * 35, w: 0.035 + Math.random() * 0.035,
+        });
+      }
+    };
+    let frame = 0, last = 0;
+    const g = 0.018 * rem;
+    const tick = (now) => {
+      const dt = last ? Math.min((now - last) / (1000 / 60), 3) : 1;
+      last = now;
+      if (frame < 24 && frame % 3 === 0) emit(frame ? 5 : 16);
+      frame++;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+      ctx.lineCap = "round";
+      for (const q of ps) {
+        const px = q.x, py = q.y;
+        const drag = 0.985 ** dt;
+        q.vy += g * dt; q.vx *= drag; q.vy *= drag;
+        q.x += q.vx * dt; q.y += q.vy * dt; q.life += dt;
+        const f = 1 - q.life / q.max;
+        if (f <= 0) continue;
+        ctx.globalAlpha = f;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = q.w * rem * 3;
+        ctx.beginPath(); ctx.moveTo(px - q.vx * 0.8, py - q.vy * 0.8); ctx.lineTo(q.x, q.y); ctx.stroke();
+        ctx.strokeStyle = "#fff";
+        ctx.globalAlpha = f * f;
+        ctx.lineWidth = q.w * rem;
+        ctx.stroke();
+      }
+      for (let k = ps.length - 1; k >= 0; k--) if (ps[k].life >= ps[k].max) ps.splice(k, 1);
+      if ((ps.length || frame < 24) && sheet.open) requestAnimationFrame(tick);
+      else { ctx.clearRect(0, 0, W, H); cv.hidePopover(); }
+    };
+    requestAnimationFrame(tick);
   }
 
   function newGame(level) {
+    clearTimeout(winTimer);
     $("#loading").hidden = false;
     setTimeout(() => {
       const g = Sudoku.generate(level);
