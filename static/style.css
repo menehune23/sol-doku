@@ -288,6 +288,16 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .app.solved { animation: beat 2.4s ease-in-out infinite; }
 .solved .board { --box-line: color-mix(in srgb, var(--accent) calc(80% + 20% * var(--pulse)), var(--surface)); }
 .solved .cell.given { color: color-mix(in srgb, var(--letter) calc(100% * var(--pulse)), color-mix(in srgb, var(--text) 75%, var(--surface))); }
+.solved .board { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 0.5rem rgba(var(--accent-rgb), calc(0.7 * var(--pulse))), 0 0 3rem rgba(var(--accent-rgb), calc(0.35 + 0.2 * var(--pulse))); }
+.solved .board::before, .solved .board::after { filter: drop-shadow(0 0 0.3125rem rgba(var(--accent-rgb), calc(0.8 * var(--pulse)))); }
+.solved .cell .v .sym {
+  --lit: max(var(--rest-glow, 0), var(--pulse));
+  filter:
+    drop-shadow(0 0 0.125rem rgba(var(--accent-rgb), calc(0.9 * var(--lit))))
+    drop-shadow(0 0 0.3125rem rgba(var(--accent-rgb), calc(0.6 * var(--lit))))
+    drop-shadow(0 0 0.625rem rgba(var(--accent-rgb), calc(0.5 * var(--pulse))));
+}
+.solved .cell:not(.given) { --rest-glow: 1; }
 @media (prefers-reduced-motion: reduce) { .solved #solved-btn, .app.solved { animation: none; } }
 
 .pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 0.3125rem; }
@@ -510,7 +520,6 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .scan .bars i:nth-child(5) { animation-delay: 0.4s; }
 @keyframes pulse { 50% { opacity: 0.2; } }
 
-.solved .board { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 3rem rgba(var(--accent-rgb), 0.35); }
 
 @media (max-width: 370px) {
   html { --app-pad: 0.625; }
