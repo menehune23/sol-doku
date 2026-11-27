@@ -113,7 +113,7 @@
     if (!S) return;
     if (!Array.isArray(S.sym) || S.sym.length !== 10 || S.sym.slice(1).some((s) => !window.SOL.glyphs[s])) S.sym = SYM;
     if (paintedSym !== S.sym) paintSymbols();
-    const { puzzle, solution, values, notes, hinted } = S;
+    const { puzzle, solution, values, notes } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
     if ((!settings.sol && !notesMode) || (selected >= 0 && values[selected] && values[selected] !== previewKey)) previewKey = 0;
     const hiVal = selVal || previewKey;
@@ -123,7 +123,6 @@
       const given = puzzle[i] !== 0;
       el.classList.toggle("given", given);
       el.classList.toggle("wrong", settings.errors && !given && v !== 0 && v !== solution[i] && i !== S.pending);
-      el.classList.toggle("hint", hinted.includes(i));
       el.classList.toggle("sel", i === selected);
       el.classList.toggle("peer", peers.has(i));
       el.classList.toggle("same", i !== selected && hiVal !== 0 && v === hiVal);
@@ -349,6 +348,8 @@
     breakStreak();
     if (!S.hinted.includes(i)) S.hinted.push(i);
     selected = i;
+    notesMode = false;
+    $("#notes").setAttribute("aria-pressed", "false");
     cells[i].classList.remove("flash");
     void cells[i].offsetWidth;
     cells[i].classList.add("flash");
