@@ -290,7 +290,6 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .solved .cell.given { color: color-mix(in srgb, var(--letter) calc(100% * var(--pulse)), color-mix(in srgb, var(--text) 75%, var(--surface))); }
 .solved .board {
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.6),
     0 0 0.1875rem rgba(var(--accent-rgb), calc(0.9 * var(--pulse))),
     0 0 0.625rem rgba(var(--accent-rgb), calc(0.7 * var(--pulse))),
     inset 0 0 0.1875rem rgba(var(--accent-rgb), calc(0.9 * var(--pulse))),
