@@ -320,7 +320,7 @@
     const record = !S.hints && (!prev || Math.floor(S.elapsed) < prev);
     const flawless = !S.hints && !S.mistakes;
     const streak = flawless && S.streak;
-    const row = ([k, v, hl]) => `<div class="stat${hl ? " starred" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`;
+    const row = ([k, v, hl]) => `<div class="stat${hl ? " starred" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}"><span>${v}</span>${hl ? starSVG(hl) : ""}</dd></div>`;
     $("#win-stats").innerHTML = [
       [["Level", levelName(S.level)]],
       [["Time", fmt(S.elapsed), record && "new record"], ["Previous best", prev ? fmt(prev) : "—"]],
