@@ -320,8 +320,8 @@
     const record = !S.hints && (!prev || Math.floor(S.elapsed) < prev);
     const flawless = !S.hints && !S.mistakes;
     $("#win-stats").innerHTML = [
-      ["Time", fmt(S.elapsed), record && "new record"],
-      ["Previous best", prev ? fmt(prev) : "—"],
+      ["Time", fmt(S.elapsed), record && "new record", true],
+      ["Previous best", prev ? fmt(prev) : "—", false, true],
       ["Errors", S.mistakes, flawless && "flawless"],
       ["Hints used", S.hints],
       ["Level", levelName(S.level), false, true],
