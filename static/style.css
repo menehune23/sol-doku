@@ -349,14 +349,20 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.2 4 7.6 8.6 2.4' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 5.2 4 7.6 8.6 2.4' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.key.preview.complete::after, .notes-on .key.noted.complete::after { background: var(--accent-fg); }
+.key.preview.complete::after { background: var(--accent-fg); }
 .notes-on .key {
   background-color: rgba(var(--accent-rgb), 0.1);
   background-image: none;
   border: 1px dashed rgba(var(--accent-rgb), 0.7);
 }
-.notes-on .key.noted { background-color: var(--accent); border-style: solid; border-color: var(--accent); opacity: 1; }
-.notes-on .key.noted b { color: var(--accent-fg); }
+/* Read-only marker: the selected cell already holds this note. */
+.key.noted::before {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0.3125rem;
+  width: 0.5rem; height: 0.125rem; margin: 0 auto;
+  background: var(--accent);
+}
+.key.preview.noted::before { background: var(--accent-fg); }
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
 .key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
