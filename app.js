@@ -115,7 +115,7 @@
     if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes, hinted } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
-    if (!settings.sol || notesMode || selected >= 0 || S.done) previewKey = 0;
+    if (!settings.sol || S.done || (selected >= 0 ? values[selected] !== 0 : notesMode)) previewKey = 0;
     const hiVal = selVal || previewKey;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
     for (let i = 0; i < 81; i++) {
@@ -208,7 +208,7 @@
   function deselect() {
     commit();
     if (selected < 0 && !previewKey) return;
-    previewKey = selected >= 0 && S && settings.sol ? S.values[selected] : 0;
+    previewKey = selected >= 0 && S && settings.sol ? S.values[selected] || previewKey : 0;
     selected = -1;
     notesMode = false;
     $("#notes").setAttribute("aria-pressed", "false");
@@ -235,7 +235,6 @@
     const same = selected === i;
     if (!same) commit();
     selected = i;
-    previewKey = 0;
     if (!same && S && !S.done && !S.puzzle[i] && !S.values[i]) {
       notesMode = Boolean(S.notes[i]);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
