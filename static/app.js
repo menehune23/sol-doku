@@ -239,6 +239,11 @@
 
   function tapCell(i) {
     const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
+    // With no key selected, the tapped cell picks the mode: notes if it has any, otherwise values.
+    if (S && !S.done && !previewKey) {
+      notesMode = Boolean(empty && S.notes[i]);
+      $("#notes").setAttribute("aria-pressed", String(notesMode));
+    }
     if (notesMode && S && !S.done) {
       if (!empty) {
         commit();
