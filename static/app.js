@@ -91,11 +91,21 @@
     const k = document.createElement("button");
     k.className = "key";
     k.type = "button";
-    k.innerHTML = `<b>${symSVG(d)}</b><i class="light" aria-hidden="true"></i>`;
+    k.innerHTML = `<b>${symSVG(d)}</b>`;
     k.setAttribute("aria-label", `Enter ${SYM[d]}`);
-    k.addEventListener("click", (e) => (padEl.classList.contains("lights") && e.target.closest(".light") ? lightTap(d) : keyTap(d)));
+    k.addEventListener("click", () => keyTap(d));
     padEl.appendChild(k);
     keys.push(k);
+  }
+  const noteBtns = [];
+  for (let d = 1; d <= 9; d++) {
+    const n = document.createElement("button");
+    n.className = "note-btn";
+    n.type = "button";
+    n.innerHTML = "<i></i>";
+    n.addEventListener("click", () => lightTap(d));
+    padEl.appendChild(n);
+    noteBtns.push(n);
   }
 
   let paintedSym = null;
@@ -169,7 +179,14 @@
     }
     $("#hint").hidden = !settings.hints;
     padEl.classList.toggle("notes-on", notesMode);
-    padEl.classList.toggle("lights", notesMode && !S.done && selected >= 0 && !puzzle[selected] && !values[selected]);
+    const lights = notesMode && !S.done && selected >= 0 && !puzzle[selected] && !values[selected];
+    noteBtns.forEach((n, idx) => {
+      const on = lights && Boolean(notes[selected] & (1 << idx));
+      n.disabled = !lights;
+      n.classList.toggle("on", on);
+      n.setAttribute("aria-pressed", String(on));
+      n.setAttribute("aria-label", `Note ${SYM[idx + 1]} in selected cell`);
+    });
     const sel = selected >= 0 ? selected : null;
     const givenSel = sel !== null && puzzle[sel] !== 0;
     const filledSel = sel !== null && values[sel] !== 0;
@@ -196,7 +213,7 @@
     if (S) $("#stat-time").textContent = fmt(S.elapsed);
   }
 
-  // A key's status light toggles its note in the selected cell without changing the brush.
+  // A key's note button toggles its note in the selected cell without changing the brush.
   function lightTap(d) {
     if (!S || S.done || !notesMode || selected < 0) return;
     input(d);
