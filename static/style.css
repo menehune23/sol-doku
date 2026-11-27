@@ -335,13 +335,12 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
   position: relative; z-index: 2; flex: none;
   margin: 0 -18px; padding: 0 18px calc(var(--safe-bottom) + 18px);
 }
-.sheet-head { margin-bottom: 14px; }
-.sheet-actions { padding-top: 14px; }
+.sheet-body > :first-child { margin-top: 0; }
 .sheet-body > :not(:has(~ :not([hidden]))) { margin-bottom: 0; }
 .sheet-head::after, .sheet-actions::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.15s; }
-.sheet-head::after { left: 50%; top: calc(100% + 23px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
+.sheet-head::after { left: 50%; top: calc(100% + 6px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
 .sheet.scrolled .sheet-head::after { opacity: 1; }
-.sheet-actions::after { left: 50%; bottom: calc(100% + 9px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
+.sheet-actions::after { left: 50%; bottom: calc(100% + 6px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
 .sheet.more .sheet-actions::after { opacity: 1; }
 dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
@@ -489,9 +488,8 @@ dialog.sheet[open] { display: flex; flex-direction: column; }
 .sheet-body { flex: 1 1 auto; min-height: 0; outline: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
 .sheet-body::-webkit-scrollbar { display: none; }
 .sheet-body {
-  --fade-top: 0px; --fade-bottom: 0px;
-  -webkit-mask-image: linear-gradient(transparent, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent);
-  mask-image: linear-gradient(transparent, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent);
+  --fade: 20px;
+  padding: var(--fade) 0;
+  -webkit-mask-image: linear-gradient(transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+  mask-image: linear-gradient(transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
 }
-.sheet.scrolled .sheet-body { --fade-top: 32px; }
-.sheet.more .sheet-body { --fade-bottom: 32px; }
