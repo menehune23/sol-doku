@@ -308,7 +308,7 @@
 
   function fillResults() {
     const bestNow = store.get(BEST_KEY, {})[S.level];
-    const record = S.record ?? (!S.hints && bestNow === Math.floor(S.elapsed));
+    const record = !S.hints && bestNow === Math.floor(S.elapsed);
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed), record],
@@ -328,9 +328,8 @@
     S.history = [];
     const best = store.get(BEST_KEY, {});
     const prev = best[S.level];
-    const record = !S.hints && (!prev || S.elapsed < prev);
-    if (record) { best[S.level] = Math.floor(S.elapsed); store.set(BEST_KEY, best); }
-    S.record = record;
+    const t = Math.floor(S.elapsed);
+    if (!S.hints && (!prev || t < prev)) { best[S.level] = t; store.set(BEST_KEY, best); }
     fillResults();
     selected = -1;
     setTimeout(() => $("#win-sheet").showModal(), 500);
@@ -538,6 +537,7 @@
   const saved = store.get(KEY, null);
   if (saved && Array.isArray(saved.puzzle) && saved.puzzle.length === 81) {
     S = { hinted: [], history: [], hints: 0, mistakes: 0, ...saved };
+    delete S.record;
     render();
   } else {
     newGame(store.get("sudoku.level", "easy"));
