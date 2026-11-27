@@ -338,9 +338,9 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
 .sheet-body > :first-child { margin-top: 0; }
 .sheet-body > :not(:has(~ :not([hidden]))) { margin-bottom: 0; }
 .sheet-head::after, .sheet-actions::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.15s; }
-.sheet-head::after { left: 50%; top: calc(100% + 20px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
+.sheet-head::after { left: 50%; top: calc(100% + 14px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
 .sheet.scrolled .sheet-head::after { opacity: 1; }
-.sheet-actions::after { left: 50%; bottom: calc(100% + 20px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
+.sheet-actions::after { left: 50%; bottom: calc(100% + 14px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
 .sheet.more .sheet-actions::after { opacity: 1; }
 dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
