@@ -320,13 +320,13 @@
     const record = !S.hints && (!prev || Math.floor(S.elapsed) < prev);
     const flawless = !S.hints && !S.mistakes;
     $("#win-stats").innerHTML = [
-      ["Time", fmt(S.elapsed), record && "new record", true],
-      ["Previous best", prev ? fmt(prev) : "—", false, true],
+      ["Time", fmt(S.elapsed), record && "new record"],
+      ["Previous best", prev ? fmt(prev) : "—"],
+      ["Level", levelName(S.level)],
       ["Errors", S.mistakes, flawless && "flawless"],
       ["Hints used", S.hints],
-      ["Level", levelName(S.level), false, true],
     ]
-      .map(([k, v, hl, wide]) => `<div class="stat${hl ? " starred" : ""}${wide ? " wide" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`)
+      .map(([k, v, hl]) => `<div class="stat${hl ? " starred" : ""}"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`)
       .join("");
     $("#win-note").hidden = !S.hints;
     const streak = flawless && S.streak;
