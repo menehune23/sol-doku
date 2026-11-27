@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261127041432";
+      const V = "20261127041524";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261127041432">
+  <link rel="stylesheet" href="style.css?v=20261127041524">
 </head>
 <body>
   <main class="app" id="app">
@@ -123,9 +123,9 @@
     <div class="hue-name" id="hue-name"></div>
     <div class="toggles">
       <label class="toggle"><span><strong>Show timer</strong><small>Time is still tracked for results when hidden</small></span><input type="checkbox" id="set-timer" role="switch"><i aria-hidden="true"></i></label>
-      <label class="toggle"><span><strong>Show errors</strong><small>Mark wrong letters in red and count them. Errors are still tracked for results when hidden</small></span><input type="checkbox" id="set-errors" role="switch"><i aria-hidden="true"></i></label>
+      <label class="toggle"><span><strong>Show errors</strong><small>Mark wrong letters in red and count them — errors are still tracked for results when hidden</small></span><input type="checkbox" id="set-errors" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Auto-clear notes</strong><small>Placing a letter removes it from notes in the same row, column, and box</small></span><input type="checkbox" id="set-autonotes" role="switch"><i aria-hidden="true"></i></label>
-      <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button. Using a hint means the grid can't set a record or count as flawless</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
+      <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button — using a hint means the grid can't set a record or count as flawless</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Sol guide</strong><small>Show the selected letter's Solat and an example word</small></span><input type="checkbox" id="set-sol" role="switch"><i aria-hidden="true"></i></label>
     </div>
     <button class="btn" data-close>Done</button>
@@ -146,8 +146,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261127041432"></script>
-  <script src="sol.js?v=20261127041432"></script>
-  <script src="app.js?v=20261127041432"></script>
+  <script src="sudoku.js?v=20261127041524"></script>
+  <script src="sol.js?v=20261127041524"></script>
+  <script src="app.js?v=20261127041524"></script>
 </body>
 </html>
