@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261127042029";
+      const V = "20261127042209";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261127042029">
+  <link rel="stylesheet" href="style.css?v=20261127042209">
 </head>
 <body>
   <main class="app" id="app">
@@ -97,27 +97,37 @@
   </main>
 
   <dialog class="sheet" id="new-sheet" aria-labelledby="new-title">
-    <div class="grabber" title="Close" aria-hidden="true"></div>
-    <div class="kicker">// New grid</div>
-    <h2 id="new-title">Select difficulty</h2>
+    <div class="sheet-head">
+      <div class="grabber" title="Close" aria-hidden="true"></div>
+      <div class="kicker">// New grid</div>
+      <h2 id="new-title">Select difficulty</h2>
+    </div>
     <div class="levels" id="levels" role="radiogroup" aria-labelledby="new-title"></div>
-    <button class="btn" id="start">Generate grid</button>
-    <button class="btn ghost" data-close>Cancel</button>
+    <div class="sheet-actions">
+      <button class="btn" id="start">Generate grid</button>
+      <button class="btn ghost" data-close>Cancel</button>
+    </div>
   </dialog>
 
   <dialog class="sheet" id="reset-sheet" aria-labelledby="reset-title">
-    <div class="grabber" title="Close" aria-hidden="true"></div>
-    <div class="kicker">// Purge input</div>
-    <h2 id="reset-title">Reset grid?</h2>
+    <div class="sheet-head">
+      <div class="grabber" title="Close" aria-hidden="true"></div>
+      <div class="kicker">// Purge input</div>
+      <h2 id="reset-title">Reset grid?</h2>
+    </div>
     <p class="sheet-note">Clears your entries, notes, hints, and time. The starting grid stays the same.</p>
-    <button class="btn danger" id="do-reset">Reset</button>
-    <button class="btn ghost" data-close>Cancel</button>
+    <div class="sheet-actions">
+      <button class="btn danger" id="do-reset">Reset</button>
+      <button class="btn ghost" data-close>Cancel</button>
+    </div>
   </dialog>
 
   <dialog class="sheet" id="hue-sheet" aria-labelledby="hue-title">
-    <div class="grabber" title="Close" aria-hidden="true"></div>
-    <div class="kicker">// System</div>
-    <h2 id="hue-title">Settings</h2>
+    <div class="sheet-head">
+      <div class="grabber" title="Close" aria-hidden="true"></div>
+      <div class="kicker">// System</div>
+      <h2 id="hue-title">Settings</h2>
+    </div>
     <div class="setting-label" id="color-label">Color</div>
     <div class="hues" id="hues" role="radiogroup" aria-labelledby="color-label"></div>
     <div class="hue-name" id="hue-name"></div>
@@ -128,26 +138,32 @@
       <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button — using a hint means the grid can't set a record or count as flawless</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Sol guide</strong><small>Show the selected letter's Solat and an example word</small></span><input type="checkbox" id="set-sol" role="switch"><i aria-hidden="true"></i></label>
     </div>
-    <button class="btn" data-close>Done</button>
+    <div class="sheet-actions">
+      <button class="btn" data-close>Done</button>
+    </div>
   </dialog>
 
   <dialog class="sheet" id="win-sheet" aria-labelledby="win-title">
-    <div class="grabber" title="Close" aria-hidden="true"></div>
-    <div class="kicker">// Grid stabilized</div>
-    <h2 id="win-title">Grid solved</h2>
+    <div class="sheet-head">
+      <div class="grabber" title="Close" aria-hidden="true"></div>
+      <div class="kicker">// Grid stabilized</div>
+      <h2 id="win-title">Grid solved</h2>
+    </div>
     <dl class="stats" id="win-stats"></dl>
     <p class="win-streak" id="win-streak" hidden></p>
     <p class="win-note" id="win-note" hidden>Hints used, so this grid can't set a record or count as flawless</p>
-    <button class="btn" id="win-new">New game</button>
-    <button class="btn ghost" data-close>View grid</button>
+    <div class="sheet-actions">
+      <button class="btn" id="win-new">New game</button>
+      <button class="btn ghost" data-close>View grid</button>
+    </div>
   </dialog>
 
   <div class="overlay" id="loading" hidden>
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261127042029"></script>
-  <script src="sol.js?v=20261127042029"></script>
-  <script src="app.js?v=20261127042029"></script>
+  <script src="sudoku.js?v=20261127042209"></script>
+  <script src="sol.js?v=20261127042209"></script>
+  <script src="app.js?v=20261127042209"></script>
 </body>
 </html>
