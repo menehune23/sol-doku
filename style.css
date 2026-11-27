@@ -532,6 +532,10 @@ dialog.sheet[open] { display: flex; flex-direction: column; }
   --fade: 1.25rem;
   margin: 0.625rem -1.125rem;
   padding: var(--fade) 1.125rem;
-  -webkit-mask-image: linear-gradient(transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
-  mask-image: linear-gradient(transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+  /* Smootherstep ramp: starts and ends with zero slope, so neither edge of the fade shows a line. */
+  --fade-ramp: rgba(0, 0, 0, 0.0000) calc(var(--fade) * 0), rgba(0, 0, 0, 0.0022) calc(var(--fade) * 0.0625), rgba(0, 0, 0, 0.0161) calc(var(--fade) * 0.125), rgba(0, 0, 0, 0.0488) calc(var(--fade) * 0.1875), rgba(0, 0, 0, 0.1035) calc(var(--fade) * 0.25), rgba(0, 0, 0, 0.1800) calc(var(--fade) * 0.3125), rgba(0, 0, 0, 0.2752) calc(var(--fade) * 0.375), rgba(0, 0, 0, 0.3840) calc(var(--fade) * 0.4375), rgba(0, 0, 0, 0.5000) calc(var(--fade) * 0.5), rgba(0, 0, 0, 0.6160) calc(var(--fade) * 0.5625), rgba(0, 0, 0, 0.7248) calc(var(--fade) * 0.625), rgba(0, 0, 0, 0.8200) calc(var(--fade) * 0.6875), rgba(0, 0, 0, 0.8965) calc(var(--fade) * 0.75), rgba(0, 0, 0, 0.9512) calc(var(--fade) * 0.8125), rgba(0, 0, 0, 0.9839) calc(var(--fade) * 0.875), rgba(0, 0, 0, 0.9978) calc(var(--fade) * 0.9375), rgba(0, 0, 0, 1.0000) calc(var(--fade) * 1);
+  -webkit-mask-image: linear-gradient(to bottom, var(--fade-ramp)), linear-gradient(to top, var(--fade-ramp));
+  mask-image: linear-gradient(to bottom, var(--fade-ramp)), linear-gradient(to top, var(--fade-ramp));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
