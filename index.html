@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261127084500";
+      const V = "20261127091000";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261127084500">
+  <link rel="stylesheet" href="style.css?v=20261127091000">
 </head>
 <body>
   <main class="app" id="app">
@@ -162,8 +162,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261127084500"></script>
-  <script src="sol.js?v=20261127084500"></script>
-  <script src="app.js?v=20261127084500"></script>
+  <script src="sudoku.js?v=20261127091000"></script>
+  <script src="sol.js?v=20261127091000"></script>
+  <script src="app.js?v=20261127091000"></script>
 </body>
 </html>
