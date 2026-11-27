@@ -338,7 +338,7 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
 .sheet.scrolls .sheet-head { margin-bottom: 12px; }
 .sheet.scrolls .sheet-actions { padding-top: 12px; }
 .sheet-head::after, .sheet-actions::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.15s; }
-.sheet-head::after { left: 50%; top: calc(100% + 9px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
+.sheet-head::after { left: 50%; top: calc(100% + 21px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
 .sheet.scrolled .sheet-head::after { opacity: 1; }
 .sheet-actions::after { left: 50%; bottom: calc(100% + 9px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
 .sheet.more .sheet-actions::after { opacity: 1; }
