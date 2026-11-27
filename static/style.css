@@ -207,6 +207,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 
 .sym { display: block; width: 100%; height: 100%; fill: currentColor; overflow: visible; }
 .cell .v { display: block; width: 40%; aspect-ratio: 1; }
+.cell:not(.given):not(.wrong) .v { color: color-mix(in srgb, var(--accent) 70%, white); }
 .cell:not(.given):not(.wrong) .v .sym { filter: drop-shadow(0 0 2px rgba(var(--accent-rgb), 0.9)); }
 .notes {
   position: absolute; inset: 6%;
