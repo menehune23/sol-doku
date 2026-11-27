@@ -461,7 +461,7 @@
         <span class="pips">${[1, 2, 3, 4].map((n) => `<i class="${n <= pips ? "on" : ""}"></i>`).join("")}</span>
         <span><strong>${name}</strong><small>${desc}</small></span>
         <span class="best">Best<br>${best[id] ? fmt(best[id]) : "—"}</span>
-        <span class="best">Streak<br>${streaks[id] || 0}</span>
+        <span class="best streak">Flawless<br>streak<br>${streaks[id] || 0}</span>
       </button>`
     ).join("");
     $("#levels").querySelectorAll(".level-option").forEach((b) =>
