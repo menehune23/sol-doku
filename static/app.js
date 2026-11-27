@@ -384,19 +384,21 @@
     winTimer = setTimeout(() => {
       if (!S.done || document.querySelector("dialog[open]")) return;
       $("#win-sheet").showModal();
-      sparks($("#win-sheet"));
+      sparks($("#win-sheet"), !S.hints && !S.mistakes);
     }, 3000);
   }
 
   let winTimer = 0;
-  function sparks(sheet) {
+  let sparkRun = 0;
+  function sparks(sheet, continuous) {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const cv = $("#sparks");
     if (!cv.showPopover) return;
+    const run = ++sparkRun;
     const dpr = devicePixelRatio || 1;
     const W = innerWidth, H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
-    cv.showPopover();
+    if (!cv.matches(":popover-open")) cv.showPopover();
     const ctx = cv.getContext("2d");
     ctx.scale(dpr, dpr);
     const color = getComputedStyle(sheet).getPropertyValue("--accent").trim();
@@ -414,13 +416,21 @@
         });
       }
     };
-    let frame = 0, last = 0;
+    const burstMs = 1000, rate = continuous ? 30 : 45;
     const g = 0.018 * rem;
+    let t0 = 0, last = 0, acc = 0;
+    emit(16);
     const tick = (now) => {
+      if (run !== sparkRun) return;
+      t0 ||= now;
       const dt = last ? Math.min((now - last) / (1000 / 60), 3) : 1;
+      const emitting = continuous || now - t0 < burstMs;
+      if (emitting && last) {
+        acc += rate * (now - last) / 1000;
+        emit(Math.floor(acc));
+        acc %= 1;
+      }
       last = now;
-      if (frame < 24 && frame % 3 === 0) emit(frame ? 5 : 16);
-      frame++;
       ctx.clearRect(0, 0, W, H);
       ctx.globalCompositeOperation = "lighter";
       ctx.lineCap = "round";
@@ -441,7 +451,7 @@
         ctx.stroke();
       }
       for (let k = ps.length - 1; k >= 0; k--) if (ps[k].life >= ps[k].max) ps.splice(k, 1);
-      if ((ps.length || frame < 24) && sheet.open) requestAnimationFrame(tick);
+      if ((ps.length || emitting) && sheet.open) requestAnimationFrame(tick);
       else { ctx.clearRect(0, 0, W, H); cv.hidePopover(); }
     };
     requestAnimationFrame(tick);
@@ -568,7 +578,7 @@
   }
   $("#open-new").addEventListener("click", openNew);
   $("#start").addEventListener("click", () => closeSheet($("#new-sheet"), () => newGame(pendingLevel)));
-  $("#solved-btn").addEventListener("click", () => { fillResults(); $("#win-sheet").showModal(); });
+  $("#solved-btn").addEventListener("click", () => { fillResults(); $("#win-sheet").showModal(); sparks($("#win-sheet"), !S.hints && !S.mistakes); });
   $("#win-new").addEventListener("click", () => closeSheet($("#win-sheet"), openNew));
 
   function resetGame() {
