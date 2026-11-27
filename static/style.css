@@ -162,6 +162,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   position: relative;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
   aspect-ratio: 1;
   border: 0.125rem solid var(--box-line);
   background: var(--surface);
