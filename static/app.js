@@ -166,7 +166,7 @@
     const sel = selected >= 0 ? selected : null;
     const givenSel = sel !== null && puzzle[sel] !== 0;
     const filledSel = sel !== null && values[sel] !== 0;
-    const locked = S.done || givenSel || (notesMode && filledSel);
+    const locked = !S.done && (givenSel || (notesMode && filledSel));
     const clearNotes = sel !== null && !givenSel && !filledSel && Boolean(notes[sel]);
     const showClear = notesMode || (clearNotes && !S.done);
     $("#erase").disabled = S.done || !(clearNotes || (!notesMode && filledSel && !givenSel));
