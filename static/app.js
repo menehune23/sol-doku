@@ -417,9 +417,13 @@
       if (e.target === dlg || e.target.closest("[data-close]")) closeSheet(dlg);
     });
     dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeSheet(dlg); });
+    const fit = () => dlg.classList.toggle("scrolls", dlg.scrollHeight > dlg.clientHeight + 1);
+    const ro = new ResizeObserver(fit);
+    ro.observe(dlg);
+    [...dlg.children].forEach((c) => ro.observe(c));
     let drag = null;
     dlg.addEventListener("pointerdown", (e) => {
-      if (e.button > 0 || !e.target.closest(".grabber, h2, .kicker")) return;
+      if (e.button > 0 || !e.target.closest(".sheet-head")) return;
       drag = { id: e.pointerId, y: e.clientY, t: e.timeStamp, dy: 0 };
       dlg.style.transition = "none";
     });
