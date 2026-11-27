@@ -150,6 +150,9 @@
     const mEl = $("#stat-mistakes");
     mEl.textContent = S.mistakes;
     mEl.classList.toggle("bad", S.mistakes > 0);
+    const best = store.get(BEST_KEY, {})[S.level];
+    $("#stat-best").textContent = "Best " + (best ? fmt(best) : "—");
+    $("#stat-streak").textContent = "Flawless " + (store.get(STREAK_KEY, {})[S.level] || 0);
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
     const solKey = settings.sol && hiVal ? S.sym[hiVal] : null;
