@@ -40,7 +40,7 @@
 [data-hue="steel"] { --accent: #A1A1A1; --accent-rgb: 161, 161, 161; }
 
 * { box-sizing: border-box; }
-/* Shared 0→1→0 beat for everything that pulses on a solved grid. */
+/* 0 = rest, 1 = peak of the solved-grid pulse; the peak copy of the board fades in over the rest state (0.31 over 0.35 composites to the 0.55 outer glow). */
 @property --pulse { syntax: "<number>"; inherits: true; initial-value: 0; }
 html, body { margin: 0; }
 html {
@@ -280,15 +280,12 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 #solved-btn { display: none; }
 .solved .tools > .tool:not(#solved-btn) { visibility: hidden; }
 .solved #solved-btn { position: absolute; inset: 0; display: flex; flex-direction: row; justify-content: center; gap: 0.625rem; border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
-.solved #solved-btn { animation: border-pulse 2.4s ease-in-out infinite; }
+.solved #solved-btn { border-color: rgba(var(--accent-rgb), 0.55); }
+.solved #solved-btn::after { content: ""; position: absolute; inset: -1px; border: 1px solid var(--accent); border-radius: inherit; box-shadow: 0 0 0.625rem rgba(var(--accent-rgb), 0.55); pointer-events: none; opacity: 0; animation: peak 2.4s ease-in-out infinite; }
 .solved #solved-btn svg, .solved #solved-btn span { color: color-mix(in srgb, var(--neutral) 85%, var(--surface)); }
 .solved #solved-btn span { font-size: 0.6875rem; }
-@keyframes border-pulse {
-  0%, 100% { border-color: rgba(var(--accent-rgb), 0.55); box-shadow: 0 0 0 rgba(var(--accent-rgb), 0); }
-  50% { border-color: var(--accent); box-shadow: 0 0 0.625rem rgba(var(--accent-rgb), 0.55); }
-}
-@keyframes beat { 50% { --pulse: 1; } }
-.app.solved { animation: beat 2.4s ease-in-out infinite; }
+@keyframes peak { 50% { opacity: 1; } }
+.board.peak { position: absolute; inset: 0; --pulse: 1; pointer-events: none; opacity: 0; animation: peak 2.4s ease-in-out infinite; }
 .solved .board { --box-line: color-mix(in srgb, var(--accent) calc(80% + 20% * var(--pulse)), var(--surface)); }
 .solved .cell.given { color: color-mix(in srgb, var(--letter) calc(100% * var(--pulse)), color-mix(in srgb, var(--text) 75%, var(--surface))); }
 .solved .board {
@@ -297,7 +294,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
     0 0 0.625rem rgba(var(--accent-rgb), calc(0.7 * var(--pulse))),
     inset 0 0 0.1875rem rgba(var(--accent-rgb), calc(0.9 * var(--pulse))),
     inset 0 0 0.625rem rgba(var(--accent-rgb), calc(0.7 * var(--pulse))),
-    0 0 3rem rgba(var(--accent-rgb), calc(0.35 + 0.2 * var(--pulse)));
+    0 0 3rem rgba(var(--accent-rgb), calc(0.35 - 0.04 * var(--pulse)));
 }
 /* Every thick line gets the same two-layer glow: inner lines via drop-shadow, the border via box-shadow on both sides. */
 .solved .board::before, .solved .board::after {
@@ -313,7 +310,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
     drop-shadow(0 0 0.625rem rgba(var(--accent-rgb), calc(0.5 * var(--pulse))));
 }
 .solved .cell:not(.given) { --rest-glow: 1; }
-@media (prefers-reduced-motion: reduce) { .solved #solved-btn, .app.solved { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .board.peak, .solved #solved-btn::after { display: none; } }
 
 .pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 0.3125rem; }
 .key {
