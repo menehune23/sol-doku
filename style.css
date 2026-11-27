@@ -332,11 +332,14 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
   margin: 0 -18px; padding: 0 18px calc(var(--safe-bottom) + 18px);
   background: var(--surface);
 }
-.sheet.scrolls .sheet-head { border-bottom: 1px solid var(--grid-line); margin-bottom: 12px; }
-.sheet.scrolls .sheet-actions { border-top: 1px solid var(--grid-line); padding-top: 12px; }
-.sheet-bar { display: none; position: absolute; right: 6px; width: 3px; z-index: 3; background: var(--grid-line); pointer-events: none; }
-.sheet.scrolls .sheet-bar { display: block; }
-.sheet-bar i { display: block; width: 100%; background: var(--accent); }
+.sheet-head, .sheet-actions { border: 0 solid transparent; transition: border-color 0.15s; }
+.sheet.scrolls .sheet-head { border-bottom-width: 1px; margin-bottom: 12px; }
+.sheet.scrolls .sheet-actions { border-top-width: 1px; padding-top: 12px; }
+.sheet.scrolled .sheet-head, .sheet.more .sheet-actions { border-color: var(--grid-line); }
+.sheet-actions::before, .sheet-actions::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.15s; }
+.sheet-actions::before { left: 0; right: 0; bottom: 100%; height: 32px; background: linear-gradient(transparent, var(--surface)); }
+.sheet-actions::after { left: 50%; bottom: calc(100% + 9px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
+.sheet.more .sheet-actions::before, .sheet.more .sheet-actions::after { opacity: 1; }
 dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
 dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
@@ -474,3 +477,4 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 html:has(dialog[open]),
 html:has(dialog[open]) body { overflow: hidden; overscroll-behavior: none; }
 dialog.sheet { max-height: calc(100dvh * 2 / 3); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+dialog.sheet::-webkit-scrollbar { display: none; }
