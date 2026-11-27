@@ -117,7 +117,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 
 .readout { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
 #stat-level { color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
-#stat-time { color: color-mix(in srgb, var(--text) 75%, var(--surface)); }
+#stat-time, #stat-mistakes { color: color-mix(in srgb, var(--text) 75%, var(--surface)); }
 #stat-mistakes.bad { color: var(--negative); }
 
 .board-wrap {
