@@ -7,12 +7,14 @@
   --accent: #DE8A33;
   --accent-rgb: 222, 138, 51;
   --accent-fg: #111111;
+  --neutral: #E6E0D4;
+  --neutral-muted: color-mix(in srgb, var(--neutral) 62%, transparent);
   --primary-action: var(--accent);
   --primary-action-fg: var(--accent-fg);
   --text: color-mix(in srgb, var(--accent) 30%, var(--base-text));
   --text-muted: color-mix(in srgb, var(--text) 72%, transparent);
   --border: rgba(var(--accent-rgb), 0.6);
-  --grid-line: color-mix(in srgb, var(--accent) 20%, #646464);
+  --grid-line: color-mix(in srgb, var(--neutral) 30%, var(--surface));
   --grid-major: rgba(var(--accent-rgb), 0.6);
   --negative: #FF5C4D;
   --negative-rgb: 255, 92, 77;
@@ -68,7 +70,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   letter-spacing: 0.16em;
   font-size: 11px;
 }
-.brand .kicker { color: var(--accent); }
+.brand .kicker { color: var(--neutral-muted); }
 .brand .kicker b { font-weight: 400; color: var(--text); }
 .brand h1 { margin: 2px 0 0; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
@@ -109,7 +111,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   .status #stat-level { letter-spacing: 0.06em; }
 }
 .status > div + div { border-left: 1px dashed var(--border); padding-left: 10px; margin-left: 10px; }
-.label { color: var(--text-muted); font-size: 10px; }
+.label { color: var(--neutral-muted); font-size: 10px; }
 
 .readout { font-family: var(--mono); font-size: 15px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
 #stat-level { color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; }
@@ -229,8 +231,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   background: var(--surface);
   color: var(--text);
 }
-.tool span { font-size: 10px; letter-spacing: 0.14em; color: var(--text-muted); }
-.tool svg { color: var(--accent); }
+.tool span { font-size: 10px; letter-spacing: 0.14em; color: var(--neutral-muted); }
+.tool svg { color: var(--neutral); }
+.tool[aria-pressed="true"] svg { color: var(--accent); }
 .tool:active { background: var(--surface-2); }
 .tool[aria-pressed="true"] { background: rgba(var(--accent-rgb), 0.22); border-color: var(--accent); }
 .tool[aria-pressed="true"] span { color: var(--accent); }
@@ -318,7 +321,7 @@ dialog.sheet { transition: transform 0.22s ease-out; }
 dialog.sheet.closing { transform: translateY(100%); }
 dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
 dialog.sheet.closing::backdrop { opacity: 0; }
-.sheet .kicker { color: var(--accent); }
+.sheet .kicker { color: var(--neutral-muted); }
 .sheet h2 { margin: 2px 0 14px; font-size: 20px; letter-spacing: 0.1em; text-transform: uppercase; }
 
 .levels { display: grid; gap: 8px; margin-bottom: 16px; }
@@ -370,7 +373,7 @@ dialog.sheet.closing::backdrop { opacity: 0; }
   padding: 0;
 }
 .hue[aria-checked="true"] { border-color: var(--base-text); box-shadow: inset 0 0 0 3px var(--surface); }
-.setting-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.setting-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neutral-muted); margin-bottom: 8px; }
 .toggles { display: grid; gap: 8px; margin-bottom: 16px; }
 .toggle {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -403,7 +406,7 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0 0 16px; }
 .stat { padding: 10px 12px; border: 1px solid var(--border); background: var(--surface-2); margin: 0; }
-.stat dt { color: var(--text-muted); font-size: 10px; }
+.stat dt { color: var(--neutral-muted); font-size: 10px; }
 .stat dd { margin: 2px 0 0; font-family: var(--mono); font-size: 20px; }
 .win-note { margin: -6px 0 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text-muted); }
 .stat dd.record { color: var(--accent); }
