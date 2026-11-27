@@ -16,6 +16,11 @@
     return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
   };
   const BEST_KEY = "sudoku.best";
+  const STREAK_KEY = "sudoku.streak";
+  const breakStreak = () => {
+    const st = store.get(STREAK_KEY, {});
+    if (st[S.level]) { st[S.level] = 0; store.set(STREAK_KEY, st); }
+  };
   const LEVELS = [
     ["easy", "Easy", 1, "Most cells filled · gentle start"],
     ["medium", "Medium", 2, "Lots of clues · singles only"],
@@ -250,7 +255,7 @@
       pushHistory();
       S.values[i] = d;
       S.notes[i] = 0;
-      if (d !== S.solution[i]) S.mistakes++;
+      if (d !== S.solution[i]) { S.mistakes++; breakStreak(); }
       if (d === S.solution[i] || !settings.errors) clearPeerNotes(i, d);
     }
     afterMove();
@@ -292,6 +297,7 @@
     S.notes[i] = 0;
     clearPeerNotes(i, S.solution[i]);
     S.hints++;
+    breakStreak();
     if (!S.hinted.includes(i)) S.hinted.push(i);
     selected = i;
     cells[i].classList.remove("flash");
@@ -306,22 +312,29 @@
     render();
   }
 
+  const starSVG = (label) =>
+    `<svg class="star" viewBox="0 0 24 24" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}><path d="M12 1.5l3.1 6.9 7.4.8-5.5 5 1.6 7.3L12 17.7l-6.6 3.8 1.6-7.3-5.5-5 7.4-.8z"/></svg>`;
+
   function fillResults() {
     const prev = S.prevBest;
     const record = !S.hints && (!prev || Math.floor(S.elapsed) < prev);
+    const flawless = !S.hints && !S.mistakes;
     $("#win-stats").innerHTML = [
-      ["Time", fmt(S.elapsed), record],
+      ["Time", fmt(S.elapsed), record && "new record"],
       ["Previous best", prev ? fmt(prev) : "—"],
       ["Level", levelName(S.level)],
       ["Clues used", S.clues],
-      settings.errors && ["Errors", S.mistakes],
+      ["Errors", S.mistakes, flawless && "flawless"],
       (settings.hints || S.hints > 0) && ["Hints used", S.hints],
     ]
       .filter(Boolean)
-      .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? '<svg class="star" viewBox="0 0 24 24" role="img" aria-label="new record"><path d="M12 1.5l3.1 6.9 7.4.8-5.5 5 1.6 7.3L12 17.7l-6.6 3.8 1.6-7.3-5.5-5 7.4-.8z"/></svg>' : ""}</dd></div>`)
+      .map(([k, v, hl]) => `<div class="stat"><dt>${k}</dt><dd class="${hl ? "record" : ""}">${v}${hl ? starSVG(hl) : ""}</dd></div>`)
       .join("");
     $("#win-note").hidden = !S.hints;
-    $("#win-title").textContent = record ? "New record" : "Grid solved";
+    const streak = flawless && S.streak;
+    $("#win-streak").hidden = !streak;
+    if (streak) $("#win-streak").innerHTML = `${starSVG()}Flawless streak on ${levelName(S.level)}: <b>${streak}</b> in a row`;
+    $("#win-title").textContent = record && flawless ? "Flawless record" : record ? "New record" : flawless ? "Flawless" : "Grid solved";
   }
 
   function win() {
@@ -334,6 +347,11 @@
     if (!S.hints && (!prev || t < prev)) {
       best[S.level] = t;
       store.set(BEST_KEY, best);
+    }
+    if (!S.hints && !S.mistakes) {
+      const st = store.get(STREAK_KEY, {});
+      S.streak = st[S.level] = (st[S.level] || 0) + 1;
+      store.set(STREAK_KEY, st);
     }
     fillResults();
     selected = -1;

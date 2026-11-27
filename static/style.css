@@ -416,6 +416,14 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .win-note { margin: -6px 0 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text-muted); }
 .stat dd.record { color: var(--accent); }
 .stat dd .star { width: 0.7em; height: 0.7em; margin-left: 0.4em; vertical-align: 0; fill: currentColor; }
+.win-streak { margin: -6px 0 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--text); }
+.win-streak b { color: var(--accent); font-weight: 700; }
+.win-streak .star { width: 1em; height: 1em; margin-right: 0.5em; vertical-align: -0.15em; fill: var(--accent); }
+.star { animation: star-pulse 2.4s ease-in-out infinite; }
+@keyframes star-pulse {
+  0%, 100% { filter: drop-shadow(0 0 1px rgba(var(--accent-rgb), 0.6)); opacity: 0.85; }
+  50% { filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 1)); opacity: 1; }
+}
 
 .overlay {
   position: fixed; inset: 0;
