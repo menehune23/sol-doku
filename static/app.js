@@ -115,7 +115,7 @@
     if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes, hinted } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
-    if (!settings.sol || S.done || (selected >= 0 ? values[selected] !== 0 : notesMode)) previewKey = 0;
+    if (!settings.sol || S.done || (selected >= 0 ? values[selected] && values[selected] !== previewKey : notesMode)) previewKey = 0;
     const hiVal = selVal || previewKey;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
     for (let i = 0; i < 81; i++) {
@@ -192,7 +192,10 @@
     if (S && !S.done && selected < 0 && settings.sol && !notesMode) {
       previewKey = d;
       render();
-    } else input(d);
+    } else {
+      if (previewKey && !notesMode) previewKey = d;
+      input(d);
+    }
   }
 
   // A placed letter stays pending, free to change, until its cell loses selection.
@@ -225,6 +228,15 @@
       notesMode = true;
       $("#notes").setAttribute("aria-pressed", String(notesMode));
       render();
+      return;
+    }
+    if (empty && previewKey && selected !== i) {
+      const d = previewKey;
+      select(i);
+      notesMode = false;
+      $("#notes").setAttribute("aria-pressed", "false");
+      input(d);
+      lastTap = { i: -1, t: 0 };
       return;
     }
     if (selected === i) deselect(); else select(i);
