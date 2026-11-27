@@ -7,7 +7,7 @@
   --accent: #DE8A33;
   --accent-rgb: 222, 138, 51;
   --accent-fg: #111111;
-  --neutral: #E6E0D4;
+  --neutral: color-mix(in srgb, var(--accent) 10%, #DEDEDE);
   --neutral-muted: color-mix(in srgb, var(--neutral) 62%, transparent);
   --neutral-dim: color-mix(in srgb, var(--neutral) 65%, var(--surface));
   --neutral-dim-text: color-mix(in srgb, var(--neutral) 55%, var(--surface));
