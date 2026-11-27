@@ -115,7 +115,7 @@
     if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes, hinted } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
-    if (!settings.sol || S.done || (selected >= 0 && values[selected] && values[selected] !== previewKey)) previewKey = 0;
+    if (!settings.sol || (selected >= 0 && values[selected] && values[selected] !== previewKey)) previewKey = 0;
     const hiVal = selVal || previewKey;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
     for (let i = 0; i < 81; i++) {
@@ -164,6 +164,10 @@
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
     syncPeak();
+    if (S.done) {
+      const copies = boardEl.nextElementSibling.children;
+      for (let i = 0; i < 81; i++) copies[i].className = cells[i].className;
+    }
     $("#hint").hidden = !settings.hints;
     padEl.classList.toggle("notes-on", notesMode);
     const sel = selected >= 0 ? selected : null;
@@ -176,7 +180,7 @@
     $("#erase").classList.toggle("clear-notes", showClear);
     $("#erase span").textContent = showClear ? "Clear notes" : "Delete";
     $("#notes").disabled = S.done || (!previewKey && (givenSel || filledSel));
-    const keyHi = !S.done && (!notesMode || previewKey) ? hiVal : 0;
+    const keyHi = !notesMode || previewKey ? hiVal : 0;
     keys.forEach((k, idx) => {
       const on = notesMode && !previewKey && sel !== null && !locked && Boolean(notes[sel] & (1 << idx));
       k.classList.toggle("noted", on);
@@ -193,6 +197,12 @@
   }
 
   function keyTap(d) {
+    if (S && S.done) {
+      selected = -1;
+      previewKey = d;
+      render();
+      return;
+    }
     if (S && !S.done && notesMode && previewKey) {
       previewKey = d;
       render();
