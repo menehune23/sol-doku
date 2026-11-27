@@ -507,6 +507,7 @@
     if (!dlg.open || dlg.classList.contains("closing")) return;
     dlg.classList.add("closing");
     setTimeout(() => {
+      dlg.querySelector(".sheet-body").scrollTop = 0;
       dlg.close();
       dlg.classList.remove("closing");
       if (after) after();
