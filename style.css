@@ -435,10 +435,10 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 
 .stats { display: grid; margin: 0 0 16px; }
 .stat { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 2px; margin: 0; }
-.stat + .stat { border-top: 1px solid color-mix(in srgb, var(--neutral) 12%, transparent); }
+.stat + .stat { border-top: 1px dashed color-mix(in srgb, var(--neutral) 12%, transparent); }
 .stat-div { height: 1px; margin: 4px 0; background: var(--border); }
-.stat dt { color: var(--neutral-muted); font-size: 10px; }
-.stat dd { display: flex; align-items: center; margin: 0; font-family: var(--mono); font-size: 18px; }
+.stat dt { color: var(--neutral-muted); font-size: 10px; line-height: 22px; }
+.stat dd { display: flex; align-items: center; height: 22px; margin: 0; font-family: var(--mono); font-size: 18px; line-height: 22px; }
 .win-note { margin: -6px 0 16px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; color: var(--text-muted); }
 .stat dd.record { color: var(--accent); }
 .stat dd .star { width: 0.95em; height: 0.95em; margin-left: 0.4em; fill: currentColor; }
