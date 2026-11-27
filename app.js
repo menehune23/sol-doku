@@ -160,6 +160,7 @@
     $("#hint-count").textContent = S.hints ? S.hints : "";
     $("#undo").disabled = !S.history.length || S.done;
     $("#app").classList.toggle("solved", S.done);
+    syncPeak();
     $("#hint").hidden = !settings.hints;
     padEl.classList.toggle("notes-on", notesMode);
     const sel = selected >= 0 ? selected : null;
@@ -334,6 +335,21 @@
     void cells[i].offsetWidth;
     cells[i].classList.add("flash");
     afterMove();
+  }
+
+  // The solved pulse crossfades a static peak-state copy of the board, so only compositor opacity animates.
+  function syncPeak() {
+    const peak = boardEl.nextElementSibling?.classList.contains("peak") ? boardEl.nextElementSibling : null;
+    if (S.done && !peak) {
+      const copy = boardEl.cloneNode(true);
+      copy.removeAttribute("id");
+      copy.removeAttribute("role");
+      copy.removeAttribute("aria-label");
+      copy.classList.add("peak");
+      copy.setAttribute("aria-hidden", "true");
+      copy.inert = true;
+      boardEl.after(copy);
+    } else if (!S.done && peak) peak.remove();
   }
 
   function afterMove() {
@@ -535,20 +551,27 @@
     let drag = null;
     dlg.addEventListener("pointerdown", (e) => {
       if (e.button > 0 || !e.target.closest(".sheet-head")) return;
-      drag = { id: e.pointerId, y: e.clientY, t: e.timeStamp, dy: 0 };
+      drag = { id: e.pointerId, y: e.clientY, t: e.timeStamp, dy: 0, h: dlg.offsetHeight, raf: 0 };
       dlg.style.transition = "none";
+      dlg.style.willChange = "transform";
     });
     window.addEventListener("pointermove", (e) => {
       if (!drag || e.pointerId !== drag.id) return;
       drag.dy = Math.max(0, e.clientY - drag.y);
-      dlg.style.transform = `translateY(${drag.dy}px)`;
-      dlg.style.setProperty("--scrim", String(1 - Math.min(drag.dy / dlg.offsetHeight, 1)));
+      const d = drag;
+      d.raf ||= requestAnimationFrame(() => {
+        d.raf = 0;
+        if (drag !== d) return;
+        dlg.style.transform = `translateY(${d.dy}px)`;
+        dlg.style.setProperty("--scrim", String(1 - Math.min(d.dy / d.h, 1)));
+      });
     });
     const endDrag = (e) => {
       if (!drag || e.pointerId !== drag.id) return;
       const { dy, t } = drag;
       drag = null;
       dlg.style.transition = "";
+      dlg.style.willChange = "";
       dlg.style.transform = "";
       dlg.style.removeProperty("--scrim");
       const flick = dy > 30 && dy / Math.max(e.timeStamp - t, 1) > 0.5;
