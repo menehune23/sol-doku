@@ -187,7 +187,9 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 }
 .cell.c8 { border-right: 0; }
 .cell.r8 { border-bottom: 0; }
-.cell.given { color: color-mix(in srgb, var(--text) 75%, var(--surface)); }
+.cell.given { color: color-mix(in srgb, var(--text) var(--given-dim, 75%), var(--surface)); }
+[data-hue="sand"], [data-hue="steel"] { --given-dim: 62%; }
+.cell.given.sel, .cell.given.same { color: var(--text); }
 .cell.peer { background: rgba(255, 255, 255, 0.07); }
 .cell.same { background: rgba(var(--accent-rgb), 0.18); }
 .cell.sel { background: rgba(var(--accent-rgb), 0.3); }
