@@ -220,12 +220,10 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 .cell.given { color: color-mix(in srgb, var(--text) var(--given-dim, 75%), var(--surface)); }
 [data-hue="sand"], [data-hue="steel"] { --given-dim: 62%; }
 .cell.given.sel, .cell.given.same { color: color-mix(in srgb, var(--text) 80%, var(--surface)); }
-/* Cell outlines sit 1px thick on the outer edge of the cell's surrounding grid, box, and border lines. */
+/* Cell outlines sit 1px thick on the cell's surrounding lines: over thin lines, on the inside edge of thick ones. */
 .cell { --ot: 1px; --or: 1px; --ob: 1px; --ol: 1px; }
-.cell.c0 { --ol: 0.125rem; }
-.cell.r0 { --ot: 0.125rem; }
-.cell.c2, .cell.c5, .cell.c8 { --or: 0.125rem; }
-.cell.r2, .cell.r5, .cell.r8 { --ob: 0.125rem; }
+.cell.c3, .cell.c6 { --ol: 0px; }
+.cell.r3, .cell.r6 { --ot: 0px; }
 .cell::before {
   top: calc(-1 * var(--ot)); right: calc(-1 * var(--or)); bottom: calc(-1 * var(--ob)); left: calc(-1 * var(--ol));
   border: 1px solid var(--line-c, transparent);
