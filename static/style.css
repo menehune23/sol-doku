@@ -74,7 +74,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
 }
 .brand .kicker { color: var(--accent); }
 .brand .kicker b { font-weight: 400; color: var(--text); }
-.brand h1 { margin: 2px 0 0; color: var(--neutral); font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
+.brand h1 { margin: 2px 0 0; color: color-mix(in srgb, var(--neutral) 75%, var(--surface)); font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; }
 .top-actions { display: flex; gap: 8px; }
 
 .icon-btn {
@@ -163,7 +163,7 @@ button:focus-visible, .cell:focus-visible { outline: 2px solid var(--accent); ou
   content: "";
   position: absolute;
   width: 18px; height: 18px;
-  border: 2px solid var(--neutral);
+  border: 2px solid var(--neutral-dim);
   pointer-events: none;
 }
 .board-wrap::before { top: -7px; left: -7px; border-right: 0; border-bottom: 0; }
