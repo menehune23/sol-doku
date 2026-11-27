@@ -367,10 +367,12 @@ dialog.sheet.closing::backdrop { opacity: 0; }
 .level-option .pips i { width: 5px; height: 16px; background: var(--surface-3); transform: skewX(-15deg); }
 .level-option .pips i.on { background: var(--accent); }
 .level-option strong { display: block; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; }
-.level-option small { display: block; color: var(--text-muted); letter-spacing: 0.08em; font-size: 10px; margin-top: 2px; }
-.level-option .best { min-width: 6ch; font-family: var(--mono); font-size: 12px; color: var(--text-muted); text-align: right; }
+.level-option small { display: block; color: var(--text); letter-spacing: 0.08em; font-size: 10px; margin-top: 2px; }
+.level-option .best { min-width: 6ch; font-family: var(--mono); font-size: 12px; text-align: right; }
 .level-option .best { grid-column: 2; display: grid; grid-template-columns: auto auto; justify-content: start; gap: 4px 12px; margin: -4px 0 0; text-align: left; }
-.level-option .best dd { margin: 0; color: var(--text); }
+.level-option .best, .level-option .best dd { color: color-mix(in srgb, var(--neutral) 60%, var(--surface)); }
+.level-option .best dd { margin: 0; }
+.level-option[aria-checked="true"] .best, .level-option[aria-checked="true"] .best dd { color: var(--text-muted); }
 .level-option[aria-checked="true"] { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.16); }
 
 .btn {
