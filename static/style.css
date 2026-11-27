@@ -335,10 +335,11 @@ dialog.sheet[open] { animation: rise 0.22s ease-out; }
   position: relative; z-index: 2; flex: none;
   margin: 0 -18px; padding: 0 18px calc(var(--safe-bottom) + 18px);
 }
-.sheet.scrolls .sheet-head { margin-bottom: 12px; }
-.sheet.scrolls .sheet-actions { padding-top: 12px; }
+.sheet-head { margin-bottom: 14px; }
+.sheet-actions { padding-top: 14px; }
+.sheet-body > :not(:has(~ :not([hidden]))) { margin-bottom: 0; }
 .sheet-head::after, .sheet-actions::after { content: ""; position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.15s; }
-.sheet-head::after { left: 50%; top: calc(100% + 21px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
+.sheet-head::after { left: 50%; top: calc(100% + 23px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 2px 0 0 2px; transform: translateX(-50%) rotate(45deg); }
 .sheet.scrolled .sheet-head::after { opacity: 1; }
 .sheet-actions::after { left: 50%; bottom: calc(100% + 9px); width: 8px; height: 8px; border: solid var(--neutral-dim); border-width: 0 2px 2px 0; transform: translateX(-50%) rotate(45deg); }
 .sheet.more .sheet-actions::after { opacity: 1; }
@@ -347,7 +348,7 @@ dialog.sheet.closing { transform: translateY(100%); }
 dialog.sheet::backdrop { opacity: var(--scrim, 1); transition: opacity 0.22s ease-out; }
 dialog.sheet.closing::backdrop { opacity: 0; }
 .sheet .kicker { color: var(--accent); }
-.sheet h2 { margin: 2px 0 14px; font-size: min(20px, 5.9vw); letter-spacing: 0.1em; text-transform: uppercase; }
+.sheet h2 { margin: 2px 0 0; font-size: min(20px, 5.9vw); letter-spacing: 0.1em; text-transform: uppercase; }
 
 .levels { display: grid; gap: 8px; margin-bottom: 16px; }
 .level-option {
