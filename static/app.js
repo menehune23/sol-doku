@@ -460,8 +460,8 @@
       ([id, name, pips, desc]) => `<button type="button" class="level-option" role="radio" data-level="${id}" aria-checked="${id === pendingLevel}">
         <span class="pips">${[1, 2, 3, 4].map((n) => `<i class="${n <= pips ? "on" : ""}"></i>`).join("")}</span>
         <span><strong>${name}</strong><small>${desc}</small></span>
-        <span class="best">${best[id] ? "Best<br>" + fmt(best[id]) : ""}</span>
-        <span class="best">${streaks[id] ? "Streak<br>" + streaks[id] : ""}</span>
+        <span class="best">Best<br>${best[id] ? fmt(best[id]) : "—"}</span>
+        <span class="best">Streak<br>${streaks[id] || 0}</span>
       </button>`
     ).join("");
     $("#levels").querySelectorAll(".level-option").forEach((b) =>
