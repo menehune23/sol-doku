@@ -16,6 +16,8 @@
     return `<svg class="sym" viewBox="${window.SOL.box.join(" ")}" aria-hidden="true"><path transform="scale(1,-1)" d="${window.SOL.glyphs[SYM[d]]}"/></svg>`;
   };
   const BEST_KEY = "sudoku.best";
+  const BEST_GAME_KEY = "sudoku.bestGame";
+  const gameId = (g) => g.puzzle.join("");
   const LEVELS = [
     ["easy", "Easy", 1, "Most cells filled · gentle start"],
     ["medium", "Medium", 2, "Lots of clues · singles only"],
@@ -308,7 +310,7 @@
 
   function fillResults() {
     const bestNow = store.get(BEST_KEY, {})[S.level];
-    const record = !S.hints && bestNow === Math.floor(S.elapsed);
+    const record = !S.hints && bestNow === Math.floor(S.elapsed) && store.get(BEST_GAME_KEY, {})[S.level] === gameId(S);
     $("#win-stats").innerHTML = [
       ["Level", levelName(S.level)],
       settings.timer && ["Time", fmt(S.elapsed), record],
@@ -329,7 +331,11 @@
     const best = store.get(BEST_KEY, {});
     const prev = best[S.level];
     const t = Math.floor(S.elapsed);
-    if (!S.hints && (!prev || t < prev)) { best[S.level] = t; store.set(BEST_KEY, best); }
+    if (!S.hints && (!prev || t < prev)) {
+      best[S.level] = t;
+      store.set(BEST_KEY, best);
+      store.set(BEST_GAME_KEY, { ...store.get(BEST_GAME_KEY, {}), [S.level]: gameId(S) });
+    }
     fillResults();
     selected = -1;
     setTimeout(() => $("#win-sheet").showModal(), 500);
@@ -537,6 +543,10 @@
   const saved = store.get(KEY, null);
   if (saved && Array.isArray(saved.puzzle) && saved.puzzle.length === 81) {
     S = { hinted: [], history: [], hints: 0, mistakes: 0, ...saved };
+    const bestGame = store.get(BEST_GAME_KEY, {});
+    if (S.done && !S.hints && S.record !== false && !bestGame[S.level] && store.get(BEST_KEY, {})[S.level] === Math.floor(S.elapsed)) {
+      store.set(BEST_GAME_KEY, { ...bestGame, [S.level]: gameId(S) });
+    }
     delete S.record;
     render();
   } else {
