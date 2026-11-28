@@ -124,8 +124,8 @@
       el.classList.toggle("given", given);
       el.classList.toggle("wrong", settings.errors && !given && v !== 0 && v !== solution[i] && i !== S.pending);
       el.classList.toggle("sel", i === selected);
-      el.classList.toggle("peer", peers.has(i));
-      el.classList.toggle("same", i !== selected && hiVal !== 0 && v === hiVal);
+      el.classList.toggle("peer", i === selected || peers.has(i));
+      el.classList.toggle("same", hiVal !== 0 && v === hiVal);
       if (el.firstChild.dataset.v !== String(v)) {
         el.firstChild.dataset.v = v;
         el.firstChild.innerHTML = v ? symSVG(v) : "";
