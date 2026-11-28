@@ -223,10 +223,23 @@
     render();
   }
 
+  let lastTap = { i: -1, t: 0 };
   function tapCell(i) {
+    const now = performance.now();
+    const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
+    // Double-tapping an empty cell turns Notes on.
+    if (empty && lastTap.i === i && now - lastTap.t < 350) {
+      lastTap.i = -1;
+      if (selected !== i) select(i);
+      notesMode = true;
+      $("#notes").setAttribute("aria-pressed", "true");
+      render();
+      return;
+    }
+    lastTap = { i, t: now };
     // The tapped cell picks the mode: notes if it has any, otherwise values.
     if (S && !S.done) {
-      notesMode = Boolean(!S.puzzle[i] && !S.values[i] && S.notes[i]);
+      notesMode = Boolean(empty && S.notes[i]);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
     }
     if (selected === i) deselect(); else select(i);
