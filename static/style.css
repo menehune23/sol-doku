@@ -317,7 +317,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
 }
 @media (prefers-reduced-motion: reduce) { .board.peak, .solved #solved-btn::after { display: none; } }
 
-.pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 0.3125rem; }
+.pad { display: grid; grid-template-columns: repeat(9, 1fr); gap: 0 0.3125rem; }
 .key {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   height: 3.625rem;
@@ -326,7 +326,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   border-radius: 0;
   background-color: var(--surface-2);
   background-image: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.12) 0 0.125rem, transparent 0.125rem 0.375rem);
-  clip-path: polygon(0.4375rem 0, 100% 0, 100% calc(100% - 0.4375rem), calc(100% - 0.4375rem) 100%, 0 100%, 0 0.4375rem);
+  clip-path: polygon(0.4375rem 0, 100% 0, 100% 100%, 0 100%, 0 0.4375rem);
   color: var(--text);
 }
 .key b { display: block; width: min(50%, 1.375rem); aspect-ratio: 1; }
@@ -346,22 +346,36 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   background-image: none;
   border: 1px solid rgba(var(--accent-rgb), 0.7);
 }
-/* Note buttons: one under each key, lit when the selected cell holds that note; tapping toggles it. 2.75rem meets the 44px touch-target minimum. */
+/* Note buttons extend each key downward: the key keeps the top cut, the button takes the bottom cut, and the light repeats the button's shape. 2.75rem meets the 44px touch-target minimum. */
 .note-btn {
+  --cut: 0.4375rem;
   position: relative;
   height: 2.75rem;
   padding: 0;
-  border: 0;
+  border: 1px solid var(--border);
+  border-top: 0;
   border-radius: 0;
-  background: var(--surface-2);
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.3125rem), calc(100% - 0.3125rem) 100%, 0 100%);
+  background-color: var(--surface-2);
+  background-image: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.12) 0 0.125rem, transparent 0.125rem 0.375rem);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
 }
-.note-btn i {
-  position: absolute; inset: 0.875rem 0.3125rem;
+.notes-on .note-btn {
+  background-color: rgba(var(--accent-rgb), 0.1);
+  background-image: none;
+  border-color: rgba(var(--accent-rgb), 0.7);
+}
+.note-btn:active:not(:disabled) { background-color: rgba(var(--accent-rgb), 0.3); }
+.note-btn i { position: absolute; inset: 0.5rem 0.4375rem; }
+.note-btn i::before {
+  content: "";
+  position: absolute; inset: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.25rem), calc(100% - 0.25rem) 100%, 0 100%);
   background: color-mix(in srgb, var(--text) 18%, transparent);
 }
-.note-btn.on i { background: var(--text); box-shadow: 0 0 0.3125rem var(--text), 0 0 0.625rem rgba(var(--accent-rgb), 0.6); }
-.note-btn:disabled { opacity: 0.35; cursor: default; }
+.note-btn.on i { filter: drop-shadow(0 0 0.25rem rgba(var(--accent-rgb), 0.7)); }
+.note-btn.on i::before { background: var(--text); }
+.note-btn:disabled { cursor: default; }
+.note-btn:disabled i { opacity: 0.35; }
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
 .key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
@@ -558,7 +572,7 @@ dialog.sheet.closing::backdrop { opacity: 0; }
   html { --app-pad: 0.625; }
   .key { height: 3.125rem; }
   .key b { width: min(50%, 1.125rem); }
-  .pad { gap: 0.25rem; }
+  .pad { column-gap: 0.25rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; }
