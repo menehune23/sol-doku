@@ -115,7 +115,7 @@
     if (paintedSym !== S.sym) paintSymbols();
     const { puzzle, solution, values, notes } = S;
     const selVal = selected >= 0 ? values[selected] : 0;
-    if ((!settings.sol && !notesMode) || (selected >= 0 && values[selected] && values[selected] !== previewKey)) previewKey = 0;
+    if (selected >= 0 && values[selected] && values[selected] !== previewKey) previewKey = 0;
     const hiVal = selVal || previewKey;
     const peers = new Set(selected >= 0 ? Sudoku.PEERS[selected] : []);
     for (let i = 0; i < 81; i++) {
@@ -181,12 +181,11 @@
     $("#notes").disabled = S.done;
     const keyHi = hiVal;
     keys.forEach((k, idx) => {
-      const on = notesMode && sel !== null && !values[sel] && Boolean(notes[sel] & (1 << idx));
-      k.classList.toggle("noted", on);
       k.classList.toggle("locked", locked);
-      k.classList.toggle("preview", keyHi === idx + 1);
-      k.setAttribute("aria-pressed", String(keyHi === idx + 1));
-      k.setAttribute("aria-label", notesMode ? `Note ${SYM[idx + 1]}${on ? ", in selected cell" : ""}` : `Enter ${SYM[idx + 1]}`);
+      const on = keyHi === idx + 1 || (notesMode && sel !== null && !values[sel] && Boolean(notes[sel] & (1 << idx)));
+      k.classList.toggle("preview", on);
+      k.setAttribute("aria-pressed", String(on));
+      k.setAttribute("aria-label", `${notesMode ? "Note" : "Enter"} ${SYM[idx + 1]}`);
     });
     renderTime();
   }
@@ -195,27 +194,15 @@
     if (S) $("#stat-time").textContent = fmt(S.elapsed);
   }
 
+  // Keys edit the selected cell; with no cell selected they only highlight matches.
   function keyTap(d) {
-    if (S && S.done) {
-      selected = -1;
-      previewKey = previewKey === d ? 0 : d;
-      render();
-      return;
-    }
-    // In notes mode a key only picks which note cell taps toggle; tapping the picked key again drops it.
-    if (S && notesMode) {
-      commit();
-      previewKey = previewKey === d ? 0 : d;
-      render();
-      return;
-    }
-    if (S && !S.done && selected < 0 && settings.sol) {
-      previewKey = previewKey === d ? 0 : d;
-      render();
-    } else {
-      if (previewKey && !notesMode) previewKey = d;
+    if (S && !S.done && selected >= 0) {
       input(d);
+      return;
     }
+    selected = -1;
+    previewKey = previewKey === d ? 0 : d;
+    render();
   }
 
   // A placed letter stays pending, free to change, until its cell loses selection.
@@ -231,31 +218,16 @@
   function deselect() {
     commit();
     if (selected < 0 && !previewKey) return;
-    previewKey = selected >= 0 && S && settings.sol ? S.values[selected] || previewKey : 0;
+    previewKey = selected >= 0 && S ? S.values[selected] || previewKey : 0;
     selected = -1;
     render();
   }
 
   function tapCell(i) {
-    const empty = S && !S.done && !S.puzzle[i] && !S.values[i];
-    // Filled cells always pick values mode; with no key selected, empty cells pick notes if they have any.
-    if (S && !S.done && (!previewKey || !empty)) {
-      notesMode = Boolean(empty && S.notes[i]);
+    // The tapped cell picks the mode: notes if it has any, otherwise values.
+    if (S && !S.done) {
+      notesMode = Boolean(!S.puzzle[i] && !S.values[i] && S.notes[i]);
       $("#notes").setAttribute("aria-pressed", String(notesMode));
-    }
-    if (notesMode && S && !S.done) {
-      if (previewKey) {
-        select(i);
-        input(previewKey);
-      } else if (selected === i) deselect();
-      else select(i);
-      return;
-    }
-    if (empty && previewKey && selected !== i) {
-      const d = previewKey;
-      select(i);
-      input(d);
-      return;
     }
     if (selected === i) deselect(); else select(i);
   }
@@ -264,6 +236,7 @@
     const same = selected === i;
     if (!same) commit();
     selected = i;
+    previewKey = 0;
     render();
   }
 

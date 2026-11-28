@@ -347,20 +347,10 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   background-image: none;
   border: 1px solid rgba(var(--accent-rgb), 0.7);
 }
-/* Read-only marker: the selected cell already holds this note. */
-.key.noted::before {
-  content: "";
-  position: absolute; bottom: 0; left: 0;
-  width: 0.5rem; height: 0.5rem;
-  clip-path: polygon(0 0, 0 100%, 100% 100%);
-  background: var(--text);
-}
-.key.preview.noted::before { background: var(--accent-fg); }
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
 .key.preview b { color: var(--accent-fg); }
 .key.locked, .notes-on .key.locked { opacity: 0.25; cursor: default; }
 .key.locked.preview { opacity: 1; }
-
 
 .footer { display: flex; justify-content: space-between; gap: 0.75rem; color: var(--text-muted); font-size: 0.625rem; padding-top: 0.25rem; }
 .footer { align-items: center; }
