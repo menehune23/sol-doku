@@ -198,19 +198,19 @@
   function keyTap(d) {
     if (S && S.done) {
       selected = -1;
-      previewKey = d;
+      previewKey = previewKey === d ? 0 : d;
       render();
       return;
     }
-    // In notes mode a key only picks which note cell taps toggle.
+    // In notes mode a key only picks which note cell taps toggle; tapping the picked key again drops it.
     if (S && notesMode) {
       commit();
-      previewKey = d;
+      previewKey = previewKey === d ? 0 : d;
       render();
       return;
     }
     if (S && !S.done && selected < 0 && settings.sol) {
-      previewKey = d;
+      previewKey = previewKey === d ? 0 : d;
       render();
     } else {
       if (previewKey && !notesMode) previewKey = d;
