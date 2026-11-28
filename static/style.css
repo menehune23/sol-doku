@@ -351,7 +351,7 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   position: relative;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid var(--border);
+  border: 0;
   border-radius: 0;
   background: var(--surface-2);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 0.3125rem), calc(100% - 0.3125rem) 100%, 0 100%);
@@ -360,7 +360,6 @@ button:focus-visible, .cell:focus-visible { outline: 0.125rem solid var(--accent
   position: absolute; inset: 0.875rem 0.3125rem;
   background: color-mix(in srgb, var(--text) 18%, transparent);
 }
-.note-btn.on { border-color: rgba(var(--accent-rgb), 0.7); }
 .note-btn.on i { background: var(--text); box-shadow: 0 0 0.3125rem var(--text), 0 0 0.625rem rgba(var(--accent-rgb), 0.6); }
 .note-btn:disabled { opacity: 0.35; cursor: default; }
 .key.preview { background-color: var(--accent); background-image: none; border-color: var(--accent); }
