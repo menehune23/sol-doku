@@ -11,7 +11,7 @@
   <title>Sol-doku</title>
   <script>
     (() => {
-      const V = "20261128063818";
+      const V = "20261128062955";
       const check = () => fetch("version.json?t=" + Date.now(), { cache: "no-store" })
         .then((r) => r.json())
         .then(({ v }) => {
@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261128063818">
+  <link rel="stylesheet" href="style.css?v=20261128062955">
 </head>
 <body>
   <main class="app" id="app">
@@ -92,7 +92,7 @@
     <footer class="footer">
       <div class="footer-left">
         <div class="sol-guide" id="sol-block" aria-live="polite"><span>Solat</span><span class="readout" id="stat-sol">—</span><span class="sol-ex" id="stat-sol-ex"></span></div>
-        <a class="info" href="https://github.com/menehune23/sol" target="_blank" rel="noopener" aria-label="What is Sol?" title="What is Sol?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg></a>
+        <a class="info" href="https://github.com/menehune23/sol" target="_blank" rel="noopener" aria-label="What is Sol?" title="What is Sol?"><span id="info-text">What is Sol?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg></a>
       </div>
       <a id="request-link" href="https://app.devin.ai/sessions/24729240f18b49819ce347943eb49a1e" target="_blank" rel="noopener">Request changes</a>
     </footer>
@@ -138,6 +138,7 @@
       <label class="toggle"><span><strong>Errors</strong><small>Mark wrong letters in red</small></span><input type="checkbox" id="set-errors" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Auto-clear notes</strong><small>Remove placed letters from notes</small></span><input type="checkbox" id="set-autonotes" role="switch"><i aria-hidden="true"></i></label>
       <label class="toggle"><span><strong>Hints</strong><small>Show the Hint button (using a hint disables record-setting and resets flawless streaks)</small></span><input type="checkbox" id="set-hints" role="switch"><i aria-hidden="true"></i></label>
+      <label class="toggle"><span><strong>Sol guide</strong><small>Show the selected letter's Solat</small></span><input type="checkbox" id="set-sol" role="switch"><i aria-hidden="true"></i></label>
     </div>
     <div class="sheet-actions">
       <button class="btn" data-close>Done</button>
@@ -163,8 +164,8 @@
     <div class="scan"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><span>Generating grid</span></div>
   </div>
 
-  <script src="sudoku.js?v=20261128063818"></script>
-  <script src="sol.js?v=20261128063818"></script>
-  <script src="app.js?v=20261128063818"></script>
+  <script src="sudoku.js?v=20261128062955"></script>
+  <script src="sol.js?v=20261128062955"></script>
+  <script src="app.js?v=20261128062955"></script>
 </body>
 </html>

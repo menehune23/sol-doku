@@ -46,7 +46,7 @@
   let previewKey = 0;
   const DEFAULT_LEVEL = "easy";
   let pendingLevel = DEFAULT_LEVEL;
-  const settings = { timer: true, errors: true, hints: true, autoNotes: true };
+  const settings = { timer: true, errors: true, hints: true, sol: true, autoNotes: true };
   const SOLAT = {
     h: "[h]ot", a: "[a]pple", e: "p[e]t", i: "s[i]t", ah: "h[o]t", u: "h[u]t", uu: "p[u]t",
     w: "[w]et", o: "n[o]", oo: "f[oo]d", y: "[y]es", ee: "m[ee]t", ey: "n[a]me", ahy: "l[i]ke", yoo: "h[u]ge",
@@ -154,7 +154,9 @@
     $("#stat-streak").textContent = "Flawless " + (store.get(STREAK_KEY, {})[S.level] || 0);
     $("#time-block").hidden = !settings.timer;
     $("#err-block").hidden = !settings.errors;
-    const solKey = hiVal ? S.sym[hiVal] : null;
+    const solKey = settings.sol && hiVal ? S.sym[hiVal] : null;
+    $("#sol-block").hidden = !settings.sol;
+    $("#info-text").hidden = settings.sol;
     $("#stat-sol").textContent = solKey || "—";
     $("#stat-sol-ex").innerHTML = solKey ? "<i>as in</i> " + SOLAT[solKey].replace(/\[([^\]]+)\]/g, "<b>$1</b>") : "";
     $("#hint-count").textContent = S.hints ? S.hints : "";
@@ -630,10 +632,11 @@
     $("#set-timer").checked = settings.timer;
     $("#set-errors").checked = settings.errors;
     $("#set-hints").checked = settings.hints;
+    $("#set-sol").checked = settings.sol;
     $("#set-autonotes").checked = settings.autoNotes;
     $("#hue-sheet").showModal();
   });
-  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"], ["#set-autonotes", "autoNotes"]].forEach(([sel, key]) =>
+  [["#set-timer", "timer"], ["#set-errors", "errors"], ["#set-hints", "hints"], ["#set-sol", "sol"], ["#set-autonotes", "autoNotes"]].forEach(([sel, key]) =>
     $(sel).addEventListener("change", (e) => {
       settings[key] = e.target.checked;
       store.set("sudoku.settings", settings);
